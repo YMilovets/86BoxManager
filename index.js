@@ -16,7 +16,7 @@ let isMachineStarted = false;
 function main() {
   const mainWindow = new Window({
     file: format({
-      pathname: join(App.getAppPath(), "index.html"),
+      pathname: join(App.getAppPath(), "dist", "index.html"),
       protocol: "file:",
       slashes: true,
     }),
