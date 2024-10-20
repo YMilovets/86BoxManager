@@ -6,15 +6,16 @@ import { readdirSync } from "fs";
 import { exec } from "child_process";
 import { format } from "url";
 
-const ROOT_DIR = `${App.getPath('home')}//.86Box`;
+const ROOT_DIR = `${App.getPath("home")}//.86Box`;
 const lockInstance = App.requestSingleInstanceLock();
 if (!lockInstance) {
   App.quit();
 }
+let mainWindow = null;
 let isMachineStarted = false;
 
 function main() {
-  const mainWindow = new Window({
+  mainWindow = new Window({
     file: format({
       pathname: join(App.getAppPath(), "dist", "index.html"),
       protocol: "file:",
@@ -50,14 +51,14 @@ App.on("second-instance", () => {
   return false;
 });
 
-ipcMain.on("get-init", (e) => {
+function getHandleInit(e) {
   const listConfigFolders = readdirSync(ROOT_DIR, { withFileTypes: true })
     .filter((d) => d.isDirectory())
     .map((d) => d.name);
   e.reply("get-config-machines", listConfigFolders);
-});
+}
 
-ipcMain.on("invoke-machine", (e, machineId) => {
+function handleInvokeMachine(e, machineId) {
   isMachineStarted = true;
 
   exec(`cd ${ROOT_DIR}/${machineId} && 86Box`, (error, stdout) => {
@@ -66,4 +67,8 @@ ipcMain.on("invoke-machine", (e, machineId) => {
       isMachineStarted = false;
     }
   });
-});
+}
+
+ipcMain.on("get-init", getHandleInit);
+
+ipcMain.on("invoke-machine", handleInvokeMachine);
