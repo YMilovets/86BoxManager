@@ -9,6 +9,7 @@ function App() {
       <HashRouter>
         <Routes>
           <Route path="/" element={<PageMain />} />
+          <Route path="/add-machine" element={<PageAddMachine />} />
         </Routes>
       </HashRouter>
     </section>

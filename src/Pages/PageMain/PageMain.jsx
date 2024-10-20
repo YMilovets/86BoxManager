@@ -73,6 +73,7 @@ function PageMain() {
       </div>
 
       <div className={styles.control}>
+        <Button onClick={() => navigate('/add-machine')}>Создать</Button>
         <Button onClick={() => window.electronAPI.getInit()}>Обновить</Button>
         <Button disabled>Редактировать</Button>
       </div>

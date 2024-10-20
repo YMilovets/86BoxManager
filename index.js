@@ -1,8 +1,8 @@
-import { ipcMain, app as App, dialog } from "electron";
+import { ipcMain, app as App, dialog, Notification } from "electron";
 import { join } from "path";
 
 import { Window } from "./lib/Window.js";
-import { readdirSync } from "fs";
+import { existsSync, mkdir, readdirSync } from "fs";
 import { exec } from "child_process";
 import { format } from "url";
 
@@ -11,8 +11,8 @@ const lockInstance = App.requestSingleInstanceLock();
 if (!lockInstance) {
   App.quit();
 }
+let isMachineStarted = new Set();
 let mainWindow = null;
-let isMachineStarted = false;
 
 function main() {
   mainWindow = new Window({
@@ -32,7 +32,7 @@ function main() {
   // mainWindow.webContents.openDevTools();
 
   mainWindow.on("close", (e) => {
-    if (isMachineStarted) {
+    if (isMachineStarted.size !== 0) {
       e.preventDefault();
       dialog.showMessageBox({
         type: "info",
@@ -59,16 +59,46 @@ function getHandleInit(e) {
 }
 
 function handleInvokeMachine(e, machineId) {
-  isMachineStarted = true;
+  isMachineStarted.add(machineId);
+  mainWindow.minimize();
 
   exec(`cd ${ROOT_DIR}/${machineId} && 86Box`, (error, stdout) => {
+    if (error) {
+      dialog.showMessageBox({
+        type: "error",
+        buttons: ["OK"],
+        message: `Виртуальной машины ${machineId} больше не существует`,
+      });
+      isMachineStarted.delete(machineId);
+      getHandleInit(e);
+      mainWindow?.show();
+      return false;
+    }
     if (stdout) {
       e.reply("unlocked-machine", machineId);
-      isMachineStarted = false;
+      isMachineStarted.delete(machineId);
+      mainWindow?.show();
     }
+  });
+}
+
+async function handleCreateMachine(_, machineName) {
+  const newPathMachine = join(ROOT_DIR, machineName);
+
+  if (existsSync(newPathMachine)) {
+    throw new Error("0x000");
+  }
+
+  return mkdir(newPathMachine, () => {
+    new Notification({
+      title: "Добавление виртуальной машины",
+      body: `Виртуальная машина ${machineName} была успешно добавлена`,
+    }).show();
   });
 }
 
 ipcMain.on("get-init", getHandleInit);
 
 ipcMain.on("invoke-machine", handleInvokeMachine);
+
+ipcMain.handle("create-machine", handleCreateMachine);

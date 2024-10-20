@@ -10,4 +10,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
       callback(configurationId)
     ),
   invokeMachine: (machineId) => ipcRenderer.send("invoke-machine", machineId),
+  createMachine: (machineName) =>
+    ipcRenderer.invoke("create-machine", machineName),
 });
