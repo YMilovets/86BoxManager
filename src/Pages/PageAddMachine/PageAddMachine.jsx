@@ -10,7 +10,7 @@ function PageAddMachine() {
     setErrorMsg("");
   };
   const handleCancel = () => {
-    navigate("/")
+    navigate("/");
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,14 +22,16 @@ function PageAddMachine() {
     const self = e.currentTarget.elements.machineName;
     try {
       if (machineName) {
-        await window.electronAPI.createMachine(machineName);
+        await window.electronAPI?.createMachine(machineName);
         handleCancel();
       } else {
         self.focus();
         setErrorMsg("Введите имя виртуальной машины");
       }
     } catch {
-      setErrorMsg("Указанная виртуальная машина уже существует. Введите новое имя");
+      setErrorMsg(
+        "Указанная виртуальная машина уже существует. Введите новое имя"
+      );
       self.focus();
     }
   };
@@ -47,7 +49,9 @@ function PageAddMachine() {
         />
       </div>
       <div className={styles.control}>
-        <Button type="submit">Сохранить</Button>
+        <Button disabled={!window.electronAPI} type="submit">
+          Сохранить
+        </Button>
         <Button onClick={handleCancel} type="button">
           Отменить
         </Button>

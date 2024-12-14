@@ -19,7 +19,7 @@ function PageMain() {
   function handleStartMachine(startMachineId, isDisable) {
     return () => {
       if (isDisable) return;
-      window.electronAPI.invokeMachine(startMachineId);
+      window.electronAPI?.invokeMachine(startMachineId);
 
       setListMachines((listMachineStorage) =>
         listMachineStorage.map(({ machineId: id, isDisable }) => {
@@ -31,9 +31,9 @@ function PageMain() {
   }
 
   useEffect(() => {
-    window.electronAPI.getInit();
+    window.electronAPI?.getInit();
 
-    window.electronAPI.onConfigMachines((resultList) => {
+    window.electronAPI?.onConfigMachines((resultList) => {
       setListMachines(
         resultList.map((machineId) => ({
           machineId,
@@ -42,7 +42,7 @@ function PageMain() {
       );
     });
 
-    window.electronAPI.onUnlockedConfiguration(handleUnlock);
+    window.electronAPI?.onUnlockedConfiguration(handleUnlock);
   }, []);
 
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ function PageMain() {
 
       <div className={styles.scroll}>
         <ul className={styles.list}>
-          {(!listMachines ?? listMachines.length) === 0 && (
+          {(!listMachines ?? listMachines.length === 0) && (
             <p>В выбранном каталоге отсутствуют дирректории</p>
           )}
           {listMachines?.map(({ machineId, isDisable }) => (
@@ -73,8 +73,13 @@ function PageMain() {
       </div>
 
       <div className={styles.control}>
-        <Button onClick={() => navigate('/add-machine')}>Создать</Button>
-        <Button onClick={() => window.electronAPI.getInit()}>Обновить</Button>
+        <Button
+          disabled={!window.electronAPI}
+          onClick={() => navigate("/add-machine")}
+        >
+          Создать
+        </Button>
+        <Button onClick={() => window.electronAPI?.getInit()}>Обновить</Button>
         <Button disabled>Редактировать</Button>
       </div>
     </div>
