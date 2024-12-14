@@ -2,7 +2,7 @@ import { ipcMain, app as App, dialog, Notification } from "electron";
 import { join } from "path";
 
 import { Window } from "./lib/Window.js";
-import { existsSync, mkdir, readdirSync } from "fs";
+import { existsSync, mkdir, readdirSync, renameSync } from "fs";
 import { exec } from "child_process";
 import { format } from "url";
 
@@ -97,8 +97,35 @@ async function handleCreateMachine(_, machineName) {
   });
 }
 
+async function renameMachine(e, machineName, newMachineName) {
+  mainWindow.setEnabled(false);
+  try {
+    const { response: exitCode } = await dialog.showMessageBox({
+      type: "question",
+      title: "Изменить имя виртуальной машины",
+      message: `Вы действительно хотите переименовать название машины ${machineName} на ${newMachineName}`,
+      buttons: ["Да", "Нет"],
+    });
+    if (!exitCode) {
+      renameSync(join(ROOT_DIR, machineName), join(ROOT_DIR, newMachineName));
+      getHandleInit(e);
+      new Notification({
+        title: "Успешное переименование",
+        body: `Виртуальная машина ${machineName} успешно переименована в ${newMachineName}`,
+      }).show();
+    }
+  } catch (error) {
+    new Notification({
+      title: "Ошибка переименования виртуальной машины",
+      body: `Не удалось переименовать виртуальную машину ${machineName}`,
+    }).show();
+  }
+  mainWindow.setEnabled(true);
+}
 ipcMain.on("get-init", getHandleInit);
 
 ipcMain.on("invoke-machine", handleInvokeMachine);
 
 ipcMain.handle("create-machine", handleCreateMachine);
+
+ipcMain.on("rename-machine", renameMachine);

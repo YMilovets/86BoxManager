@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import Button from "../../Components/Button";
-import styles from "./PageMain.module.css";
 import { useNavigate } from "react-router-dom";
+import InputText from "../../Components/InputText";
+import styles from "./PageMain.module.css";
 
 function PageMain() {
   const [listMachines, setListMachines] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const { electronAPI } = window;
 
   function handleUnlock(unlockedMachineId) {
     setListMachines((listMachineStorage) =>
@@ -19,7 +23,7 @@ function PageMain() {
   function handleStartMachine(startMachineId, isDisable) {
     return () => {
       if (isDisable) return;
-      window.electronAPI?.invokeMachine(startMachineId);
+      electronAPI?.invokeMachine(startMachineId);
 
       setListMachines((listMachineStorage) =>
         listMachineStorage.map(({ machineId: id, isDisable }) => {
@@ -29,11 +33,18 @@ function PageMain() {
       );
     };
   }
+  function handleRenameMachine(machineId) {
+    return (e) => {
+      if (machineId !== e.currentTarget.value) {
+        electronAPI?.renameMachine(machineId, e.currentTarget.value);
+      }
+    };
+  }
 
   useEffect(() => {
-    window.electronAPI?.getInit();
+    electronAPI?.getInit();
 
-    window.electronAPI?.onConfigMachines((resultList) => {
+    electronAPI?.onConfigMachines((resultList) => {
       setListMachines(
         resultList.map((machineId) => ({
           machineId,
@@ -42,7 +53,7 @@ function PageMain() {
       );
     });
 
-    window.electronAPI?.onUnlockedConfiguration(handleUnlock);
+    electronAPI?.onUnlockedConfiguration(handleUnlock);
   }, []);
 
   const navigate = useNavigate();
@@ -50,7 +61,9 @@ function PageMain() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h3 className={styles.label}>Список виртуальных машин 86Box</h3>
+        <h3 className={styles.label}>
+          Список виртуальных машин 86Box {isEdit && "для редактирования"}
+        </h3>
       </header>
 
       <div className={styles.scroll}>
@@ -60,6 +73,7 @@ function PageMain() {
           )}
           {listMachines?.map(({ machineId, isDisable }) => (
             <li className={styles.item} key={machineId}>
+              {!isEdit ? (
               <Button
                 onClick={handleStartMachine(machineId, isDisable)}
                 disabled={isDisable}
@@ -67,6 +81,13 @@ function PageMain() {
               >
                 {machineId}
               </Button>
+              ) : (
+                  <InputText
+                    className={styles.input}
+                    defaultValue={machineId}
+                    onBlur={handleRenameMachine(machineId)}
+                  />
+              )}
             </li>
           ))}
         </ul>
@@ -74,13 +95,19 @@ function PageMain() {
 
       <div className={styles.control}>
         <Button
-          disabled={!window.electronAPI}
+          disabled={!electronAPI}
           onClick={() => navigate("/add-machine")}
         >
           Создать
         </Button>
-        <Button onClick={() => window.electronAPI?.getInit()}>Обновить</Button>
-        <Button disabled>Редактировать</Button>
+        <Button onClick={() => electronAPI?.getInit()}>Обновить</Button>
+        <Button
+          onClick={() => {
+            setIsEdit(!isEdit);
+          }}
+        >
+          {!isEdit ? "Редактировать" : "Отменить"}
+        </Button>
       </div>
     </div>
   );
