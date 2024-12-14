@@ -16,4 +16,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   invokeMachine: (machineId) => ipcRenderer.send("invoke-machine", machineId),
   createMachine: (machineName) =>
     ipcRenderer.invoke("create-machine", machineName),
+  changeLanguage: (lang) => ipcRenderer.invoke("get-config-language", lang),
 });

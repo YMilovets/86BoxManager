@@ -3,14 +3,20 @@ import PageMain from "../../Pages/PageMain";
 import PageAddMachine from "../../Pages/PageAddMachine";
 import getTransition from "../../Shared/Utils/getTransition";
 import styles from "./App.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DictionaryContext } from "./context";
 
 function App() {
-  const [configLang] = useState();
-  const [, setLang] = useState();
+  const [configLang, setConfigLang] = useState();
+  const [lang, setLang] = useState();
 
   const { electronAPI } = window;
+
+  useEffect(() => {
+    electronAPI.changeLanguage(lang ?? "ru").then((langConfig) => {
+      setConfigLang(langConfig);
+    });
+  }, [lang]);
 
   return (
     <DictionaryContext.Provider

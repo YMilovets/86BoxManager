@@ -2,7 +2,14 @@ import { ipcMain, app as App, dialog, Notification } from "electron";
 import { join } from "path";
 
 import { Window } from "./lib/Window.js";
-import { existsSync, mkdir, readdirSync, renameSync, rmSync } from "fs";
+import {
+  existsSync,
+  mkdir,
+  readdirSync,
+  promises,
+  renameSync,
+  rmSync,
+} from "fs";
 import { exec } from "child_process";
 import { format } from "url";
 
@@ -13,6 +20,7 @@ if (!lockInstance) {
 }
 let isMachineStarted = new Set();
 let mainWindow = null;
+let dictionary = null;
 
 function main() {
   mainWindow = new Window({
@@ -32,16 +40,15 @@ function main() {
   // mainWindow.webContents.openDevTools();
 
   mainWindow.on("close", (e) => {
+    const getDictionary = getTransition(dictionary);
     if (isMachineStarted.size !== 0) {
       e.preventDefault();
       dialog.showMessageBox({
         type: "info",
-        buttons: ["OK"],
-        message:
-          "Для закрытия окна программы выключите все запущенные виртуальные машины",
+        buttons: fixLocalizationButton("OK"),
+        message: getDictionary("closeMessage"),
       });
     }
-    return false;
   });
 }
 
@@ -62,12 +69,15 @@ function handleInvokeMachine(e, machineId) {
   isMachineStarted.add(machineId);
   mainWindow.minimize();
 
+  const getDictionary = getTransition(dictionary);
   exec(`cd ${ROOT_DIR}/${machineId} && 86Box`, (error, stdout) => {
     if (error) {
       dialog.showMessageBox({
         type: "error",
-        buttons: ["OK"],
-        message: `Виртуальной машины ${machineId} больше не существует`,
+        buttons: fixLocalizationButton("OK"),
+        message: getDictionary("noExistsMachineMessage", (result) =>
+          result.replace("$machineName", machineId)
+        ),
       });
       isMachineStarted.delete(machineId);
       getHandleInit(e);
@@ -84,6 +94,7 @@ function handleInvokeMachine(e, machineId) {
 
 async function handleCreateMachine(_, machineName) {
   const newPathMachine = join(ROOT_DIR, machineName);
+  const getDictionary = getTransition(dictionary);
 
   if (existsSync(newPathMachine)) {
     throw new Error("0x000");
@@ -91,61 +102,81 @@ async function handleCreateMachine(_, machineName) {
 
   return mkdir(newPathMachine, () => {
     new Notification({
-      title: "Добавление виртуальной машины",
-      body: `Виртуальная машина ${machineName} была успешно добавлена`,
+      title: getDictionary("addSuccessMachineTitle"),
+      body: getDictionary("addSuccessMachineMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
     }).show();
   });
 }
 
-async function removeMachine(e, machineName) {
+async function removeMachine(_, machineName) {
+  const getDictionary = getTransition(dictionary);
   try {
     const { response: exitCode } = await dialog.showMessageBox(mainWindow, {
       type: "question",
-      title: "Удалить виртуальную машину",
-      message: `Вы действительно хотите удалить машину ${machineName}`,
-      buttons: ["Да", "Нет"],
-      isModal: true
+      title: getDictionary("removeConfirmMachineTitle"),
+      message: getDictionary("removeConfirmMachineMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
+      buttons: fixLocalizationButton(getDictionary("no"), getDictionary("yes")),
+      isModal: true,
     });
-    if (!exitCode) {
+    if (exitCode) {
       rmSync(join(ROOT_DIR, machineName), { recursive: true, force: true });
       new Notification({
-        title: "Успешное удаление",
-        body: `Виртуальная машина ${machineName} успешно удалена`,
+        title: getDictionary("removeSuccessMachineTitle"),
+        body: getDictionary("removeSuccessMachineMessage", (result) =>
+          result.replace("$machineName", machineName)
+        ),
       }).show();
       return new Promise((resolve) => resolve({ machineName }));
     }
     return new Promise((resolve) => resolve({ machineName: null }));
   } catch (error) {
     new Notification({
-      title: "Ошибка удаления вирутальной машины",
-      body: `Не удалось удалить виртуальную машину ${machineName}`,
+      title: getDictionary("removeErrorMachineTitle"),
+      body: getDictionary("removeErrorMachineMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
     }).show();
     return new Promise((resolve) => resolve({ machineName: null }));
   }
 }
 
 async function renameMachine(_, machineName, newMachineName) {
+  const getDictionary = getTransition(dictionary);
   try {
     const { response: exitCode } = await dialog.showMessageBox({
       type: "question",
-      title: "Изменить имя виртуальной машины",
-      message: `Вы действительно хотите переименовать название машины ${machineName} на ${newMachineName}?`,
-      buttons: ["Да", "Нет"],
+      title: getDictionary("changeConfirmMachineTitle"),
+      message: getDictionary("changeConfirmMachineMessage", (result) =>
+        result
+          .replace("$machineName", machineName)
+          .replace("$newMachineName", newMachineName)
+      ),
+      buttons: fixLocalizationButton(getDictionary("no"), getDictionary("yes")),
       isModal: true,
     });
-    if (!exitCode) {
+    if (exitCode) {
       renameSync(join(ROOT_DIR, machineName), join(ROOT_DIR, newMachineName));
       new Notification({
-        title: "Успешное переименование",
-        body: `Виртуальная машина ${machineName} успешно переименована в ${newMachineName}`,
+        title: getDictionary("changeSuccessMachineTitle"),
+        body: getDictionary("changeSuccessMachineMessage", (result) =>
+          result
+            .replace("$machineName", machineName)
+            .replace("$newMachineName", newMachineName)
+        ),
       }).show();
       return new Promise((resolve) => resolve({ machineName, newMachineName }));
     }
     return new Promise((resolve) => resolve({ machineName: null }));
   } catch (error) {
     new Notification({
-      title: "Ошибка переименования виртуальной машины",
-      body: `Не удалось переименовать виртуальную машину ${machineName}`,
+      title: getDictionary("changeErrorMachineTitle"),
+      body: getDictionary("changeErrorMachineMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
     }).show();
     return new Promise((resolve) =>
       resolve({ machineName, newMachineName: machineName })
@@ -153,11 +184,87 @@ async function renameMachine(_, machineName, newMachineName) {
   }
 }
 
+function fixLocalizationButton(...labelParams) {
+  return labelParams?.map((label) => [label, " "].join("")) ?? [];
+}
+
+function getTransition(dictionary = null) {
+  const defaultDictionary = new Map([
+    ["yes", "Да"],
+    ["no", "Нет"],
+    [
+      "closeMessage",
+      "Для закрытия окна программы выключите все запущенные виртуальные машины",
+    ],
+    [
+      "noExistsMachineMessage",
+      "Виртуальной машины $machineName больше не существует",
+    ],
+    ["addSuccessMachineTitle", "Добавление виртуальной машины"],
+    [
+      "addSuccessMachineMessage",
+      "Виртуальная машина $machineName была успешно добавлена",
+    ],
+    ["removeConfirmMachineTitle", "Удалить виртуальную машину"],
+    [
+      "removeConfirmMachineMessage",
+      "Вы действительно хотите удалить машину $machineName",
+    ],
+    ["removeSuccessMachineTitle", "Успешное удаление"],
+    [
+      "removeSuccessMachineMessage",
+      "Виртуальная машина $machineName успешно удалена",
+    ],
+    ["removeErrorMachineTitle", "Ошибка удаления вирутальной машины"],
+    [
+      "removeErrorMachineMessage",
+      "Не удалось удалить виртуальную машину $machineName",
+    ],
+    ["changeConfirmMachineTitle", "Изменить имя виртуальной машины"],
+    [
+      "changeConfirmMachineMessage",
+      "Вы действительно хотите переименовать название машины $machineName на $newMachineName",
+    ],
+    ["changeSuccessMachineTitle", "Успешное переименование"],
+    [
+      "changeSuccessMachineMessage",
+      "Виртуальная машина $machineName успешно переименована в $newMachineName",
+    ],
+    ["changeErrorMachineTitle", "Ошибка переименования виртуальной машины"],
+    [
+      "changeErrorMachineMessage",
+      "Не удалось переименовать виртуальную машину $machineName",
+    ],
+  ]);
+  return (dictionaryKey, renderDict = (result) => result) => {
+    if (dictionary)
+      return (
+        renderDict(
+          new Map(Object.entries(JSON.parse(dictionary))).get(dictionaryKey) ||
+            defaultDictionary.get(dictionaryKey) ||
+            dictionaryKey
+        ) || dictionaryKey
+      );
+    return renderDict(defaultDictionary.get(dictionaryKey)) || dictionaryKey;
+  };
+}
+
+async function getConfigLanguage(_, lang) {
+  dictionary = await promises.readFile(
+    join(App.getAppPath(), `i18n/${lang}.json`),
+    "utf-8"
+  );
+
+  return dictionary;
+}
+
 ipcMain.on("get-init", getHandleInit);
 
 ipcMain.on("invoke-machine", handleInvokeMachine);
 
 ipcMain.handle("create-machine", handleCreateMachine);
+
+ipcMain.handle("get-config-language", getConfigLanguage);
 
 ipcMain.handle("remove-machine", removeMachine);
 
