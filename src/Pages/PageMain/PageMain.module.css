@@ -50,6 +50,10 @@
     padding: .6em;
 }
 
+.remove_icon.remove_icon__disabled {
+    --root-fill-color: rgba(16, 16, 16, 0.3);
+}
+
 .remove_icon {
     --root-fill-color: #646cff;
     width: 0.9em;
@@ -59,4 +63,17 @@
 .input {
     min-width: 3.85em;
     flex: 1;
+}
+
+.input.input__disabled {
+    color: rgba(16, 16, 16, 0.3);
+}
+
+.portal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: all;
 }

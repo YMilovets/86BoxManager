@@ -3,11 +3,15 @@ import Button from "../../Components/Button";
 import { useNavigate } from "react-router-dom";
 import { Close } from "../../Components/Icon";
 import InputText from "../../Components/InputText";
+import Portal from "../../Components/Portal";
+import clsx from "clsx";
 import styles from "./PageMain.module.css";
 
 function PageMain() {
   const [listMachines, setListMachines] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
+
 
   const { electronAPI } = window;
 
@@ -36,15 +40,37 @@ function PageMain() {
   }
 
   function handleRemoveMachine(removeMachineId) {
-    return () => {
-      electronAPI?.removeMachine(removeMachineId);
+    return async () => {
+      const result = await electronAPI?.removeMachine(removeMachineId);
+      const { machineName } = result;
+      if (machineName) {
+        setListMachines((listMachineStorage) =>
+          listMachineStorage.filter(({ machineId: id }) => id !== machineName)
+        );
+      }
     };
   }
 
-  function handleRenameMachine(machineId) {
-    return (e) => {
+  function handleRenameMachine(machineId, isDisable) {
+    return async (e) => {
+      if (isDisable) return;
       if (machineId !== e.currentTarget.value) {
-        electronAPI?.renameMachine(machineId, e.currentTarget.value);
+        setIsConfirm(true);
+        const result = await electronAPI?.renameMachine(
+          machineId,
+          e.currentTarget.value
+        );
+        const { machineName, newMachineName } = result;
+        if (machineName) {
+          setListMachines((listMachineStorage) =>
+            listMachineStorage.map(({ machineId: id, isDisable }) => {
+              if (id === machineName)
+                return { machineId: newMachineName, isDisable };
+              return { machineId: id, isDisable };
+            })
+          );
+        }
+        setIsConfirm(false);
       }
     };
   }
@@ -68,6 +94,11 @@ function PageMain() {
 
   return (
     <div className={styles.container}>
+      {isConfirm && (
+        <Portal>
+          <div className={styles.portal} />
+        </Portal>
+      )}
       <header className={styles.header}>
         <h3 className={styles.label}>
           Список виртуальных машин 86Box {isEdit && "для редактирования"}
@@ -92,17 +123,24 @@ function PageMain() {
               ) : (
                 <>
                   <InputText
-                    className={styles.input}
+                    className={clsx(styles.input, {
+                      [styles.input__disabled]: isDisable,
+                    })}
                     defaultValue={machineId}
-                    onBlur={handleRenameMachine(machineId)}
+                    onBlur={handleRenameMachine(machineId, isDisable)}
+                    disabled={isDisable}
                   />
                   <Button
                     className={styles.remove_btn}
-                    disabled={!electronAPI}
+                    disabled={!electronAPI || isDisable}
                     onClick={handleRemoveMachine(machineId)}
                     title={`Удалить ${machineId}`}
                   >
-                    <Close className={styles.remove_icon} />
+                    <Close
+                      className={clsx(styles.remove_icon, {
+                        [styles.remove_icon__disabled]: isDisable,
+                      })}
+                    />
                   </Button>
                 </>
               )}

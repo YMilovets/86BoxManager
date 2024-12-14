@@ -1,12 +1,12 @@
-// eslint-disable-next-line no-undef
+/* eslint-disable no-undef */
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("electronAPI", {
   getInit: () => ipcRenderer.send("get-init"),
   removeMachine: (machineName) =>
-    ipcRenderer.send("remove-machine", machineName),
+    ipcRenderer.invoke("remove-machine", machineName),
   renameMachine: (machineName, newMachineName) =>
-    ipcRenderer.send("rename-machine", machineName, newMachineName),
+    ipcRenderer.invoke("rename-machine", machineName, newMachineName),
   onConfigMachines: (callback) =>
     ipcRenderer.on("get-config-machines", (_, args) => callback(args)),
   onUnlockedConfiguration: (callback) =>

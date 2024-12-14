@@ -99,8 +99,7 @@ async function handleCreateMachine(_, machineName) {
 
 async function removeMachine(e, machineName) {
   try {
-    mainWindow.setEnabled(false);
-    const { response: exitCode } = await dialog.showMessageBox({
+    const { response: exitCode } = await dialog.showMessageBox(mainWindow, {
       type: "question",
       title: "Удалить виртуальную машину",
       message: `Вы действительно хотите удалить машину ${machineName}`,
@@ -109,52 +108,57 @@ async function removeMachine(e, machineName) {
     });
     if (!exitCode) {
       rmSync(join(ROOT_DIR, machineName), { recursive: true, force: true });
-      getHandleInit(e);
       new Notification({
         title: "Успешное удаление",
         body: `Виртуальная машина ${machineName} успешно удалена`,
       }).show();
+      return new Promise((resolve) => resolve({ machineName }));
     }
+    return new Promise((resolve) => resolve({ machineName: null }));
   } catch (error) {
     new Notification({
       title: "Ошибка удаления вирутальной машины",
       body: `Не удалось удалить виртуальную машину ${machineName}`,
     }).show();
+    return new Promise((resolve) => resolve({ machineName: null }));
   }
-  mainWindow.setEnabled(true);
 }
 
-async function renameMachine(e, machineName, newMachineName) {
-  mainWindow.setEnabled(false);
+async function renameMachine(_, machineName, newMachineName) {
   try {
     const { response: exitCode } = await dialog.showMessageBox({
       type: "question",
       title: "Изменить имя виртуальной машины",
-      message: `Вы действительно хотите переименовать название машины ${machineName} на ${newMachineName}`,
+      message: `Вы действительно хотите переименовать название машины ${machineName} на ${newMachineName}?`,
       buttons: ["Да", "Нет"],
+      isModal: true,
     });
     if (!exitCode) {
       renameSync(join(ROOT_DIR, machineName), join(ROOT_DIR, newMachineName));
-      getHandleInit(e);
       new Notification({
         title: "Успешное переименование",
         body: `Виртуальная машина ${machineName} успешно переименована в ${newMachineName}`,
       }).show();
+      return new Promise((resolve) => resolve({ machineName, newMachineName }));
     }
+    return new Promise((resolve) => resolve({ machineName: null }));
   } catch (error) {
     new Notification({
       title: "Ошибка переименования виртуальной машины",
       body: `Не удалось переименовать виртуальную машину ${machineName}`,
     }).show();
+    return new Promise((resolve) =>
+      resolve({ machineName, newMachineName: machineName })
+    );
   }
-  mainWindow.setEnabled(true);
 }
+
 ipcMain.on("get-init", getHandleInit);
 
 ipcMain.on("invoke-machine", handleInvokeMachine);
 
 ipcMain.handle("create-machine", handleCreateMachine);
 
-ipcMain.on("remove-machine", removeMachine);
+ipcMain.handle("remove-machine", removeMachine);
 
-ipcMain.on("rename-machine", renameMachine);
+ipcMain.handle("rename-machine", renameMachine);
