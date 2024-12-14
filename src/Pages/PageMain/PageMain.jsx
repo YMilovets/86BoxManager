@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "../../Components/Button";
 import { useNavigate } from "react-router-dom";
 import { Close } from "../../Components/Icon";
 import InputText from "../../Components/InputText";
+import getTransition from "../../Shared/Utils/getTransition";
+import { DictionaryContext } from "../../Components/App/context";
 import Portal from "../../Components/Portal";
 import clsx from "clsx";
 import styles from "./PageMain.module.css";
@@ -12,6 +14,7 @@ function PageMain() {
   const [isEdit, setIsEdit] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
 
+  const { changeLanguage } = useContext(DictionaryContext);
 
   const { electronAPI } = window;
 
@@ -101,14 +104,14 @@ function PageMain() {
       )}
       <header className={styles.header}>
         <h3 className={styles.label}>
-          Список виртуальных машин 86Box {isEdit && "для редактирования"}
+          {getTransition("list")} {isEdit && getTransition("editMode")}
         </h3>
       </header>
 
       <div className={styles.scroll}>
         <ul className={styles.list}>
           {(!listMachines ?? listMachines.length === 0) && (
-            <p>В выбранном каталоге отсутствуют дирректории</p>
+            <p>{getTransition("emptyList")}</p>
           )}
           {listMachines?.map(({ machineId, isDisable }) => (
             <li className={styles.item} key={machineId}>
@@ -134,7 +137,7 @@ function PageMain() {
                     className={styles.remove_btn}
                     disabled={!electronAPI || isDisable}
                     onClick={handleRemoveMachine(machineId)}
-                    title={`Удалить ${machineId}`}
+                    title={`${getTransition("remove")} ${machineId}`}
                   >
                     <Close
                       className={clsx(styles.remove_icon, {
@@ -154,16 +157,32 @@ function PageMain() {
           disabled={!electronAPI}
           onClick={() => navigate("/add-machine")}
         >
-          Создать
+          {getTransition("create")}
         </Button>
-        <Button onClick={() => electronAPI?.getInit()}>Обновить</Button>
+        <Button onClick={() => electronAPI?.getInit()}>
+          {getTransition("update")}
+        </Button>
         <Button
           onClick={() => {
             setIsEdit(!isEdit);
           }}
         >
-          {!isEdit ? "Редактировать" : "Отменить"}
+          {!isEdit ? getTransition("edit") : getTransition("cancel")}
         </Button>
+        <div className={styles.language}>
+          <Button
+            className={styles.language_btn}
+            onClick={() => changeLanguage("ru")}
+          >
+            RU
+          </Button>
+          <Button
+            className={styles.language_btn}
+            onClick={() => changeLanguage("en")}
+          >
+            EN
+          </Button>
+        </div>
       </div>
     </div>
   );

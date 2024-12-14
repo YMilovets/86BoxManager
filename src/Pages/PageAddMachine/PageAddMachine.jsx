@@ -3,6 +3,7 @@ import Button from "../../Components/Button";
 import { useState } from "react";
 import InputText from "../../Components/InputText";
 
+import getTransition from "../../Shared/Utils/getTransition";
 import styles from "./PageAddMachine.module.css";
 
 function PageAddMachine() {
@@ -28,12 +29,10 @@ function PageAddMachine() {
         handleCancel();
       } else {
         self.focus();
-        setErrorMsg("Введите имя виртуальной машины");
+        setErrorMsg(getTransition("nameMachineField"));
       }
     } catch {
-      setErrorMsg(
-        "Указанная виртуальная машина уже существует. Введите новое имя"
-      );
+      setErrorMsg(getTransition("errorMachineExists"));
       self.focus();
     }
   };
@@ -41,7 +40,7 @@ function PageAddMachine() {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.form_machine_name}>
-        <label htmlFor="machineName">Укажите имя виртуальной машины:</label>
+        <label htmlFor="machineName">{getTransition("createForm")}</label>
         <InputText
           type="text"
           name="machineName"
@@ -51,10 +50,10 @@ function PageAddMachine() {
       </div>
       <div className={styles.control}>
         <Button disabled={!window.electronAPI} type="submit">
-          Сохранить
+          {getTransition("save")}
         </Button>
         <Button onClick={handleCancel} type="button">
-          Отменить
+          {getTransition("cancel")}
         </Button>
       </div>
       {errorMsg && <p role="alert">{errorMsg}</p>}
