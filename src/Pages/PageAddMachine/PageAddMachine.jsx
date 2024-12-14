@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
-import styles from "./PageAddMachine.module.css";
 import { useState } from "react";
+import InputText from "../../Components/InputText";
+
+import styles from "./PageAddMachine.module.css";
 
 function PageAddMachine() {
   const navigate = useNavigate();
@@ -40,8 +42,7 @@ function PageAddMachine() {
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.form_machine_name}>
         <label htmlFor="machineName">Укажите имя виртуальной машины:</label>
-        <input
-          className={styles.input}
+        <InputText
           type="text"
           name="machineName"
           id="machineName"
