@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "../../Components/Button";
 import { useNavigate } from "react-router-dom";
+import { Close } from "../../Components/Icon";
 import InputText from "../../Components/InputText";
 import styles from "./PageMain.module.css";
 
@@ -33,6 +34,13 @@ function PageMain() {
       );
     };
   }
+
+  function handleRemoveMachine(removeMachineId) {
+    return () => {
+      electronAPI?.removeMachine(removeMachineId);
+    };
+  }
+
   function handleRenameMachine(machineId) {
     return (e) => {
       if (machineId !== e.currentTarget.value) {
@@ -74,19 +82,29 @@ function PageMain() {
           {listMachines?.map(({ machineId, isDisable }) => (
             <li className={styles.item} key={machineId}>
               {!isEdit ? (
-              <Button
-                onClick={handleStartMachine(machineId, isDisable)}
-                disabled={isDisable}
-                className={styles.button}
-              >
-                {machineId}
-              </Button>
+                <Button
+                  onClick={handleStartMachine(machineId, isDisable)}
+                  disabled={isDisable}
+                  className={styles.button}
+                >
+                  {machineId}
+                </Button>
               ) : (
+                <>
                   <InputText
                     className={styles.input}
                     defaultValue={machineId}
                     onBlur={handleRenameMachine(machineId)}
                   />
+                  <Button
+                    className={styles.remove_btn}
+                    disabled={!electronAPI}
+                    onClick={handleRemoveMachine(machineId)}
+                    title={`Удалить ${machineId}`}
+                  >
+                    <Close className={styles.remove_icon} />
+                  </Button>
+                </>
               )}
             </li>
           ))}

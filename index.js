@@ -2,7 +2,7 @@ import { ipcMain, app as App, dialog, Notification } from "electron";
 import { join } from "path";
 
 import { Window } from "./lib/Window.js";
-import { existsSync, mkdir, readdirSync, renameSync } from "fs";
+import { existsSync, mkdir, readdirSync, renameSync, rmSync } from "fs";
 import { exec } from "child_process";
 import { format } from "url";
 
@@ -97,6 +97,33 @@ async function handleCreateMachine(_, machineName) {
   });
 }
 
+async function removeMachine(e, machineName) {
+  try {
+    mainWindow.setEnabled(false);
+    const { response: exitCode } = await dialog.showMessageBox({
+      type: "question",
+      title: "Удалить виртуальную машину",
+      message: `Вы действительно хотите удалить машину ${machineName}`,
+      buttons: ["Да", "Нет"],
+      isModal: true
+    });
+    if (!exitCode) {
+      rmSync(join(ROOT_DIR, machineName), { recursive: true, force: true });
+      getHandleInit(e);
+      new Notification({
+        title: "Успешное удаление",
+        body: `Виртуальная машина ${machineName} успешно удалена`,
+      }).show();
+    }
+  } catch (error) {
+    new Notification({
+      title: "Ошибка удаления вирутальной машины",
+      body: `Не удалось удалить виртуальную машину ${machineName}`,
+    }).show();
+  }
+  mainWindow.setEnabled(true);
+}
+
 async function renameMachine(e, machineName, newMachineName) {
   mainWindow.setEnabled(false);
   try {
@@ -127,5 +154,7 @@ ipcMain.on("get-init", getHandleInit);
 ipcMain.on("invoke-machine", handleInvokeMachine);
 
 ipcMain.handle("create-machine", handleCreateMachine);
+
+ipcMain.on("remove-machine", removeMachine);
 
 ipcMain.on("rename-machine", renameMachine);

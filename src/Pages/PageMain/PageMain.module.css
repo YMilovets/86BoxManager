@@ -45,6 +45,17 @@
     font-size: 1em;
     font-weight: 375;
 }
+
+.remove_btn {
+    padding: .6em;
+}
+
+.remove_icon {
+    --root-fill-color: #646cff;
+    width: 0.9em;
+    height: 0.9em;
+}
+
 .input {
     min-width: 3.85em;
     flex: 1;

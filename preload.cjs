@@ -3,6 +3,8 @@ const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("electronAPI", {
   getInit: () => ipcRenderer.send("get-init"),
+  removeMachine: (machineName) =>
+    ipcRenderer.send("remove-machine", machineName),
   renameMachine: (machineName, newMachineName) =>
     ipcRenderer.send("rename-machine", machineName, newMachineName),
   onConfigMachines: (callback) =>
