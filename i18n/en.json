@@ -31,4 +31,5 @@
   "changeSuccessMachineMessage": "The virtual machine $machineName successfully renamed to $newMachineName",
   "changeErrorMachineTitle": "Error renaming the virtual machine",
   "changeErrorMachineMessage": "Error renaming the virtual machine $machineName",
+  "changeErrorExistMachineMessage": "The virtual machine $machineName already existed. Enter new name"
 }

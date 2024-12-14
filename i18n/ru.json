@@ -31,4 +31,5 @@
   "changeSuccessMachineMessage": "Виртуальная машина $machineName успешно переименована в $newMachineName",
   "changeErrorMachineTitle": "Ошибка переименования виртуальной машины",
   "changeErrorMachineMessage": "Не удалось переименовать виртуальную машину $machineName",
+  "changeErrorExistMachineMessage": "Виртуальная машина $machineName уже существует. Придумайте новое название"
 }

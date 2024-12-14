@@ -144,6 +144,7 @@ function PageMain() {
         <Button
           onClick={() => {
             setIsEdit(!isEdit);
+            electronAPI?.getInit();
           }}
         >
           {!isEdit ? getTransition("edit") : getTransition("cancel")}

@@ -159,6 +159,17 @@ async function renameMachine(_, machineName, newMachineName) {
       isModal: true,
     });
     if (exitCode) {
+      if (existsSync(join(ROOT_DIR, newMachineName))) {
+        new Notification({
+          title: getDictionary("changeErrorMachineTitle"),
+          body: getDictionary("changeErrorExistMachineMessage", (result) =>
+            result.replace("$machineName", newMachineName)
+          ),
+        }).show();
+        return new Promise((resolve) =>
+          resolve({ machineName, newMachineName: machineName })
+        );
+      }
       renameSync(join(ROOT_DIR, machineName), join(ROOT_DIR, newMachineName));
       new Notification({
         title: getDictionary("changeSuccessMachineTitle"),
@@ -234,6 +245,10 @@ function getTransition(dictionary = null) {
     [
       "changeErrorMachineMessage",
       "Не удалось переименовать виртуальную машину $machineName",
+    ],
+    [
+      "changeErrorExistMachineMessage",
+      "Виртуальная машина $machineName уже существует. Придумайте новое название",
     ],
   ]);
   return (dictionaryKey, renderDict = (result) => result) => {
