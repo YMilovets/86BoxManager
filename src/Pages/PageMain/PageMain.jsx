@@ -3,16 +3,19 @@ import Button from "../../Components/Button";
 import { useNavigate } from "react-router-dom";
 import { Close } from "../../Components/Icon";
 import InputText from "../../Components/InputText";
-import getTransition from "../../Shared/Utils/getTransition";
-import { DictionaryContext } from "../../Components/App/context";
+import getDictionary from "../../Shared/Utils/getTransition";
 import Portal from "../../Components/Portal";
 import clsx from "clsx";
 import styles from "./PageMain.module.css";
+import { DictionaryContext } from "../../Components/App/context";
 
 function PageMain() {
   const [listMachines, setListMachines] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
+
+  const {dictionary} = useContext(DictionaryContext);
+  const getTransition = getDictionary(dictionary);
 
   const { changeLanguage } = useContext(DictionaryContext);
 
@@ -109,10 +112,10 @@ function PageMain() {
       </header>
 
       <div className={styles.scroll}>
+        {(!listMachines || listMachines.length === 0) && (
+          <p role="alert" className={styles.alert}>{getTransition("emptyList")}</p>
+        )}
         <ul className={styles.list}>
-          {(!listMachines ?? listMachines.length === 0) && (
-            <p>{getTransition("emptyList")}</p>
-          )}
           {listMachines?.map(({ machineId, isDisable }) => (
             <li className={styles.item} key={machineId}>
               {!isEdit ? (

@@ -1,13 +1,16 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 import PageMain from "../../Pages/PageMain";
 import PageAddMachine from "../../Pages/PageAddMachine";
-import getTransition from "../../Shared/Utils/getTransition";
+import getDictionary from "../../Shared/Utils/getTransition";
 import styles from "./App.module.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DictionaryContext } from "./context";
 
 function App() {
   const [configLang, setConfigLang] = useState();
+  const { dictionary } = useContext(DictionaryContext);
+  const getTransition = getDictionary(dictionary);
+
   const [lang, setLang] = useState();
 
   const { electronAPI } = window;

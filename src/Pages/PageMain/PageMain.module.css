@@ -87,3 +87,7 @@
     height: 100vh;
     pointer-events: all;
 }
+
+.alert {
+    margin: 0;
+}

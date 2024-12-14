@@ -1,14 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import InputText from "../../Components/InputText";
 
-import getTransition from "../../Shared/Utils/getTransition";
+import getDictionary from "../../Shared/Utils/getTransition";
+import { DictionaryContext } from "../../Components/App/context";
 import styles from "./PageAddMachine.module.css";
 
 function PageAddMachine() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
+  const {dictionary} = useContext(DictionaryContext);
+  const getTransition = getDictionary(dictionary);
+
   const handleChangeMachineName = () => {
     setErrorMsg("");
   };
