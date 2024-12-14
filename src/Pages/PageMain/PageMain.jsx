@@ -4,44 +4,38 @@ import { useNavigate } from "react-router-dom";
 import { Close } from "../../Components/Icon";
 import InputText from "../../Components/InputText";
 import getDictionary from "../../Shared/Utils/getTransition";
+import {
+  DictionaryContext,
+  MachineContext,
+} from "../../Components/App/context";
 import Portal from "../../Components/Portal";
 import clsx from "clsx";
 import styles from "./PageMain.module.css";
-import { DictionaryContext } from "../../Components/App/context";
 
 function PageMain() {
-  const [listMachines, setListMachines] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
 
   const {dictionary} = useContext(DictionaryContext);
   const getTransition = getDictionary(dictionary);
 
+  const {
+    listMachines,
+    setStartMachine,
+    removeMachine,
+    setNewMachineName,
+  } = useContext(MachineContext);
+
   const { changeLanguage } = useContext(DictionaryContext);
 
   const { electronAPI } = window;
-
-  function handleUnlock(unlockedMachineId) {
-    setListMachines((listMachineStorage) =>
-      listMachineStorage.map(({ machineId: id, isDisable }) => {
-        if (id === unlockedMachineId)
-          return { machineId: id, isDisable: false };
-        return { machineId: id, isDisable };
-      })
-    );
-  }
 
   function handleStartMachine(startMachineId, isDisable) {
     return () => {
       if (isDisable) return;
       electronAPI?.invokeMachine(startMachineId);
 
-      setListMachines((listMachineStorage) =>
-        listMachineStorage.map(({ machineId: id, isDisable }) => {
-          if (id === startMachineId) return { machineId: id, isDisable: true };
-          return { machineId: id, isDisable };
-        })
-      );
+      setStartMachine(startMachineId);
     };
   }
 
@@ -50,9 +44,7 @@ function PageMain() {
       const result = await electronAPI?.removeMachine(removeMachineId);
       const { machineName } = result;
       if (machineName) {
-        setListMachines((listMachineStorage) =>
-          listMachineStorage.filter(({ machineId: id }) => id !== machineName)
-        );
+        removeMachine(machineName);
       }
     };
   }
@@ -68,13 +60,8 @@ function PageMain() {
         );
         const { machineName, newMachineName } = result;
         if (machineName) {
-          setListMachines((listMachineStorage) =>
-            listMachineStorage.map(({ machineId: id, isDisable }) => {
-              if (id === machineName)
-                return { machineId: newMachineName, isDisable };
-              return { machineId: id, isDisable };
-            })
-          );
+          setNewMachineName(machineName, newMachineName);
+          e.target.value = newMachineName;
         }
         setIsConfirm(false);
       }
@@ -83,17 +70,6 @@ function PageMain() {
 
   useEffect(() => {
     electronAPI?.getInit();
-
-    electronAPI?.onConfigMachines((resultList) => {
-      setListMachines(
-        resultList.map((machineId) => ({
-          machineId,
-          isDisable: false,
-        }))
-      );
-    });
-
-    electronAPI?.onUnlockedConfiguration(handleUnlock);
   }, []);
 
   const navigate = useNavigate();
