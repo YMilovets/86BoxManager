@@ -1,5 +1,6 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 import PageMain from "../../Pages/PageMain";
+import PageConfig from "../../Pages/PageConfig";
 import PageAddMachine from "../../Pages/PageAddMachine";
 import getDictionary from "../../Shared/Utils/getTransition";
 import { useContext, useEffect, useReducer, useState } from "react";
@@ -14,12 +15,13 @@ function App() {
   const { dictionary } = useContext(DictionaryContext);
   const getTransition = getDictionary(dictionary);
 
-  const [lang, setLang] = useState();
+  const [lang, setLang] = useState(localStorage.getItem("language") ?? "ru");
 
   const { electronAPI } = window;
 
   useEffect(() => {
     electronAPI.changeLanguage(lang ?? "ru").then((langConfig) => {
+      localStorage.setItem("language", lang);
       setConfigLang(langConfig);
     });
   }, [lang]);
@@ -50,7 +52,11 @@ function App() {
       }}
     >
       <DictionaryContext.Provider
-        value={{ dictionary: configLang, changeLanguage: setLang }}
+        value={{
+          dictionary: configLang,
+          changeLanguage: setLang,
+          language: lang,
+        }}
       >
         <section className={styles.page}>
           {!electronAPI && (
@@ -60,6 +66,7 @@ function App() {
             <Routes>
               <Route path="/" element={<PageMain />} />
               <Route path="/add-machine" element={<PageAddMachine />} />
+              <Route path="/settings" element={<PageConfig />} />
             </Routes>
           </HashRouter>
         </section>

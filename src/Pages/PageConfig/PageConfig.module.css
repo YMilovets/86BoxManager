@@ -1,0 +1,30 @@
+.control {
+    display: flex;
+    gap: 1em;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1em;
+}
+
+.language {
+    display: flex;
+    width: 100%;
+    gap: 0.75em;
+}
+
+.language_btn.language_btn__selected {
+    background: rgba(100, 108, 255, 0.15);
+}
+
+.label, .alert {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    gap: 1.5em;
+    display: grid;
+}
