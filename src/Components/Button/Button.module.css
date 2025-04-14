@@ -14,9 +14,8 @@
     border-color: #646cff;
 }
 
-.button:focus,
-.button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
+.button.button__primary {
+    background: rgba(100, 108, 255, 0.15);
 }
 
 @media (prefers-color-scheme: light) {

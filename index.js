@@ -273,6 +273,25 @@ async function getConfigLanguage(_, lang) {
   return dictionary;
 }
 
+async function getExistFolder(_, checkedFolder) {
+  return existsSync(checkedFolder);
+}
+
+async function openFileDialog(_, dialogType) {
+  const dialogProps = {
+    file: "openFile",
+    folder: "openDirectory",
+  };
+  const {
+    canceled,
+    filePaths: [path],
+  } = await dialog.showOpenDialog(mainWindow, {
+    properties: [dialogProps[dialogType]],
+  });
+  if (canceled) throw canceled;
+  return path;
+}
+
 ipcMain.on("get-init", getHandleInit);
 
 ipcMain.on("invoke-machine", handleInvokeMachine);
@@ -284,3 +303,7 @@ ipcMain.handle("get-config-language", getConfigLanguage);
 ipcMain.handle("remove-machine", removeMachine);
 
 ipcMain.handle("rename-machine", renameMachine);
+
+ipcMain.handle("exist-folder", getExistFolder);
+
+ipcMain.handle("open-file-dialog", openFileDialog);

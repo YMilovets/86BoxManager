@@ -2,11 +2,11 @@ import PropTypes from "prop-types";
 import styles from "./InputText.module.css";
 import clsx from "clsx";
 
-function InputText({ name, id, onChange, className, ...props }) {
+function InputText({ name, id, onChange, className, type = "text", ...props }) {
   return (
     <input
       className={clsx(className, styles.input)}
-      type="text"
+      type={type}
       name={name}
       id={id}
       onChange={onChange}
@@ -20,6 +20,7 @@ InputText.defaultProps = {
     id: undefined,
     onChange: () => {},
     className: undefined,
+    type: "text",
 }
 
 InputText.propTypes = {
@@ -27,6 +28,7 @@ InputText.propTypes = {
     id: PropTypes.string,
     onChange: PropTypes.func,
     className: PropTypes.string,
+    type: PropTypes.string,
 }
 
 export default InputText;

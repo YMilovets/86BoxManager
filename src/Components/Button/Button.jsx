@@ -2,10 +2,12 @@ import PropTypes from "prop-types";
 import styles from "./Button.module.css";
 import clsx from "clsx";
 
-function Button({ children, onClick, className, ...props }) {
+function Button({ children, onClick, className, isPrimary, ...props }) {
   return (
     <button
-      className={clsx(styles.button, className)}
+      className={clsx(styles.button, className, {
+        [styles.button__primary]: isPrimary,
+      })}
       {...props}
       onClick={onClick}
     >
@@ -17,12 +19,14 @@ function Button({ children, onClick, className, ...props }) {
 Button.defaultProps = {
   children: null,
   className: undefined,
+  isPrimary: false,
   onClick: () => {},
 };
 
 Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   className: PropTypes.string,
+  isPrimary: PropTypes.bool,
   onClick: PropTypes.func,
 };
 

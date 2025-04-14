@@ -17,4 +17,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
   createMachine: (machineName) =>
     ipcRenderer.invoke("create-machine", machineName),
   changeLanguage: (lang) => ipcRenderer.invoke("get-config-language", lang),
+  existFolder: (checkedFolder) =>
+    ipcRenderer.invoke("exist-folder", checkedFolder),
+  openFileDialog: (dialogType) =>
+    ipcRenderer.invoke("open-file-dialog", dialogType),
 });
