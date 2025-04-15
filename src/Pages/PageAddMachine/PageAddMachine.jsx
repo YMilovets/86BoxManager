@@ -11,6 +11,8 @@ function PageAddMachine() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
   const {dictionary} = useContext(DictionaryContext);
+  const { electronAPI } = window;
+
   const getTransition = getDictionary(dictionary);
 
   const handleChangeMachineName = () => {
@@ -19,6 +21,14 @@ function PageAddMachine() {
   const handleCancel = () => {
     navigate("/");
   };
+
+  async function getExistFolder() {
+    const isExistPath = await electronAPI?.existFolder(
+      localStorage.getItem("rootDirMachines")
+    );
+    return isExistPath;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,9 +37,15 @@ function PageAddMachine() {
       ?.trim();
 
     const self = e.currentTarget.elements.machineName;
+    const isExistMachine = await getExistFolder();
+    if (!isExistMachine) {
+      handleCancel();
+      return;
+    }
+
     try {
       if (machineName) {
-        await window.electronAPI?.createMachine(machineName);
+        await electronAPI?.createMachine(machineName);
         handleCancel();
       } else {
         self.focus();

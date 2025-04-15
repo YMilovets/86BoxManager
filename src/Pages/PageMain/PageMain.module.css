@@ -18,6 +18,8 @@
 
 .scroll {
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #646cff rgba(100, 108, 255, .15);
 }
 
 .item, .button {

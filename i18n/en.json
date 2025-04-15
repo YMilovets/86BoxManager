@@ -36,5 +36,7 @@
   "changeSuccessMachineMessage": "The virtual machine $machineName successfully renamed to $newMachineName",
   "changeErrorMachineTitle": "Error renaming the virtual machine",
   "changeErrorMachineMessage": "Error renaming the virtual machine $machineName",
-  "changeErrorExistMachineMessage": "The virtual machine $machineName already existed. Enter new name"
+  "changeErrorExistMachineMessage": "The virtual machine $machineName already existed. Enter new name",
+
+  "noExistFolder": "There is no specific directory. Change a preference of the location of virtual machines"
 }

@@ -12,6 +12,9 @@ import {
 } from "fs";
 import { exec } from "child_process";
 import { format } from "url";
+import { promisify } from "util";
+
+const execAsync = promisify(exec);
 
 const ROOT_DIR = `${App.getPath("home")}//.86Box`;
 const lockInstance = App.requestSingleInstanceLock();
@@ -21,6 +24,12 @@ if (!lockInstance) {
 let isMachineStarted = new Set();
 let mainWindow = null;
 let dictionary = null;
+let isLockProcess = false;
+
+let configuration = {
+  pathConfig: ROOT_DIR,
+  pathApp: "86Box",
+};
 
 function main() {
   mainWindow = new Window({
@@ -58,42 +67,71 @@ App.on("second-instance", () => {
   return false;
 });
 
-function getHandleInit(e) {
-  const listConfigFolders = readdirSync(ROOT_DIR, { withFileTypes: true })
-    .filter((d) => d.isDirectory())
-    .map((d) => d.name);
-  e.reply("get-config-machines", listConfigFolders);
+function getHandleInit(e, preferences) {
+  const getDictionary = getTransition(dictionary);
+
+  if (Object.values(preferences).some((valueConfig) => !valueConfig)) {
+    new Notification({
+      title: getDictionary("firstLaunch"),
+      body: getDictionary("firstLaunchMessage"),
+    }).show();
+    return;
+  }
+  configuration = preferences;
+
+  try {
+    const listConfigFolders = readdirSync(configuration.pathConfig, {
+      withFileTypes: true,
+    })
+      .filter((d) => d.isDirectory())
+      .map((d) => d.name);
+    e.reply("get-config-machines", listConfigFolders);
+  } catch (error) {
+    e.reply("get-config-machines", []);
+  }
 }
 
-function handleInvokeMachine(e, machineId) {
+async function handleInvokeMachine(e, machineId) {
   isMachineStarted.add(machineId);
   mainWindow.minimize();
 
   const getDictionary = getTransition(dictionary);
-  exec(`cd ${ROOT_DIR}/${machineId} && 86Box`, (error, stdout) => {
-    if (error) {
-      dialog.showMessageBox({
-        type: "error",
-        buttons: fixLocalizationButton("OK"),
-        message: getDictionary("noExistsMachineMessage", (result) =>
+
+  try {
+    const isExistFolder = await getExistFolder(
+      e,
+      `${configuration.pathConfig}/${machineId}`
+    );
+    if (!isExistFolder) {
+      throw new Error(
+        getDictionary("noExistsMachineMessage", (result) =>
           result.replace("$machineName", machineId)
-        ),
-      });
-      isMachineStarted.delete(machineId);
-      getHandleInit(e);
-      mainWindow?.show();
-      return false;
+        )
+      );
     }
-    if (stdout) {
-      e.reply("unlocked-machine", machineId);
-      isMachineStarted.delete(machineId);
-      mainWindow?.show();
+
+    try {
+      await execAsync(
+        `${configuration.pathApp} -P "${configuration.pathConfig}/${machineId}"`
+      );
+    } catch {
+      throw new Error(getDictionary("failLaunchApp"));
     }
-  });
+  } catch ({ message }) {
+    dialog.showMessageBox(mainWindow, {
+      type: "error",
+      buttons: fixLocalizationButton("OK"),
+      message,
+    });
+  } finally {
+    e.reply("unlocked-machine", machineId);
+    isMachineStarted.delete(machineId);
+    mainWindow?.show();
+  }
 }
 
 async function handleCreateMachine(_, machineName) {
-  const newPathMachine = join(ROOT_DIR, machineName);
+  const newPathMachine = join(configuration.pathConfig, machineName);
   const getDictionary = getTransition(dictionary);
 
   if (existsSync(newPathMachine)) {
@@ -113,6 +151,10 @@ async function handleCreateMachine(_, machineName) {
 async function removeMachine(_, machineName) {
   const getDictionary = getTransition(dictionary);
   try {
+    if (isLockProcess) {
+      return new Error('0x000');
+    }
+    isLockProcess = true;
     const { response: exitCode } = await dialog.showMessageBox(mainWindow, {
       type: "question",
       title: getDictionary("removeConfirmMachineTitle"),
@@ -123,15 +165,20 @@ async function removeMachine(_, machineName) {
       isModal: true,
     });
     if (exitCode) {
-      rmSync(join(ROOT_DIR, machineName), { recursive: true, force: true });
+      rmSync(join(configuration.pathConfig, machineName), {
+        recursive: true,
+        force: true,
+      });
       new Notification({
         title: getDictionary("removeSuccessMachineTitle"),
         body: getDictionary("removeSuccessMachineMessage", (result) =>
           result.replace("$machineName", machineName)
         ),
       }).show();
+      isLockProcess = false;
       return new Promise((resolve) => resolve({ machineName }));
     }
+    isLockProcess = false;
     return new Promise((resolve) => resolve({ machineName: null }));
   } catch (error) {
     new Notification({
@@ -140,13 +187,23 @@ async function removeMachine(_, machineName) {
         result.replace("$machineName", machineName)
       ),
     }).show();
+    isLockProcess = false;
     return new Promise((resolve) => resolve({ machineName: null }));
   }
 }
 
-async function renameMachine(_, machineName, newMachineName) {
+async function renameMachine(
+  _,
+  machineName,
+  newMachineName,
+) {
   const getDictionary = getTransition(dictionary);
   try {
+    if (isLockProcess) {
+      return new Error('0x000');
+    }
+    isLockProcess = true;
+    mainWindow.setIgnoreMouseEvents(true);
     const { response: exitCode } = await dialog.showMessageBox({
       type: "question",
       title: getDictionary("changeConfirmMachineTitle"),
@@ -159,18 +216,24 @@ async function renameMachine(_, machineName, newMachineName) {
       isModal: true,
     });
     if (exitCode) {
-      if (existsSync(join(ROOT_DIR, newMachineName))) {
+      if (existsSync(join(configuration.pathConfig, newMachineName))) {
         new Notification({
           title: getDictionary("changeErrorMachineTitle"),
           body: getDictionary("changeErrorExistMachineMessage", (result) =>
             result.replace("$machineName", newMachineName)
           ),
         }).show();
+
+        isLockProcess = false;
+        mainWindow.setIgnoreMouseEvents(false);
         return new Promise((resolve) =>
           resolve({ machineName, newMachineName: machineName })
         );
       }
-      renameSync(join(ROOT_DIR, machineName), join(ROOT_DIR, newMachineName));
+      renameSync(
+        join(configuration.pathConfig, machineName),
+        join(configuration.pathConfig, newMachineName)
+      );
       new Notification({
         title: getDictionary("changeSuccessMachineTitle"),
         body: getDictionary("changeSuccessMachineMessage", (result) =>
@@ -179,8 +242,14 @@ async function renameMachine(_, machineName, newMachineName) {
             .replace("$newMachineName", newMachineName)
         ),
       }).show();
+
+      isLockProcess = false;
+      mainWindow.setIgnoreMouseEvents(false);
       return new Promise((resolve) => resolve({ machineName, newMachineName }));
     }
+
+    isLockProcess = false;
+    mainWindow.setIgnoreMouseEvents(false);
     return new Promise((resolve) => resolve({ machineName: null }));
   } catch (error) {
     new Notification({
@@ -189,6 +258,10 @@ async function renameMachine(_, machineName, newMachineName) {
         result.replace("$machineName", machineName)
       ),
     }).show();
+
+    isLockProcess = false;
+    mainWindow.setIgnoreMouseEvents(false);
+    
     return new Promise((resolve) =>
       resolve({ machineName, newMachineName: machineName })
     );
