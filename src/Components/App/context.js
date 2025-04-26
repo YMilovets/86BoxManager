@@ -7,9 +7,13 @@ export const DictionaryContext = createContext({
 })
 
 export const MachineContext = createContext({
-    listMachines: null,
-    setListMachines: () => {},
-    setStartMachine: () => {},
-    removeMachine: () => {},
-    setNewMachineName: () => {},
-})
+  isEdit: false,
+  isExistFolder: false,
+  listMachines: null,
+  setListMachines: () => {},
+  setStartMachine: () => {},
+  removeMachine: () => {},
+  setNewMachineName: () => {},
+  getExistFolder: async () => {},
+  setIsEdit: () => {},
+});

@@ -4,13 +4,14 @@ import { useContext, useState } from "react";
 import InputText from "../../Components/InputText";
 
 import getDictionary from "../../Shared/Utils/getTransition";
-import { DictionaryContext } from "../../Components/App/context";
+import { DictionaryContext, MachineContext } from "../../Components/App/context";
 import styles from "./PageAddMachine.module.css";
 
 function PageAddMachine() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
-  const {dictionary} = useContext(DictionaryContext);
+  const { dictionary } = useContext(DictionaryContext);
+  const { getExistFolder, setIsEdit } = useContext(MachineContext);
   const { electronAPI } = window;
 
   const getTransition = getDictionary(dictionary);
@@ -19,15 +20,9 @@ function PageAddMachine() {
     setErrorMsg("");
   };
   const handleCancel = () => {
+    setIsEdit(false);
     navigate("/");
   };
-
-  async function getExistFolder() {
-    const isExistPath = await electronAPI?.existFolder(
-      localStorage.getItem("rootDirMachines")
-    );
-    return isExistPath;
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();

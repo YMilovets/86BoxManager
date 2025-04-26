@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useState, useCallback } from "react";
 
 import getDictionary from "../../Shared/Utils/getTransition";
-import { DictionaryContext } from "../../Components/App/context";
+import { DictionaryContext, MachineContext } from "../../Components/App/context";
 
 import { getDefaultListFormInput } from "./utils";
 import InputBrowserFolder from "../../Components/InputBrowserFolder";
@@ -16,6 +16,7 @@ function PageConfig() {
   const [errorMsg, setErrorMsg] = useState("");
   const { dictionary, changeLanguage, language } =
     useContext(DictionaryContext);
+  const { setIsEdit } = useContext(MachineContext);
 
   const getTransition = getDictionary(dictionary);
 
@@ -24,6 +25,7 @@ function PageConfig() {
   };
 
   const handleCancel = () => {
+    setIsEdit(false);
     navigate("/");
   };
 

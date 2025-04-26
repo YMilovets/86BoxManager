@@ -10,6 +10,9 @@ import styles from "./App.module.css";
 
 function App() {
   const [configLang, setConfigLang] = useState();
+  const [isEdit, setIsEdit] = useState(false);
+  const [isExistFolder, setIsExistFolder] = useState(false);
+  
   const [listMachinesState, dispatch] = useReducer(reducerListMachines, []);
 
   const { dictionary } = useContext(DictionaryContext);
@@ -36,9 +39,19 @@ function App() {
     );
   }, []);
 
+  async function getExistFolder() {
+    const isExistPath = await electronAPI?.existFolder(
+      localStorage.getItem("rootDirMachines")
+    );
+    setIsExistFolder(isExistPath);
+    return isExistPath;
+  }
+
   return (
     <MachineContext.Provider
       value={{
+        isEdit,
+        isExistFolder,
         listMachines: listMachinesState,
         setStartMachine: (startMachineId) =>
           dispatch({ type: "startMachine", payload: startMachineId }),
@@ -49,6 +62,8 @@ function App() {
             type: "renameMachine",
             payload: { machineName, newMachineName },
           }),
+        getExistFolder,
+        setIsEdit,
       }}
     >
       <DictionaryContext.Provider
