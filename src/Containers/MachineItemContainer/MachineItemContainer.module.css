@@ -1,0 +1,56 @@
+.container {
+    font-size: 16px;
+    display: grid;
+    grid-template-columns: minmax(9.4375em, 1fr) 10.125rem;
+    grid-template-rows: max-content;
+    gap: .75em 1em;
+    height: calc(100vh - 3em);
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.item, .button {
+    flex: 1;
+    display: flex;
+}
+
+.item {
+    gap: 0.75em;
+    min-width: 3.85em;
+}
+
+.label {
+    margin: 0;
+    font-size: 1em;
+    font-weight: 375;
+}
+
+.remove_btn {
+    padding: .6em;
+}
+
+.remove_icon.remove_icon__disabled {
+    --root-fill-color: rgba(16, 16, 16, 0.3);
+}
+
+.remove_icon {
+    --root-fill-color: #646cff;
+    width: 0.9em;
+    height: 0.9em;
+}
+
+.input {
+    min-width: 3.85em;
+    flex: 1;
+}
+
+.input.input__disabled {
+    color: rgba(16, 16, 16, 0.3);
+}
