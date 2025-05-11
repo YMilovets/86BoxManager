@@ -1,5 +1,7 @@
 {
   "errorElectronAPI": "Functional is not available because an app layout was launched without an executable file",
+  "errorDestinationAppFolder": "Enter the command or path from the 86Box executable file",
+  "errorConfigFolder": "Enter the location of virtual machines settings",
   "nameMachineField": "Enter a name of the virtual machine",
   "errorMachineExists": "Specified virtual machine already existed. Enter new name",
   "save": "Save",
@@ -19,6 +21,7 @@
   "destinationAppFolder": "The location of 86Box executable file",
   "configFolder": "The location of virtual machines folder",
   "changeLanguage": "Change language",
+  "firstLaunch": "Application settings error",
 
   "closeMessage": "Switch off running vitrual machines to close the application",
   "noExistsMachineMessage": "The virtual machine $machineName no longer exists",
@@ -37,6 +40,10 @@
   "changeErrorMachineTitle": "Error renaming the virtual machine",
   "changeErrorMachineMessage": "Error renaming the virtual machine $machineName",
   "changeErrorExistMachineMessage": "The virtual machine $machineName already existed. Enter new name",
+  "changeErrorNonExistMachineTitle": "Failed to rename the virtual machine $machineName",
+  "changeErrorNonExistMachineMessage": "The virtual machine $machineName no longer exists. Renaming of machine was prevented, the machine list was updated",
 
-  "noExistFolder": "There is no specific directory. Change a preference of the location of virtual machines"
+  "noExistFolder": "There is no specific directory. Change a preference of the location of virtual machines",
+
+  "firstLaunchMessage": "The first start was completed by the 86BoxManager application or settings were reset. Please configure your an location directory of the virtual machine and 86Box executable file"
 }

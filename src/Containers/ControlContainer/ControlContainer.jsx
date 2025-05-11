@@ -4,6 +4,7 @@ import Button from "../../Components/Button";
 import { DictionaryContext, MachineContext } from "../../Components/App/context";
 
 import getDictionary from "../../Shared/Utils/getTransition";
+import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
 
 import styles from "./ControlContainer.module.css";
 
@@ -18,30 +19,33 @@ function ControlContainer() {
   const { electronAPI } = window;
 
   const navigate = useNavigate();
-
-  function getLocalStorage() {
-    const localConfig = {
-      pathConfig: localStorage.getItem("rootDirMachines"),
-      pathApp: localStorage.getItem("appPath"),
-    };
-    return localConfig;
-  }
+  const getLocalStorage = useLocalStorage();
 
   async function handleCreateClick() {
-    const isExistMachine = await getExistFolder();
-    if (!isExistMachine) return;
-    navigate("/add-machine");
+    try {
+      setIsEdit(false);
+      getLocalStorage();
+      const isExistMachine = await getExistFolder();
+      if (!isExistMachine) return;
+      navigate("/add-machine");
+    } catch { /* empty */ }
   }
 
   function handleUpdateClick() {
-    electronAPI?.getInit(getLocalStorage());
-    getExistFolder();
+    try {
+      const localStorage = getLocalStorage();
+      electronAPI?.getInit(localStorage);
+      getExistFolder();  
+    } catch { /* empty */ }
   }
 
   function handleChangeMode() {
-    setIsEdit(!isEdit);
-    electronAPI?.getInit(getLocalStorage());
-    getExistFolder();
+    try {
+      setIsEdit(!isEdit);
+      const localStorage = getLocalStorage();
+      electronAPI?.getInit(localStorage);
+      getExistFolder();
+    } catch { /* empty */ }
   }
 
   return (

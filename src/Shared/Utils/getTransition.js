@@ -39,10 +39,9 @@ let defaultDictionary;
 export default function getTransition(systemDictionary) {
   return (dictionaryKey) => {
     try {
-      if (systemDictionary)
-        defaultDictionary = new Map(
-          Object.entries(JSON.parse(systemDictionary))
-        );
+      const localization = JSON.parse(systemDictionary);
+      if (systemDictionary && localization[dictionaryKey])
+        defaultDictionary = new Map(Object.entries(localization));
       else defaultDictionary = dictionary;
     } catch {
       defaultDictionary = dictionary;

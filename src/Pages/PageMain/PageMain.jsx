@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import getDictionary from "../../Shared/Utils/getTransition";
+import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
 import {
   DictionaryContext,
   MachineContext,
@@ -20,19 +20,15 @@ function PageMain() {
 
   const { electronAPI } = window;
 
-  useEffect(() => {
-    const localConfig = {
-      pathConfig: localStorage.getItem("rootDirMachines"),
-      pathApp: localStorage.getItem("appPath"),
-    };
-    if (Object.values(localConfig).some((valueConfig) => !valueConfig)) {
-      navigate("/settings");
-    }
-    electronAPI?.getInit(localConfig);
-    getExistFolder();
-  }, []);
+  const getLocalStorage = useLocalStorage();
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    try {
+      const localStorage = getLocalStorage();
+      electronAPI?.getInit(localStorage);
+      getExistFolder();
+    } catch { /* empty */ }
+  }, []);
 
   const MainMachineItemContainer = !isEdit
     ? MachineItemContainer

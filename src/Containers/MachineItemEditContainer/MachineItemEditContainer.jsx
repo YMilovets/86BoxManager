@@ -8,6 +8,7 @@ import getDictionary from "../../Shared/Utils/getTransition";
 import clsx from "clsx";
 
 import styles from "./MachineItemEditContainer.module.css";
+import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
 
 function MachineItemEditContainer() {
   const {
@@ -20,6 +21,7 @@ function MachineItemEditContainer() {
   const { dictionary } = useContext(DictionaryContext);
   const { electronAPI } = window;
   const getTransition = getDictionary(dictionary);
+  const getLocalStorage = useLocalStorage();
 
   function handleRemoveMachine(removeMachineId) {
     return async () => {
@@ -49,24 +51,38 @@ function MachineItemEditContainer() {
       const formMachine = e.currentTarget.value;
 
       const isExistMachine = await getExistFolder();
-      if (machineId !== formMachine && isExistMachine) {
-        try {
-          const result = await electronAPI?.renameMachine(
-            machineId,
-            formMachine
-          );
 
+      try {
+        const localStorage = getLocalStorage();
+        if (machineId === formMachine || !isExistMachine) {
+          throw new Error("0x000");
+        }
+
+        try {
+          const result = await electronAPI?.renameMachine(machineId, formMachine);
+          
+          const isExistRenameMachine = await getExistFolder();
+          if (!isExistRenameMachine) {
+            setIsEdit(false);
+          }
+          
           const { machineName, newMachineName } = result;
+
           if (machineName) {
             setNewMachineName(machineName, newMachineName);
             e.target.value = newMachineName;
           }
-
-          return;
         } catch {
-          /* empty */
+          const isExistFolder = await getExistFolder();
+          setIsEdit(isExistFolder);
+          electronAPI.getInit(localStorage);
         }
+
+        return;
+      } catch {
+        /* empty */
       }
+
       if (!isExistMachine) {
         setIsEdit(false);
       }

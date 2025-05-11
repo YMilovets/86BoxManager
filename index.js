@@ -198,59 +198,79 @@ async function renameMachine(
   newMachineName,
 ) {
   const getDictionary = getTransition(dictionary);
-  try {
-    if (isLockProcess) {
-      return new Error('0x000');
-    }
-    isLockProcess = true;
-    mainWindow.setIgnoreMouseEvents(true);
-    const { response: exitCode } = await dialog.showMessageBox({
-      type: "question",
-      title: getDictionary("changeConfirmMachineTitle"),
-      message: getDictionary("changeConfirmMachineMessage", (result) =>
-        result
-          .replace("$machineName", machineName)
-          .replace("$newMachineName", newMachineName)
-      ),
-      buttons: fixLocalizationButton(getDictionary("no"), getDictionary("yes")),
-      isModal: true,
-    });
-    if (exitCode) {
-      if (existsSync(join(configuration.pathConfig, newMachineName))) {
-        new Notification({
-          title: getDictionary("changeErrorMachineTitle"),
-          body: getDictionary("changeErrorExistMachineMessage", (result) =>
-            result.replace("$machineName", newMachineName)
-          ),
-        }).show();
+  if (isLockProcess) {
+    return new Error("0x000");
+  }
 
-        isLockProcess = false;
-        mainWindow.setIgnoreMouseEvents(false);
-        return new Promise((resolve) =>
-          resolve({ machineName, newMachineName: machineName })
-        );
-      }
-      renameSync(
-        join(configuration.pathConfig, machineName),
-        join(configuration.pathConfig, newMachineName)
-      );
+  if (!existsSync(join(configuration.pathConfig, machineName))) {
+    new Notification({
+      title: getDictionary("changeErrorNonExistMachineTitle", (result) =>
+        result.replace("$machineName", machineName)
+      ),
+      body: getDictionary("changeErrorNonExistMachineMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
+    }).show();
+    throw new Error("0x001");
+  }
+
+  isLockProcess = true;
+  mainWindow.setIgnoreMouseEvents(true);
+  const { response: exitCode } = await dialog.showMessageBox({
+    type: "question",
+    title: getDictionary("changeConfirmMachineTitle"),
+    message: getDictionary("changeConfirmMachineMessage", (result) =>
+      result
+        .replace("$machineName", machineName)
+        .replace("$newMachineName", newMachineName)
+    ),
+    buttons: fixLocalizationButton(getDictionary("no"), getDictionary("yes")),
+    isModal: true,
+  });
+
+  if (!exitCode && !existsSync(join(configuration.pathConfig, machineName))) {
+    isLockProcess = false;
+    mainWindow.setIgnoreMouseEvents(false);
+    throw new Error("0x001");
+  }
+
+  if (!exitCode) {
+    isLockProcess = false;
+    mainWindow.setIgnoreMouseEvents(false);
+    return new Promise((resolve) => resolve({ machineName: null }));
+  }
+
+  try {
+    if (existsSync(join(configuration.pathConfig, newMachineName))) {
       new Notification({
-        title: getDictionary("changeSuccessMachineTitle"),
-        body: getDictionary("changeSuccessMachineMessage", (result) =>
-          result
-            .replace("$machineName", machineName)
-            .replace("$newMachineName", newMachineName)
+        title: getDictionary("changeErrorMachineTitle"),
+        body: getDictionary("changeErrorExistMachineMessage", (result) =>
+          result.replace("$machineName", newMachineName)
         ),
       }).show();
 
       isLockProcess = false;
       mainWindow.setIgnoreMouseEvents(false);
-      return new Promise((resolve) => resolve({ machineName, newMachineName }));
+      return new Promise((resolve) =>
+        resolve({ machineName, newMachineName: machineName })
+      );
     }
+    renameSync(
+      join(configuration.pathConfig, machineName),
+      join(configuration.pathConfig, newMachineName)
+    );
+    new Notification({
+      title: getDictionary("changeSuccessMachineTitle"),
+      body: getDictionary("changeSuccessMachineMessage", (result) =>
+        result
+          .replace("$machineName", machineName)
+          .replace("$newMachineName", newMachineName)
+      ),
+    }).show();
 
     isLockProcess = false;
     mainWindow.setIgnoreMouseEvents(false);
-    return new Promise((resolve) => resolve({ machineName: null }));
+    return new Promise((resolve) => resolve({ machineName, newMachineName }));
   } catch (error) {
     new Notification({
       title: getDictionary("changeErrorMachineTitle"),
@@ -261,10 +281,8 @@ async function renameMachine(
 
     isLockProcess = false;
     mainWindow.setIgnoreMouseEvents(false);
-    
-    return new Promise((resolve) =>
-      resolve({ machineName, newMachineName: machineName })
-    );
+
+    throw error;
   }
 }
 
@@ -322,6 +340,19 @@ function getTransition(dictionary = null) {
     [
       "changeErrorExistMachineMessage",
       "Виртуальная машина $machineName уже существует. Придумайте новое название",
+    ],
+    [
+      "changeErrorNonExistMachineTitle",
+      "Не удалось переименовать виртуальную машину $machineName",
+    ],
+    [
+      "changeErrorNonExistMachineMessage",
+      "Виртуальной машины $machineName больше не существует. Переименование машины было прервано, список машин будет обновлен",
+    ],
+    ["firstLaunch", "Ошибка параметров приложения"],
+    [
+      "firstLaunchMessage",
+      "Произведен первый запуск программы 86BoxManager, или настройки были сброшены. Пожалуйста, настройте каталог размещения виртуальных машин и расположение программы 86Box",
     ],
   ]);
   return (dictionaryKey, renderDict = (result) => result) => {
