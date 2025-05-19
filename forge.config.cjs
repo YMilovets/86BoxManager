@@ -45,4 +45,19 @@ module.exports = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
   ],
+  hooks: {
+    postPackage: async (_, { outputPaths: [currentPath] }) => {
+      const localesPath = path.join(currentPath, "locales");
+
+      const usedLocales = ["en-US.pak", "ru.pak"];
+
+      if (!fs.existsSync(localesPath)) return;
+
+      fs.readdirSync(localesPath).forEach((file) => {
+        if (!usedLocales.includes(file)) {
+          fs.unlinkSync(path.join(localesPath, file));
+        }
+      });
+    },
+  },
 };
