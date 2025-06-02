@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import Button from "../../Components/Button";
 import { DictionaryContext, MachineContext } from "../../Components/App/context";
 
@@ -7,12 +7,14 @@ import InputText from "../../Components/InputText";
 import getDictionary from "../../Shared/Utils/getTransition";
 import clsx from "clsx";
 
-import styles from "./MachineItemEditContainer.module.css";
 import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
+
+import styles from "./MachineItemEditContainer.module.css";
 
 function MachineItemEditContainer() {
   const {
     listMachines,
+    prevPathMachines,
     removeMachine,
     getExistFolder,
     setNewMachineName,
@@ -23,11 +25,51 @@ function MachineItemEditContainer() {
   const getTransition = getDictionary(dictionary);
   const getLocalStorage = useLocalStorage();
 
+  const formRef = useRef(null);
+
+  async function changeMachinePathConfiguration({
+    title = "",
+    text = "",
+    localStorage,
+    prevPathMachines,
+  }) {
+    try {
+      await electronAPI?.compareSavedConfiguration(localStorage);
+    } catch {
+      electronAPI?.getInit(localStorage);
+      if (formRef.current) formRef.current.reset();
+
+      if (prevPathMachines) {
+        electronAPI?.getNotification({
+          title,
+          text,
+        });
+      }
+
+      throw new Error("0x003");
+    }
+  }
+
   function handleRemoveMachine(removeMachineId) {
     return async () => {
+      const localStorage = getLocalStorage();
       const isExistMachine = await getExistFolder();
       if (!isExistMachine) {
         setIsEdit(false);
+        return;
+      }
+
+      try {
+        await changeMachinePathConfiguration({
+          title: getTransition("clearFormAfterRemoveMachineTitle"),
+          text: getTransition("clearFormAfterRemoveMachineMessage")
+            .replace("$prevPathMachines", prevPathMachines)
+            .replace("$currentPathMachines", localStorage.pathConfig),
+          localStorage,
+          prevPathMachines,
+        });
+      } catch {        
+        electronAPI.getInit(localStorage);
         return;
       }
 
@@ -38,8 +80,13 @@ function MachineItemEditContainer() {
           removeMachine(machineName);
         }
       } catch {
-        /* empty */
-      }
+        const isExistMachine = await getExistFolder();
+        if (!isExistMachine) {
+          setIsEdit(false);
+          return;
+        }
+        electronAPI.getInit(localStorage);
+      } 
     };
   }
 
@@ -51,21 +98,33 @@ function MachineItemEditContainer() {
       const formMachine = e.currentTarget.value;
 
       const isExistMachine = await getExistFolder();
+      const localStorage = getLocalStorage();
 
       try {
-        const localStorage = getLocalStorage();
         if (machineId === formMachine || !isExistMachine) {
           throw new Error("0x000");
         }
 
+        await changeMachinePathConfiguration({
+          title: getTransition("clearFormAfterRenameMachineTitle"),
+          text: getTransition("clearFormAfterRenameMachineMessage")
+            .replace("$prevPathMachines", prevPathMachines)
+            .replace("$currentPathMachines", localStorage.pathConfig),
+          localStorage,
+          prevPathMachines,
+        });
+
         try {
-          const result = await electronAPI?.renameMachine(machineId, formMachine);
-          
+          const result = await electronAPI?.renameMachine(
+            machineId,
+            formMachine
+          );
+
           const isExistRenameMachine = await getExistFolder();
           if (!isExistRenameMachine) {
             setIsEdit(false);
           }
-          
+
           const { machineName, newMachineName } = result;
 
           if (machineName) {
@@ -90,32 +149,35 @@ function MachineItemEditContainer() {
   }
 
   return (
-    <ul className={styles.list}>
-      {listMachines?.map(({ machineId, isDisable }) => (
-        <li className={styles.item} key={machineId}>
-          <InputText
-            className={clsx(styles.input, {
-              [styles.input__disabled]: isDisable,
-            })}
-            defaultValue={machineId}
-            onBlur={handleRenameMachine(machineId, isDisable)}
-            disabled={isDisable}
-          />
-          <Button
-            className={styles.remove_btn}
-            disabled={!electronAPI || isDisable}
-            onClick={handleRemoveMachine(machineId)}
-            title={`${getTransition("remove")} ${machineId}`}
-          >
-            <Close
-              className={clsx(styles.remove_icon, {
-                [styles.remove_icon__disabled]: isDisable,
+    <form ref={formRef}>
+      <ul className={styles.list}>
+        {listMachines?.map(({ machineId, isDisable }) => (
+          <li className={styles.item} key={machineId}>
+            <InputText
+              className={clsx(styles.input, {
+                [styles.input__disabled]: isDisable,
               })}
+              defaultValue={machineId}
+              onBlur={handleRenameMachine(machineId, isDisable)}
+              disabled={isDisable}
             />
-          </Button>
-        </li>
-      ))}
-    </ul>
+            <Button
+              className={styles.remove_btn}
+              disabled={!electronAPI || isDisable}
+              onClick={handleRemoveMachine(machineId)}
+              title={`${getTransition("remove")} ${machineId}`}
+              type="button"
+            >
+              <Close
+                className={clsx(styles.remove_icon, {
+                  [styles.remove_icon__disabled]: isDisable,
+                })}
+              />
+            </Button>
+          </li>
+        ))}
+      </ul>
+    </form>
   );
 }
 

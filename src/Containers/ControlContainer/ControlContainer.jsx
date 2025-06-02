@@ -11,8 +11,14 @@ import styles from "./ControlContainer.module.css";
 function ControlContainer() {
   const { dictionary, language, changeLanguage } =
     useContext(DictionaryContext);
-  const { isExistFolder, listMachines, getExistFolder, isEdit, setIsEdit } =
-    useContext(MachineContext);
+  const {
+    isExistFolder,
+    listMachines,
+    prevPathMachines,
+    getExistFolder,
+    isEdit,
+    setIsEdit,
+  } = useContext(MachineContext);
 
   const getTransition = getDictionary(dictionary);
 
@@ -34,6 +40,22 @@ function ControlContainer() {
   async function handleUpdateClick() {
     try {
       const localStorage = getLocalStorage();
+
+      try {
+        await electronAPI?.compareSavedConfiguration(localStorage);
+      } catch { 
+        const isExistMachine = await getExistFolder();
+        if (isEdit && isExistMachine && prevPathMachines) {
+          electronAPI?.getNotification({
+            title: getTransition("clearFormAfterUpdateTitle"),
+            text: getTransition("clearFormAfterUpdateMessage")
+              .replace("$prevPathMachines", prevPathMachines)
+              .replace("$currentPathMachines", localStorage.pathConfig),
+          });
+        }      
+        Array.prototype.forEach.call(document.forms, (form) => form.reset());
+      }
+
       electronAPI?.getInit(localStorage);
       const isExistMachine = await getExistFolder();
       if (!isExistMachine) setIsEdit(false);
@@ -87,6 +109,7 @@ function ControlContainer() {
           className={styles.language_btn}
           onClick={() => changeLanguage("ru")}
           isPrimary={language === "ru"}
+          disabled={!electronAPI}
           data-control
         >
           RU
@@ -95,6 +118,7 @@ function ControlContainer() {
           className={styles.language_btn}
           onClick={() => changeLanguage("en")}
           isPrimary={language === "en"}
+          disabled={!electronAPI}
           data-control
         >
           EN

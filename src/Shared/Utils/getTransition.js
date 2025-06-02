@@ -32,6 +32,30 @@ const dictionary = new Map([
     "noExistFolder",
     "Указанная в настройках директория не существует. Измените настройку каталога местоположения виртуальных машин",
   ],
+  [
+    "clearFormAfterUpdateTitle",
+    "Форма редактирования сброшена после обновления",
+  ],
+  [
+    "clearFormAfterUpdateMessage",
+    "Заполненные поля формы была очищены после обновления, поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines",
+  ],
+  [
+    "clearFormAfterRenameMachineTitle",
+    "Форма редактирования сброшена при попытке переименования",
+  ],
+  [
+    "clearFormAfterRenameMachineMessage",
+    "Заполненные поля формы была очищены при попытке переименования, поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines",
+  ],
+  [
+    "clearFormAfterRemoveMachineTitle",
+    "Форма редактирования сброшена при попытке удаления машины",
+  ],
+  [
+    "clearFormAfterRemoveMachineMessage",
+    "Заполненные поля формы была очищены при попытке удаления машины, поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines",
+  ],
   ["preventLaunchMachineTitle", "Запуск виртуальной машины был прерван"],
   [
     "preventLaunchMachineMessage",

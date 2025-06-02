@@ -24,6 +24,12 @@
   "firstLaunch": "Application settings error",
 
   "closeMessage": "Switch off running vitrual machines to close the application",
+  "clearFormAfterUpdateTitle": "The edit form was cleared after updating the list",
+  "clearFormAfterUpdateMessage": "Filled form fields were cleared after updating the list because the virtual machine folder $prevPathMachines was changed to $currentPathMachines",
+  "clearFormAfterRenameMachineTitle": "The edit form was cleared after trying to rename the folder",
+  "clearFormAfterRenameMachineMessage": "Filled form fields were cleared after trying to rename the folder because the virtual machine folder $prevPathMachines was changed to $currentPathMachines",
+  "clearFormAfterRemoveMachineTitle": "The edit form was cleared after trying to remove the folder",
+  "clearFormAfterRemoveMachineMessage": "Filled form fields were cleared after trying to remove the folder because the virtual machine folder $prevPathMachines was changed to $currentPathMachines",
   "preventLaunchMachineTitle": "Launch of the virtual machine was prevented",
   "preventLaunchMachineMessage": "Launch of the virtual machine was prevented bacause the folder because the virtual machine folder $prevPathMachines was changed to $currentPathMachines",
   "noExistsMachineMessage": "The virtual machine $machineName no longer exists",
