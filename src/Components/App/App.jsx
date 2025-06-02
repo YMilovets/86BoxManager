@@ -1,22 +1,28 @@
+import { useEffect, useReducer, useState } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import PageMain from "../../Pages/PageMain";
 import PageConfig from "../../Pages/PageConfig";
 import PageAddMachine from "../../Pages/PageAddMachine";
-import getDictionary from "../../Shared/Utils/getTransition";
-import { useContext, useEffect, useReducer, useState } from "react";
 import { DictionaryContext, MachineContext } from "./context";
 import { reducerListMachines } from "./reducers";
 import styles from "./App.module.css";
 
 function App() {
   const [configLang, setConfigLang] = useState();
-  const [isEdit, setIsEdit] = useState(false);
   const [isExistFolder, setIsExistFolder] = useState(false);
   
-  const [listMachinesState, dispatch] = useReducer(reducerListMachines, []);
-
-  const { dictionary } = useContext(DictionaryContext);
-  const getTransition = getDictionary(dictionary);
+  const [
+    {
+      machineList: listMachinesState,
+      isEdit,
+      isStartedMachines,
+    },
+    dispatch,
+  ] = useReducer(reducerListMachines, {
+    machineList: [],
+    isEdit: false,
+    isStartedMachines: false,
+  });
 
   const [lang, setLang] = useState(localStorage.getItem("language") ?? "ru");
 
@@ -30,12 +36,17 @@ function App() {
   }, [lang]);
 
   useEffect(() => {
-    electronAPI?.onConfigMachines((resultList) => {
-      dispatch({ type: "writeMachines", payload: resultList });
-    });
+    electronAPI?.onConfigMachines(
+      ({ resultList, activeMachines = new Map() }) => {
+        const rootDirMachines = localStorage.getItem("rootDirMachines");
+        const activeMachinesByFolder =
+          activeMachines.get(rootDirMachines) ?? new Set();
 
-    electronAPI?.onUnlockedConfiguration((unlockedMachineId) =>
-      dispatch({ type: "unlockMachine", payload: unlockedMachineId })
+        dispatch({
+          type: "writeMachines",
+          payload: { resultList, activeMachinesByFolder, activeMachines },
+        });
+      }
     );
   }, []);
 
@@ -53,6 +64,7 @@ function App() {
         isEdit,
         isExistFolder,
         listMachines: listMachinesState,
+        isStartedMachines,
         setStartMachine: (startMachineId) =>
           dispatch({ type: "startMachine", payload: startMachineId }),
         removeMachine: (removeMachineId) =>
@@ -62,8 +74,24 @@ function App() {
             type: "renameMachine",
             payload: { machineName, newMachineName },
           }),
+        unlockMachine: ({
+          isExistFolder,
+          closedMachine,
+          activeMachines,
+          processPathConfiguration,
+        }) =>
+          dispatch({
+            type: "unlockMachine",
+            payload: {
+              isExistFolder,
+              closedMachine,
+              activeMachines,
+              processPathConfiguration,
+            },
+          }),
         getExistFolder,
-        setIsEdit,
+        setIsEdit: (isEditPayload) =>
+          dispatch({ type: "changeStatus", payload: isEditPayload }),
       }}
     >
       <DictionaryContext.Provider
@@ -74,9 +102,6 @@ function App() {
         }}
       >
         <section className={styles.page}>
-          {!electronAPI && (
-            <p role="alert">{getTransition("errorElectronAPI")}</p>
-          )}
           <HashRouter>
             <Routes>
               <Route path="/" element={<PageMain />} />

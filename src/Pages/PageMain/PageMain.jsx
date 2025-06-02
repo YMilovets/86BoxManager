@@ -15,8 +15,14 @@ function PageMain() {
   const { dictionary } = useContext(DictionaryContext);
   const getTransition = getDictionary(dictionary);
 
-  const { isEdit, isExistFolder, listMachines, getExistFolder } =
-    useContext(MachineContext);
+  const {
+    isEdit,
+    isExistFolder,
+    listMachines,
+    unlockMachine,
+    getExistFolder,
+    setIsEdit,
+  } = useContext(MachineContext);
 
   const { electronAPI } = window;
 
@@ -24,9 +30,30 @@ function PageMain() {
 
   useEffect(() => {
     try {
-      const localStorage = getLocalStorage();
-      electronAPI?.getInit(localStorage);
+      const localConfig = getLocalStorage();
+      electronAPI?.getInit(localConfig);
       getExistFolder();
+
+      electronAPI?.onUnlockedConfiguration(
+        async ({
+          machineId: closedMachine,
+          isExistFolder,
+          activeMachines,
+          processPathConfiguration,
+        }) => {
+          getLocalStorage();
+
+          const isCurrentExistFolder = await getExistFolder();
+
+          if (!isCurrentExistFolder) setIsEdit(isCurrentExistFolder);
+          unlockMachine({
+            isExistFolder,
+            closedMachine,
+            activeMachines,
+            processPathConfiguration,
+          });
+        }
+      );
     } catch { /* empty */ }
   }, []);
 
@@ -43,18 +70,23 @@ function PageMain() {
       </header>
 
       <div className={styles.scroll}>
-        {listMachines.length === 0 && isExistFolder && (
+        {electronAPI && listMachines.length === 0 && isExistFolder && (
           <p role="alert" className={styles.alert}>
             {getTransition("emptyList")}
           </p>
         )}
-        {!isExistFolder && (
+        {electronAPI && !isExistFolder && (
           <p role="alert" className={styles.alert}>
             {getTransition("noExistFolder")}
           </p>
         )}
-        {listMachines.length > 0 && isExistFolder && (
+        {electronAPI && listMachines.length > 0 && isExistFolder && (
           <MainMachineItemContainer />
+        )}
+        {!electronAPI && (
+          <p className={styles.alert} role="alert">
+            {getTransition("errorElectronAPI")}
+          </p>
         )}
       </div>
 

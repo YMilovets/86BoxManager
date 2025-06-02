@@ -21,7 +21,7 @@ const lockInstance = App.requestSingleInstanceLock();
 if (!lockInstance) {
   App.quit();
 }
-let isMachineStarted = new Set();
+let activeMachinesByFolder = new Map();
 let mainWindow = null;
 let dictionary = null;
 let isLockProcess = false;
@@ -50,7 +50,12 @@ function main() {
 
   mainWindow.on("close", (e) => {
     const getDictionary = getTransition(dictionary);
-    if (isMachineStarted.size !== 0) {
+    const isExistActiveMachines = Array.from(
+      activeMachinesByFolder,
+      ([, machineValues]) => machineValues
+    ).some((machineList) => machineList.size !== 0);
+    
+    if (isExistActiveMachines) {
       e.preventDefault();
       dialog.showMessageBox({
         type: "info",
@@ -67,17 +72,23 @@ App.on("second-instance", () => {
   return false;
 });
 
+function updateConfiguration(preferences) {
+  if (Object.values(preferences).some((valueConfig) => !valueConfig)) {
+    throw new Error("0x000");
+  }
+  configuration = preferences;
+}
+
 function getHandleInit(e, preferences) {
   const getDictionary = getTransition(dictionary);
-
-  if (Object.values(preferences).some((valueConfig) => !valueConfig)) {
+  try {
+    updateConfiguration(preferences); 
+  } catch (error) {
     new Notification({
       title: getDictionary("firstLaunch"),
       body: getDictionary("firstLaunchMessage"),
     }).show();
-    return;
   }
-  configuration = preferences;
 
   try {
     const listConfigFolders = readdirSync(configuration.pathConfig, {
@@ -85,17 +96,31 @@ function getHandleInit(e, preferences) {
     })
       .filter((d) => d.isDirectory())
       .map((d) => d.name);
-    e.reply("get-config-machines", listConfigFolders);
+    e.reply("get-config-machines", {
+      resultList: listConfigFolders,
+      activeMachines: activeMachinesByFolder,
+    });
   } catch (error) {
-    e.reply("get-config-machines", []);
+    e.reply("get-config-machines", {
+      resultList: [],
+      activeMachines: activeMachinesByFolder,
+    });
   }
 }
 
 async function handleInvokeMachine(e, machineId) {
-  isMachineStarted.add(machineId);
+  const processPathConfiguration = configuration.pathConfig;
+  activeMachinesByFolder.set(
+    processPathConfiguration,
+    new Set([
+      ...Array.from(activeMachinesByFolder.get(processPathConfiguration) ?? []),
+      machineId,
+    ])
+  );
   mainWindow.minimize();
 
   const getDictionary = getTransition(dictionary);
+  getHandleInit(e, configuration);
 
   try {
     const isExistFolder = await getExistFolder(
@@ -124,8 +149,28 @@ async function handleInvokeMachine(e, machineId) {
       message,
     });
   } finally {
-    e.reply("unlocked-machine", machineId);
-    isMachineStarted.delete(machineId);
+    const changedActiveMachines =
+      activeMachinesByFolder.get(processPathConfiguration) ?? new Set();
+    const isDeletedMachine = changedActiveMachines.delete(machineId);
+
+    activeMachinesByFolder.set(
+      processPathConfiguration,
+      new Set(changedActiveMachines)
+    );
+
+    const isExistFolder = await getExistFolder(
+      e,
+      `${configuration.pathConfig}/${machineId}`
+    );
+
+    e.reply("unlocked-machine", {
+      machineId,
+      isExistFolder,
+      processPathConfiguration,
+      activeMachines: activeMachinesByFolder,
+      prevPathConfiguration: configuration.pathConfig,
+      isDeletedMachine,
+    });
     mainWindow?.show();
   }
 }

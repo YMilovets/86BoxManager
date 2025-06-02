@@ -31,20 +31,24 @@ function ControlContainer() {
     } catch { /* empty */ }
   }
 
-  function handleUpdateClick() {
+  async function handleUpdateClick() {
     try {
       const localStorage = getLocalStorage();
       electronAPI?.getInit(localStorage);
-      getExistFolder();  
-    } catch { /* empty */ }
+      const isExistMachine = await getExistFolder();
+      if (!isExistMachine) setIsEdit(false);
+    } catch {
+      /* empty */
+    }
   }
 
-  function handleChangeMode() {
+  async function handleChangeMode() {
     try {
-      setIsEdit(!isEdit);
       const localStorage = getLocalStorage();
       electronAPI?.getInit(localStorage);
-      getExistFolder();
+      const isExistMachine = await getExistFolder();
+      setIsEdit(!isEdit && isExistMachine);
+      if (isEdit) electronAPI?.getInit(localStorage);
     } catch { /* empty */ }
   }
 

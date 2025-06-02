@@ -10,6 +10,7 @@ export const MachineContext = createContext({
   isEdit: false,
   isExistFolder: false,
   listMachines: null,
+  isStartedMachines: false,
   setListMachines: () => {},
   setStartMachine: () => {},
   removeMachine: () => {},

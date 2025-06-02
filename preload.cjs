@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 const { contextBridge, ipcRenderer } = require("electron");
 
+let handleUnlockedMachine = null;
+
 contextBridge.exposeInMainWorld("electronAPI", {
   getInit: (configuration) => ipcRenderer.send("get-init", configuration),
   removeMachine: (machineName) =>
@@ -9,10 +11,16 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke("rename-machine", machineName, newMachineName),
   onConfigMachines: (callback) =>
     ipcRenderer.on("get-config-machines", (_, args) => callback(args)),
-  onUnlockedConfiguration: (callback) =>
-    ipcRenderer.on("unlocked-machine", (_, configurationId) =>
-      callback(configurationId)
-    ),
+  onUnlockedConfiguration: (callback) => {
+    if (handleUnlockedMachine) {
+      handleUnlockedMachine.removeAllListeners("unlocked-machine");
+    }
+    handleUnlockedMachine = ipcRenderer.on(
+      "unlocked-machine",
+      (_, configurationId) => callback(configurationId)
+    );
+    return handleUnlockedMachine;
+  },
   invokeMachine: (machineId) => ipcRenderer.send("invoke-machine", machineId),
   createMachine: (machineName) =>
     ipcRenderer.invoke("create-machine", machineName),
