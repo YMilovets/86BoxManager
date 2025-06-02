@@ -15,6 +15,7 @@ function App() {
     {
       machineList: listMachinesState,
       isEdit,
+      prevPathMachines,
       isStartedMachines,
     },
     dispatch,
@@ -29,7 +30,7 @@ function App() {
   const { electronAPI } = window;
 
   useEffect(() => {
-    electronAPI.changeLanguage(lang ?? "ru").then((langConfig) => {
+    electronAPI?.changeLanguage(lang ?? "ru").then((langConfig) => {
       localStorage.setItem("language", lang);
       setConfigLang(langConfig);
     });
@@ -46,6 +47,7 @@ function App() {
           type: "writeMachines",
           payload: { resultList, activeMachinesByFolder, activeMachines },
         });
+        dispatch({ type: "setPathMachines", payload: rootDirMachines });
       }
     );
   }, []);
@@ -63,6 +65,7 @@ function App() {
       value={{
         isEdit,
         isExistFolder,
+        prevPathMachines,
         listMachines: listMachinesState,
         isStartedMachines,
         setStartMachine: (startMachineId) =>

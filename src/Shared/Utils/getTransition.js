@@ -32,6 +32,11 @@ const dictionary = new Map([
     "noExistFolder",
     "Указанная в настройках директория не существует. Измените настройку каталога местоположения виртуальных машин",
   ],
+  ["preventLaunchMachineTitle", "Запуск виртуальной машины был прерван"],
+  [
+    "preventLaunchMachineMessage",
+    "Поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines, запуск виртуальной машины был прерван",
+  ],
 ]);
 
 let defaultDictionary;

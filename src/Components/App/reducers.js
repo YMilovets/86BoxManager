@@ -1,15 +1,15 @@
 import { mergeActiveWithResultMachines } from "./utils";
 
 export function reducerListMachines(state, { type, payload }) {
-    const reducers = {
+  const reducers = {
     startMachine: (state, payload) => {
       const { machineList: machineListState } = state;
       return {
         ...state,
         machineList:
           machineListState?.map(({ machineId: id, isDisable }) => {
-          if (id === payload) return { machineId: id, isDisable: true };
-          return { machineId: id, isDisable };
+            if (id === payload) return { machineId: id, isDisable: true };
+            return { machineId: id, isDisable };
           }) ?? machineListState,
       };
     },
@@ -19,9 +19,9 @@ export function reducerListMachines(state, { type, payload }) {
         ...state,
         machineList:
           machineListState?.map(({ machineId: id, isDisable }) => {
-          if (id === payload.machineName)
-            return { machineId: payload.newMachineName, isDisable };
-          return { machineId: id, isDisable };
+            if (id === payload.machineName)
+              return { machineId: payload.newMachineName, isDisable };
+            return { machineId: id, isDisable };
           }) ?? machineListState,
       };
     },
@@ -68,7 +68,7 @@ export function reducerListMachines(state, { type, payload }) {
         processActiveMachine?.has(closedMachine) ||
         processPathConfiguration !== currentMachinePath;
 
-          return {
+      return {
         ...state,
         isStartedMachines,
         machineList: state.machineList.reduce(
@@ -96,6 +96,9 @@ export function reducerListMachines(state, { type, payload }) {
     changeStatus: (state, payload) => {
       return { ...state, isEdit: payload };
     },
-    };
-    return reducers[type](state, payload) ?? state;
-  }
+    setPathMachines: (state, payload) => {
+      return { ...state, prevPathMachines: payload };
+    },
+  };
+  return reducers[type](state, payload) ?? state;
+}

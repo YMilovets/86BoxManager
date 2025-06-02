@@ -24,6 +24,8 @@
   "firstLaunch": "Application settings error",
 
   "closeMessage": "Switch off running vitrual machines to close the application",
+  "preventLaunchMachineTitle": "Launch of the virtual machine was prevented",
+  "preventLaunchMachineMessage": "Launch of the virtual machine was prevented bacause the folder because the virtual machine folder $prevPathMachines was changed to $currentPathMachines",
   "noExistsMachineMessage": "The virtual machine $machineName no longer exists",
   "addSuccessMachineTitle": "Add the virtual machine",
   "addSuccessMachineMessage": "The virtual machine $machineName successfully added",

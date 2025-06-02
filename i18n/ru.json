@@ -24,6 +24,8 @@
   "firstLaunch": "Ошибка параметров приложения",
 
   "closeMessage": "Для закрытия окна программы выключите все запущенные виртуальные машины",
+  "preventLaunchMachineTitle": "Запуск виртуальной машины был прерван",
+  "preventLaunchMachineMessage": "Поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines, запуск виртуальной машины был прерван",
   "noExistsMachineMessage": "Виртуальной машины $machineName больше не существует",
   "addSuccessMachineTitle": "Добавление виртуальной машины",
   "addSuccessMachineMessage": "Виртуальная машина $machineName была успешно добавлена",

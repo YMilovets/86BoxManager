@@ -79,6 +79,15 @@ function updateConfiguration(preferences) {
   configuration = preferences;
 }
 
+function compareSavedConfiguration(_, localConfiguration) {
+  const { pathConfig } = localConfiguration;
+  const { pathConfig: currentPathConfig } =
+    configuration;
+  if (pathConfig !== currentPathConfig) {    
+    throw new Error("0x003");
+  }
+}
+
 function getHandleInit(e, preferences) {
   const getDictionary = getTransition(dictionary);
   try {
@@ -441,9 +450,20 @@ async function openFileDialog(_, dialogType) {
   return path;
 }
 
+function getNotification(_, { title, text }) {
+  new Notification({
+    title,
+    body: text,
+  }).show();
+}
+
 ipcMain.on("get-init", getHandleInit);
 
 ipcMain.on("invoke-machine", handleInvokeMachine);
+
+ipcMain.on("get-notification", getNotification);
+
+ipcMain.handle("compare-configuration", compareSavedConfiguration);
 
 ipcMain.handle("create-machine", handleCreateMachine);
 

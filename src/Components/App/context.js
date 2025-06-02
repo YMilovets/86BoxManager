@@ -11,6 +11,7 @@ export const MachineContext = createContext({
   isExistFolder: false,
   listMachines: null,
   isStartedMachines: false,
+  prevPathMachines: undefined,
   setListMachines: () => {},
   setStartMachine: () => {},
   removeMachine: () => {},

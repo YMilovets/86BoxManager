@@ -5,6 +5,8 @@ let handleUnlockedMachine = null;
 
 contextBridge.exposeInMainWorld("electronAPI", {
   getInit: (configuration) => ipcRenderer.send("get-init", configuration),
+  getNotification: (notification) =>
+    ipcRenderer.send("get-notification", notification),
   removeMachine: (machineName) =>
     ipcRenderer.invoke("remove-machine", machineName),
   renameMachine: (machineName, newMachineName) =>
@@ -29,4 +31,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke("exist-folder", checkedFolder),
   openFileDialog: (dialogType) =>
     ipcRenderer.invoke("open-file-dialog", dialogType),
+  compareSavedConfiguration: (preferences) =>
+    ipcRenderer.invoke("compare-configuration", preferences),
 });
