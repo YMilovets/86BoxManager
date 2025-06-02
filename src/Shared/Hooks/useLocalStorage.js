@@ -8,10 +8,13 @@ export default function useLocalStorage() {
       pathConfig: localStorage.getItem("rootDirMachines"),
       pathApp: localStorage.getItem("appPath"),
     };
-    if (Object.values(localConfig).some((valueConfig) => !valueConfig)) {
+    if (
+      electronAPI &&
+      Object.values(localConfig).some((valueConfig) => !valueConfig)
+    ) {
       electronAPI?.getInit(localConfig);
       navigate("/settings");
-      throw new Error('0x001');
+      throw new Error("0x001");
     }
     return localConfig;
   };

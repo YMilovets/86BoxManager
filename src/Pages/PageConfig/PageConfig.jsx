@@ -17,6 +17,7 @@ function PageConfig() {
   const { dictionary, changeLanguage, language } =
     useContext(DictionaryContext);
   const { setIsEdit } = useContext(MachineContext);
+  const { electronAPI } = window;
 
   const getTransition = getDictionary(dictionary);
 
@@ -100,6 +101,11 @@ function PageConfig() {
 
   return (
     <div className={styles.container}>
+      {!electronAPI && (
+        <p className={styles.alert} role="alert">
+          {getTransition("errorElectronAPI")}
+        </p>
+      )}
       <form className={styles.form} onSubmit={handleSubmit}>
         {getDefaultListFormInput(handleChangeInput).map(
           ({ type, id, onChange, btnGroup }) => {
@@ -140,6 +146,7 @@ function PageConfig() {
               [styles.language_btn__selected]: language === "ru",
             })}
             onClick={handleChangeLanguage("ru")}
+            disabled={!electronAPI}
             type="button"
           >
             Русский
@@ -149,6 +156,7 @@ function PageConfig() {
               [styles.language_btn__selected]: language === "en",
             })}
             onClick={handleChangeLanguage("en")}
+            disabled={!electronAPI}
             type="button"
           >
             English

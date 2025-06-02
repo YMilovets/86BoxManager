@@ -15,6 +15,7 @@ function ControlContainer() {
     isExistFolder,
     listMachines,
     prevPathMachines,
+    isStartedMachines,
     getExistFolder,
     isEdit,
     setIsEdit,
@@ -95,11 +96,11 @@ function ControlContainer() {
       </Button>
       <Button
         onClick={() => {
-          if (!listMachines.some(({ isDisable }) => isDisable)) {
-            navigate("/settings");
-          }
+          navigate("/settings");
         }}
-        disabled={listMachines.some(({ isDisable }) => isDisable)}
+        disabled={
+          isStartedMachines && isExistFolder && listMachines.length !== 0
+        }
         data-control
       >
         {getTransition("preference")}

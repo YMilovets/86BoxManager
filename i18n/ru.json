@@ -32,6 +32,8 @@
   "clearFormAfterRemoveMachineMessage": "Заполненные поля формы были очищены при попытке удаления машины, поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines",
   "preventLaunchMachineTitle": "Запуск виртуальной машины был прерван",
   "preventLaunchMachineMessage": "Поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines, запуск виртуальной машины был прерван",
+  "updateMachinesAfterCloseProcessTitle": "Список виртуальных машин был обновлен",
+  "updateMachinesAfterCloseProcessMessage": "Поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines, список виртуальных машин был обновлен",
   "updateListAfterCloseDialogTitle": "Виртуальной машины больше не существует",
   "updateListAfterCloseDialogMessage": "Виртуальной машины $machineName больше не существует, список машин будет обновлен",
   "noExistsMachineMessage": "Виртуальной машины $machineName больше не существует",

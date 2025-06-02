@@ -104,7 +104,7 @@ function getHandleInit(e, preferences) {
       withFileTypes: true,
     })
       .filter((d) => d.isDirectory())
-      .map((d) => d.name);
+      .map((d) => d.name);      
     e.reply("get-config-machines", {
       resultList: listConfigFolders,
       activeMachines: activeMachinesByFolder,
@@ -160,7 +160,7 @@ async function handleInvokeMachine(e, machineId) {
   } finally {
     const changedActiveMachines =
       activeMachinesByFolder.get(processPathConfiguration) ?? new Set();
-    const isDeletedMachine = changedActiveMachines.delete(machineId);
+    changedActiveMachines.delete(machineId);
 
     activeMachinesByFolder.set(
       processPathConfiguration,
@@ -178,7 +178,10 @@ async function handleInvokeMachine(e, machineId) {
       processPathConfiguration,
       activeMachines: activeMachinesByFolder,
       prevPathConfiguration: configuration.pathConfig,
-      isDeletedMachine,
+      message: {
+        title: getDictionary("updateMachinesAfterCloseProcessTitle"),
+        text: getDictionary("updateMachinesAfterCloseProcessMessage"),
+      },
     });
     mainWindow?.show();
   }
@@ -204,11 +207,11 @@ async function handleCreateMachine(_, machineName) {
 
 async function removeMachine(_, machineName) {
   const getDictionary = getTransition(dictionary);
-    if (isLockProcess) {
+  if (isLockProcess) {
     return new Error("0x000");
-    }
+  }
 
-    isLockProcess = true;
+  isLockProcess = true;
   if (!existsSync(join(configuration.pathConfig, machineName))) {
     new Notification({
       title: getDictionary("removeErrorNonExistMachineTitle", (result) =>
@@ -222,15 +225,15 @@ async function removeMachine(_, machineName) {
     throw new Error("0x001");
   }
 
-    const { response: exitCode } = await dialog.showMessageBox(mainWindow, {
-      type: "question",
-      title: getDictionary("removeConfirmMachineTitle"),
-      message: getDictionary("removeConfirmMachineMessage", (result) =>
-        result.replace("$machineName", machineName)
-      ),
-      buttons: fixLocalizationButton(getDictionary("no"), getDictionary("yes")),
-      isModal: true,
-    });
+  const { response: exitCode } = await dialog.showMessageBox(mainWindow, {
+    type: "question",
+    title: getDictionary("removeConfirmMachineTitle"),
+    message: getDictionary("removeConfirmMachineMessage", (result) =>
+      result.replace("$machineName", machineName)
+    ),
+    buttons: fixLocalizationButton(getDictionary("no"), getDictionary("yes")),
+    isModal: true,
+  });
 
   const isExistFolder = await getExistFolder(_, configuration.pathConfig);
 
@@ -524,6 +527,14 @@ function getTransition(dictionary = null) {
     [
       "renameErrorPathMachineMessage",
       "Не удалось переименовать виртуальную машину $machineName, поскольку не существует директории виртуальных машин $pathMachines",
+    ],
+    [
+      "updateMachinesAfterCloseProcessTitle",
+      "Список виртуальных машин был обновлен",
+    ],
+    [
+      "updateMachinesAfterCloseProcessMessage",
+      "Поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines, список виртуальных машин был обновлен",
     ],
   ]);
   return (dictionaryKey, renderDict = (result) => result) => {

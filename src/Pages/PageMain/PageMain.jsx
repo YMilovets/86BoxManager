@@ -40,12 +40,32 @@ function PageMain() {
           isExistFolder,
           activeMachines,
           processPathConfiguration,
+          prevPathConfiguration,
+          message: { text, title },
         }) => {
-          getLocalStorage();
+          const localConfig = getLocalStorage();
 
           const isCurrentExistFolder = await getExistFolder();
 
           if (!isCurrentExistFolder) setIsEdit(isCurrentExistFolder);
+
+          const isChangedPrevPathConfig =
+            prevPathConfiguration !== localConfig.pathConfig;
+
+          if (isCurrentExistFolder && isChangedPrevPathConfig) {
+            electronAPI?.getNotification({
+              title,
+              text: text
+                .replace("$prevPathMachines", prevPathConfiguration)
+                .replace("$currentPathMachines", localConfig.pathConfig),
+            });
+          }
+
+          if (isChangedPrevPathConfig) {
+            electronAPI?.getInit(localConfig);
+            return;
+          }
+
           unlockMachine({
             isExistFolder,
             closedMachine,
