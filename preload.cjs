@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const { contextBridge, ipcRenderer } = require("electron");
 
 let handleUnlockedMachine = null;

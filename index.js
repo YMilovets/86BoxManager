@@ -204,11 +204,24 @@ async function handleCreateMachine(_, machineName) {
 
 async function removeMachine(_, machineName) {
   const getDictionary = getTransition(dictionary);
-  try {
     if (isLockProcess) {
-      return new Error('0x000');
+    return new Error("0x000");
     }
+
     isLockProcess = true;
+  if (!existsSync(join(configuration.pathConfig, machineName))) {
+    new Notification({
+      title: getDictionary("removeErrorNonExistMachineTitle", (result) =>
+        result.replace("$machineName", machineName)
+      ),
+      body: getDictionary("removeErrorNonExistMachineMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
+    }).show();
+    isLockProcess = false;
+    throw new Error("0x001");
+  }
+
     const { response: exitCode } = await dialog.showMessageBox(mainWindow, {
       type: "question",
       title: getDictionary("removeConfirmMachineTitle"),
@@ -218,6 +231,46 @@ async function removeMachine(_, machineName) {
       buttons: fixLocalizationButton(getDictionary("no"), getDictionary("yes")),
       isModal: true,
     });
+
+  const isExistFolder = await getExistFolder(_, configuration.pathConfig);
+
+  if (
+    !exitCode &&
+    !existsSync(join(configuration.pathConfig, machineName)) &&
+    !isExistFolder
+  ) {
+    isLockProcess = false;
+    throw new Error("0x001");
+  }
+
+  if (!exitCode && !existsSync(join(configuration.pathConfig, machineName))) {
+    new Notification({
+      title: getDictionary("updateListAfterCloseDialogTitle"),
+      body: getDictionary("updateListAfterCloseDialogMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
+    }).show();
+    isLockProcess = false;
+    throw new Error("0x001");
+  }
+
+  if (exitCode && !isExistFolder) {
+    new Notification({
+      title: getDictionary("removeErrorPathMachineTitle"),
+      body: getDictionary("removeErrorPathMachineMessage", (result) =>
+        result
+          .replace("$machineName", machineName)
+          .replace("$pathMachines", configuration.pathConfig)
+      ),
+    }).show();
+    isLockProcess = false;
+    throw new Error("0x001");
+  }
+
+  try {
+    if (exitCode && !existsSync(join(configuration.pathConfig, machineName))) {
+      throw new Error("0x001");
+    }
     if (exitCode) {
       rmSync(join(configuration.pathConfig, machineName), {
         recursive: true,
@@ -232,6 +285,7 @@ async function removeMachine(_, machineName) {
       isLockProcess = false;
       return new Promise((resolve) => resolve({ machineName }));
     }
+
     isLockProcess = false;
     return new Promise((resolve) => resolve({ machineName: null }));
   } catch (error) {
@@ -242,7 +296,8 @@ async function removeMachine(_, machineName) {
       ),
     }).show();
     isLockProcess = false;
-    return new Promise((resolve) => resolve({ machineName: null }));
+
+    throw error;
   }
 }
 
@@ -282,9 +337,27 @@ async function renameMachine(
     isModal: true,
   });
 
+  const isExistFolder = await getExistFolder(_, configuration.pathConfig);
+
+  if (
+    !exitCode &&
+    !existsSync(join(configuration.pathConfig, machineName)) &&
+    !isExistFolder
+  ) {
+    isLockProcess = false;
+    mainWindow.setIgnoreMouseEvents(false);
+    throw new Error("0x001");
+  }
+
   if (!exitCode && !existsSync(join(configuration.pathConfig, machineName))) {
     isLockProcess = false;
     mainWindow.setIgnoreMouseEvents(false);
+    new Notification({
+      title: getDictionary("updateListAfterCloseDialogTitle"),
+      body: getDictionary("updateListAfterCloseDialogMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
+    }).show();
     throw new Error("0x001");
   }
 
@@ -292,6 +365,20 @@ async function renameMachine(
     isLockProcess = false;
     mainWindow.setIgnoreMouseEvents(false);
     return new Promise((resolve) => resolve({ machineName: null }));
+  }
+
+  if (exitCode && !isExistFolder) {
+    new Notification({
+      title: getDictionary("renameErrorPathMachineTitle"),
+      body: getDictionary("renameErrorPathMachineMessage", (result) =>
+        result
+          .replace("$machineName", machineName)
+          .replace("$pathMachines", configuration.pathConfig)
+      ),
+    }).show();
+    isLockProcess = false;
+    mainWindow.setIgnoreMouseEvents(false);
+    throw new Error("0x001");
   }
 
   try {
@@ -407,6 +494,36 @@ function getTransition(dictionary = null) {
     [
       "firstLaunchMessage",
       "Произведен первый запуск программы 86BoxManager, или настройки были сброшены. Пожалуйста, настройте каталог размещения виртуальных машин и расположение программы 86Box",
+    ],
+    [
+      "failLaunchApp",
+      "Указанный в настройках путь к приложению 86Box не существует. Измените настройки приложения",
+    ],
+    [
+      "removeErrorNonExistMachineTitle",
+      "Не удалось удалить виртуальную машину $machineName",
+    ],
+    [
+      "removeErrorNonExistMachineMessage",
+      "Виртуальной машины $machineName больше не существует. Удаление машины было прервано, список машин будет обновлен",
+    ],
+    [
+      "updateListAfterCloseDialogTitle",
+      "Виртуальной машины больше не существует",
+    ],
+    [
+      "updateListAfterCloseDialogMessage",
+      "Виртуальной машины $machineName больше не существует, список машин будет обновлен",
+    ],
+    ["removeErrorPathMachineTitle", "Ошибка удаления вирутальной машины"],
+    [
+      "removeErrorPathMachineMessage",
+      "Не удалось удалить виртуальную машину $machineName, поскольку не существует директории виртуальных машин $pathMachines",
+    ],
+    ["renameErrorPathMachineTitle", "Ошибка переименования виртуальной машины"],
+    [
+      "renameErrorPathMachineMessage",
+      "Не удалось переименовать виртуальную машину $machineName, поскольку не существует директории виртуальных машин $pathMachines",
     ],
   ]);
   return (dictionaryKey, renderDict = (result) => result) => {

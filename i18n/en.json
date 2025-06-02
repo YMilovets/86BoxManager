@@ -32,6 +32,8 @@
   "clearFormAfterRemoveMachineMessage": "Filled form fields were cleared after trying to remove the folder because the virtual machine folder $prevPathMachines was changed to $currentPathMachines",
   "preventLaunchMachineTitle": "Launch of the virtual machine was prevented",
   "preventLaunchMachineMessage": "Launch of the virtual machine was prevented bacause the folder because the virtual machine folder $prevPathMachines was changed to $currentPathMachines",
+  "updateListAfterCloseDialogTitle": "The virtual machine no longer exists",
+  "updateListAfterCloseDialogMessage": "The virtual machine $machineName no longer exists, the machine list was updated",
   "noExistsMachineMessage": "The virtual machine $machineName no longer exists",
   "addSuccessMachineTitle": "Add the virtual machine",
   "addSuccessMachineMessage": "The virtual machine $machineName successfully added",
@@ -41,6 +43,10 @@
   "removeSuccessMachineMessage": "The virtual machine $machineName successfully removed",
   "removeErrorMachineTitle": "Error deleting the virtual machine",
   "removeErrorMachineMessage": "Failed to remove the virtual machine $machineName",
+  "removeErrorPathMachineTitle": "Error deleting the virtual machine",
+  "removeErrorPathMachineMessage": "Error deleting the $machineName virtual machine because the virtual machine folder $pathMachines no longer exists",
+  "renameErrorPathMachineTitle": "Error renaming the virtual machine",
+  "renameErrorPathMachineMessage": "Error renaming the $machineName virtual machine because the virtual machine folder $pathMachines no longer exists",
   "changeConfirmMachineTitle": "Rename the virtual machine",
   "changeConfirmMachineMessage": "Do you really want to rename title of the virtual machine $machineName to $newMachineName?",
   "changeSuccessMachineTitle": "Successful renaming the virtual machine",
@@ -50,8 +56,11 @@
   "changeErrorExistMachineMessage": "The virtual machine $machineName already existed. Enter new name",
   "changeErrorNonExistMachineTitle": "Failed to rename the virtual machine $machineName",
   "changeErrorNonExistMachineMessage": "The virtual machine $machineName no longer exists. Renaming of machine was prevented, the machine list was updated",
+  "removeErrorNonExistMachineTitle": "Failed to remove the virtual machine $machineName",
+  "removeErrorNonExistMachineMessage": "The virtual machine $machineName no longer exists. Removing of machine was prevented, the machine list was updated",
 
   "noExistFolder": "There is no specific directory. Change a preference of the location of virtual machines",
 
-  "firstLaunchMessage": "The first start was completed by the 86BoxManager application or settings were reset. Please configure your an location directory of the virtual machine and 86Box executable file"
+  "firstLaunchMessage": "The first start was completed by the 86BoxManager application or settings were reset. Please configure your an location directory of the virtual machine and 86Box executable file",
+  "failLaunchApp": "The specified path from 86Box application does not exist. Change settings application"
 }

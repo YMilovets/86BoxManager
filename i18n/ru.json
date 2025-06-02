@@ -32,6 +32,8 @@
   "clearFormAfterRemoveMachineMessage": "Заполненные поля формы были очищены при попытке удаления машины, поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines",
   "preventLaunchMachineTitle": "Запуск виртуальной машины был прерван",
   "preventLaunchMachineMessage": "Поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines, запуск виртуальной машины был прерван",
+  "updateListAfterCloseDialogTitle": "Виртуальной машины больше не существует",
+  "updateListAfterCloseDialogMessage": "Виртуальной машины $machineName больше не существует, список машин будет обновлен",
   "noExistsMachineMessage": "Виртуальной машины $machineName больше не существует",
   "addSuccessMachineTitle": "Добавление виртуальной машины",
   "addSuccessMachineMessage": "Виртуальная машина $machineName была успешно добавлена",
@@ -41,6 +43,10 @@
   "removeSuccessMachineMessage": "Виртуальная машина $machineName успешно удалена",
   "removeErrorMachineTitle": "Ошибка удаления вирутальной машины",
   "removeErrorMachineMessage": "Не удалось удалить виртуальную машину $machineName",
+  "removeErrorPathMachineTitle": "Ошибка удаления вирутальной машины",
+  "removeErrorPathMachineMessage": "Не удалось удалить виртуальную машину $machineName, поскольку не существует директории виртуальных машин $pathMachines",
+  "renameErrorPathMachineTitle": "Ошибка переименования виртуальной машины",
+  "renameErrorPathMachineMessage": "Не удалось переименовать виртуальную машину $machineName, поскольку не существует директории виртуальных машин $pathMachines",
   "changeConfirmMachineTitle": "Изменить имя виртуальной машины",
   "changeConfirmMachineMessage": "Вы действительно хотите переименовать название машины $machineName на $newMachineName?",
   "changeSuccessMachineTitle": "Успешное переименование",
@@ -50,8 +56,11 @@
   "changeErrorExistMachineMessage": "Виртуальная машина $machineName уже существует. Придумайте новое название",
   "changeErrorNonExistMachineTitle": "Не удалось переименовать виртуальную машину $machineName",
   "changeErrorNonExistMachineMessage": "Виртуальной машины $machineName больше не существует. Переименование машины было прервано, список машин будет обновлен",
+  "removeErrorNonExistMachineTitle": "Не удалось удалить виртуальную машину $machineName",
+  "removeErrorNonExistMachineMessage": "Виртуальной машины $machineName больше не существует. Удаление машины было прервано, список машин будет обновлен",
 
   "noExistFolder": "Указанная в настройках директория не существует. Измените настройку каталога местоположения виртуальных машин",
 
-  "firstLaunchMessage": "Произведен первый запуск программы 86BoxManager, или настройки были сброшены. Пожалуйста, настройте каталог размещения виртуальных машин и расположение программы 86Box"
+  "firstLaunchMessage": "Произведен первый запуск программы 86BoxManager, или настройки были сброшены. Пожалуйста, настройте каталог размещения виртуальных машин и расположение программы 86Box",
+  "failLaunchApp": "Указанный в настройках путь к приложению 86Box не существует. Измените настройки приложения"
 }
