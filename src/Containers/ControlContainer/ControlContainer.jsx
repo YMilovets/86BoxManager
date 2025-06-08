@@ -106,6 +106,9 @@ function ControlContainer() {
       >
         {getTransition("preference")}
       </Button>
+      <Button onClick={() => electronAPI?.getVersion()} data-control>
+        {getTransition("aboutBtn")}
+      </Button>
       <div className={styles.language}>
         <Button
           className={styles.language_btn}

@@ -22,6 +22,11 @@
   "configFolder": "The location of virtual machines folder",
   "changeLanguage": "Change language",
   "firstLaunch": "Application settings error",
+  "about": "About 86BoxManager application",
+  "aboutBtn": "About",
+  "description": "86BoxManager is an application to create and manage preferences of some 86Box virtual machines.",
+  "version": "Version",
+  "copyright": "All right reserved!",
   "selectedFolder": "Selected folder",
 
   "closeMessage": "Switch off running vitrual machines to close the application",

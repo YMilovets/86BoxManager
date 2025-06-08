@@ -4,6 +4,7 @@ import { useContext, useState, useCallback } from "react";
 
 import getDictionary from "../../Shared/Utils/getTransition";
 import { LanguageList } from "../../Shared/Constants";
+import MessageContainer from "../../Containers/MessageContainer";
 import { DictionaryContext, MachineContext } from "../../Components/App/context";
 
 import { getDefaultListFormInput } from "./utils";
@@ -128,6 +129,7 @@ function PageConfig() {
             );
           }
         )}
+        <MessageContainer />
         <div className={styles.control}>
           <Button isPrimary disabled={!window.electronAPI} type="submit">
             {getTransition("save")}

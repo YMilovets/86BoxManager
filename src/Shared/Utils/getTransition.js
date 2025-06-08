@@ -23,6 +23,7 @@ const dictionary = new Map([
   ["emptyList", "В выбранном каталоге отсутствуют директории"],
   ["destinationAppFolder", "Расположение исполняемого файла программы 86Box"],
   ["configFolder", "Местоположение каталога настроек виртуальных машин"],
+  ["aboutBtn", "О приложении"],
   ["selectedFolder", "Выбранная папка"],
   [
     "errorDestinationAppFolder",
