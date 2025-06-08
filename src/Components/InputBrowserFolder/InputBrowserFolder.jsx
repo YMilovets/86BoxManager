@@ -42,6 +42,7 @@ function InputBrowserFolder({
           onChange={handleChange}
           value={inputValue}
           onClick={onInputClick}
+          className={styles.input}
         />
         {!!btnGroup && (
           <Button onClick={onClick} title={btnLabel} type="button">

@@ -2,9 +2,9 @@
     font-size: 16px;
     display: grid;
     grid-template-columns: minmax(9.4375em, 1fr) 10.125rem;
-    grid-template-rows: max-content;
+    grid-template-rows: max-content minmax(0, 1fr);
     gap: .75em 1em;
-    height: calc(100vh - 3em);
+    margin: 1.5em 1.5em 0;
 }
 
 .list {
@@ -92,4 +92,26 @@
 
 .alert {
     margin: 0;
+}
+
+.footer {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: .6em 1.2em;
+    font-size: 14px;
+    font-family: inherit;
+    background-color: #f9f9f9;
+    transition: border-color 0.25s;
+    user-select: none;
+    margin: 0 0.5em 0.5em;
+}
+
+.root {
+    display: grid;
+    grid-template-rows: calc(100vh - 3.75em) max-content;
+    gap: 0.75em;
+}
+
+.legend {
+    font-weight: 500;
 }

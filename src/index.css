@@ -28,6 +28,10 @@ h1 {
   line-height: 1.1;
 }
 
+:focus-visible {
+  outline: #535bf2 auto 1px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

@@ -1,9 +1,12 @@
 .unit {
     display: grid;
-    grid-template-columns: minmax(0, 500px);
 }
 
 .group {
     display: flex;
     gap: 0.75em;
+}
+
+.input {
+    flex: 1;
 }

@@ -22,6 +22,7 @@
   "configFolder": "The location of virtual machines folder",
   "changeLanguage": "Change language",
   "firstLaunch": "Application settings error",
+  "selectedFolder": "Selected folder",
 
   "closeMessage": "Switch off running vitrual machines to close the application",
   "clearFormAfterUpdateTitle": "The edit form was cleared after updating the list",

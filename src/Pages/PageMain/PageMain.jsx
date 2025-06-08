@@ -82,36 +82,44 @@ function PageMain() {
     : MachineItemEditContainer;
 
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        <h3 className={styles.label}>
-          {getTransition("list")} {isEdit && getTransition("editMode")}
-        </h3>
-      </header>
+    <main className={styles.root}>
+      <div className={styles.container}>
+        <header className={styles.header}>
+          <h3 className={styles.label}>
+            {getTransition("list")} {isEdit && getTransition("editMode")}
+          </h3>
+        </header>
 
-      <div className={styles.scroll}>
-        {electronAPI && listMachines.length === 0 && isExistFolder && (
-          <p role="alert" className={styles.alert}>
-            {getTransition("emptyList")}
-          </p>
-        )}
-        {electronAPI && !isExistFolder && (
-          <p role="alert" className={styles.alert}>
-            {getTransition("noExistFolder")}
-          </p>
-        )}
-        {electronAPI && listMachines.length > 0 && isExistFolder && (
-          <MainMachineItemContainer />
-        )}
-        {!electronAPI && (
-          <p className={styles.alert} role="alert">
-            {getTransition("errorElectronAPI")}
-          </p>
-        )}
+        <div className={styles.scroll}>
+          {electronAPI && listMachines.length === 0 && isExistFolder && (
+            <p role="alert" className={styles.alert}>
+              {getTransition("emptyList")}
+            </p>
+          )}
+          {electronAPI && !isExistFolder && (
+            <p role="alert" className={styles.alert}>
+              {getTransition("noExistFolder")}
+            </p>
+          )}
+          {electronAPI && listMachines.length > 0 && isExistFolder && (
+            <MainMachineItemContainer />
+          )}
+          {!electronAPI && (
+            <p className={styles.alert} role="alert">
+              {getTransition("errorElectronAPI")}
+            </p>
+          )}
+        </div>
+
+        <ControlContainer />
       </div>
-
-      <ControlContainer />
-    </div>
+      <footer className={styles.footer}>
+        <strong className={styles.legend}>
+          {getTransition("selectedFolder")}
+        </strong>
+        : {getLocalStorage().pathConfig}
+      </footer>
+    </main>
   );
 }
 

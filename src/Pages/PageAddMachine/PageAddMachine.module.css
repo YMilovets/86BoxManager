@@ -7,9 +7,9 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 1em;
+    margin: 1.5em;
 }
 
 .form_machine_name {
     display: grid;
-    grid-template-columns: minmax(0, 500px);
 }
