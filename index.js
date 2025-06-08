@@ -1,5 +1,6 @@
 import { ipcMain, app as App, dialog, Notification } from "electron";
 import { join } from "path";
+import { platform } from "os";
 
 import { Window } from "./lib/Window.js";
 import {
@@ -584,6 +585,9 @@ function getNotification(_, { title, text }) {
     body: text,
   }).show();
 }
+function getOSPlatform() {
+  return platform();
+}
 
 ipcMain.on("get-init", getHandleInit);
 
@@ -604,3 +608,5 @@ ipcMain.handle("rename-machine", renameMachine);
 ipcMain.handle("exist-folder", getExistFolder);
 
 ipcMain.handle("open-file-dialog", openFileDialog);
+
+ipcMain.handle("get-platform", getOSPlatform);
