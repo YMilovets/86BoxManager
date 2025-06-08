@@ -32,4 +32,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke("open-file-dialog", dialogType),
   compareSavedConfiguration: (preferences) =>
     ipcRenderer.invoke("compare-configuration", preferences),
+  getOSPlatform: () => ipcRenderer.invoke("get-platform"),
 });

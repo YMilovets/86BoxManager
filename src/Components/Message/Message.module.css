@@ -1,0 +1,7 @@
+.message {
+    background: rgba(100, 108, 255, .15);
+    font-size: 0.929em;
+    font-family: inherit;
+    padding: .6em 1.2em;
+    border-radius: 0.5rem;
+}

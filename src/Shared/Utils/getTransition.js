@@ -62,6 +62,14 @@ const dictionary = new Map([
     "preventLaunchMachineMessage",
     "Поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines, запуск виртуальной машины был прерван",
   ],
+  [
+    "destinationWindowsMessage",
+    `Чтобы настроить расположение исполняемого файла программы 86Box, нужно скачать архив с программой виртуальных машин 86Box по ссылке $downloadURL, распаковать в любую директорию и выбрать файл 86Box.exe в Windows.`,
+  ],
+  [
+    "destinationLinuxMessage",
+    "Ознакомьтесь с инструкцией по ссылке $instructionURL для установки в систему Debian программы виртуальных машин 86Box. Затем просто укажите команду 86Box в настройку расположения исполняемого файла программы 86Box.",
+  ],
 ]);
 
 let defaultDictionary;
