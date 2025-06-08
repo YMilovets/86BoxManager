@@ -5,6 +5,7 @@ import PageConfig from "../../Pages/PageConfig";
 import PageAddMachine from "../../Pages/PageAddMachine";
 import { DictionaryContext, MachineContext } from "./context";
 import { reducerListMachines } from "./reducers";
+import { LanguageList } from "../../Shared/Constants";
 import styles from "./App.module.css";
 
 function App() {
@@ -25,12 +26,14 @@ function App() {
     isStartedMachines: false,
   });
 
-  const [lang, setLang] = useState(localStorage.getItem("language") ?? "ru");
+  const [lang, setLang] = useState(
+    localStorage.getItem("language") ?? LanguageList.RU
+  );
 
   const { electronAPI } = window;
 
   useEffect(() => {
-    electronAPI?.changeLanguage(lang ?? "ru").then((langConfig) => {
+    electronAPI?.changeLanguage(lang ?? LanguageList.RU).then((langConfig) => {
       localStorage.setItem("language", lang);
       setConfigLang(langConfig);
     });

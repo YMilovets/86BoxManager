@@ -1,10 +1,11 @@
 import { createContext } from "react";
+import { LanguageList } from "../../Shared/Constants";
 
 export const DictionaryContext = createContext({
-    dictionary: null,
-    language: "ru",
-    changeLanguage: () => {},
-})
+  dictionary: null,
+  language: LanguageList.RU,
+  changeLanguage: () => {},
+});
 
 export const MachineContext = createContext({
   isEdit: false,

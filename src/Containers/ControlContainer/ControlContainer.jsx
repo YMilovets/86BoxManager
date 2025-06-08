@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
 import { DictionaryContext, MachineContext } from "../../Components/App/context";
 
+import { LanguageList } from "../../Shared/Constants";
 import getDictionary from "../../Shared/Utils/getTransition";
 import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
 
@@ -108,8 +109,8 @@ function ControlContainer() {
       <div className={styles.language}>
         <Button
           className={styles.language_btn}
-          onClick={() => changeLanguage("ru")}
-          isPrimary={language === "ru"}
+          onClick={() => changeLanguage(LanguageList.RU)}
+          isPrimary={language === LanguageList.RU}
           disabled={!electronAPI}
           data-control
         >
@@ -117,8 +118,8 @@ function ControlContainer() {
         </Button>
         <Button
           className={styles.language_btn}
-          onClick={() => changeLanguage("en")}
-          isPrimary={language === "en"}
+          onClick={() => changeLanguage(LanguageList.EN)}
+          isPrimary={language === LanguageList.EN}
           disabled={!electronAPI}
           data-control
         >

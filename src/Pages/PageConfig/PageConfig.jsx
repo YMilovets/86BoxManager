@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useState, useCallback } from "react";
 
 import getDictionary from "../../Shared/Utils/getTransition";
+import { LanguageList } from "../../Shared/Constants";
 import { DictionaryContext, MachineContext } from "../../Components/App/context";
 
 import { getDefaultListFormInput } from "./utils";
@@ -112,7 +113,10 @@ function PageConfig() {
             const { type: dialogType } = btnGroup;
             return (
               <InputBrowserFolder
-                btnGroup={{ type: dialogType, label: getTransition("choose") }}
+                btnGroup={{
+                  type: dialogType,
+                  label: getTransition("choose"),
+                }}
                 id={id}
                 label={getTransition(id)}
                 onChange={onChange}
@@ -143,9 +147,9 @@ function PageConfig() {
         <div className={styles.language}>
           <Button
             className={clsx(styles.language_btn, {
-              [styles.language_btn__selected]: language === "ru",
+              [styles.language_btn__selected]: language === LanguageList.RU,
             })}
-            onClick={handleChangeLanguage("ru")}
+            onClick={handleChangeLanguage(LanguageList.RU)}
             disabled={!electronAPI}
             type="button"
           >
@@ -153,9 +157,9 @@ function PageConfig() {
           </Button>
           <Button
             className={clsx(styles.language_btn, {
-              [styles.language_btn__selected]: language === "en",
+              [styles.language_btn__selected]: language === LanguageList.EN,
             })}
-            onClick={handleChangeLanguage("en")}
+            onClick={handleChangeLanguage(LanguageList.EN)}
             disabled={!electronAPI}
             type="button"
           >
