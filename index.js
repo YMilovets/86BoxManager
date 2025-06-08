@@ -1,6 +1,6 @@
-import { ipcMain, app as App, dialog, Notification } from "electron";
+import { ipcMain, app as App, dialog, Notification, shell } from "electron";
 import { join } from "path";
-import { platform } from "os";
+import { release, type, platform } from "os";
 
 import { Window } from "./lib/Window.js";
 import {
@@ -18,6 +18,7 @@ import { promisify } from "util";
 const execAsync = promisify(exec);
 
 const ROOT_DIR = `${App.getPath("home")}//.86Box`;
+const RELEASE_YEAR = 2025;
 const lockInstance = App.requestSingleInstanceLock();
 if (!lockInstance) {
   App.quit();
@@ -439,6 +440,13 @@ function getTransition(dictionary = null) {
   const defaultDictionary = new Map([
     ["yes", "Да"],
     ["no", "Нет"],
+    ["version", "Версия программы"],
+    ["about", "О приложении 86BoxManager"],
+    [
+      "description",
+      "86BoxManager - приложение для создания и управления настройками виртуальных машин 86Box.",
+    ],
+    ["copyright", "Все права защищены"],
     [
       "closeMessage",
       "Для закрытия окна программы выключите все запущенные виртуальные машины",
@@ -585,6 +593,44 @@ function getNotification(_, { title, text }) {
     body: text,
   }).show();
 }
+
+async function getAppVersion() {
+  const getDictionary = getTransition(dictionary);
+
+  const versionList = {
+    version: App.getVersion(),
+    Electron: globalThis.process.versions.electron,
+    Chrome: globalThis.process.versions.chrome,
+    Node: globalThis.process.versions.node,
+    OS: `${type} ${release}`,
+  };
+
+  const description = `${getDictionary("description")}\n`;
+
+  const versionText = Object.entries(versionList)
+    .map(([name, version]) => `${getDictionary(name)}: ${version}`)
+    .join("\n");
+
+  const currentYear = new Date().getFullYear();
+
+  const copyright = `\nYMilovets, 2025${`${
+    currentYear !== RELEASE_YEAR ? ` — ${currentYear}` : ""
+  }`}.\n${getDictionary("copyright")}`;
+
+  const message = [description, versionText, copyright].join("\n");
+
+  dialog.showMessageBox(mainWindow, {
+    message,
+    title: getDictionary("about"),
+    buttons: fixLocalizationButton("OK"),
+    type: "info",
+  });
+}
+
+function openURL(_, url) {
+  shell.openExternal(url);
+}
+
 function getOSPlatform() {
   return platform();
 }
@@ -594,6 +640,10 @@ ipcMain.on("get-init", getHandleInit);
 ipcMain.on("invoke-machine", handleInvokeMachine);
 
 ipcMain.on("get-notification", getNotification);
+
+ipcMain.on("get-version", getAppVersion);
+
+ipcMain.on("open-url", openURL);
 
 ipcMain.handle("compare-configuration", compareSavedConfiguration);
 
