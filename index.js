@@ -56,7 +56,7 @@ function main() {
       activeMachinesByFolder,
       ([, machineValues]) => machineValues
     ).some((machineList) => machineList.size !== 0);
-    
+
     if (isExistActiveMachines) {
       e.preventDefault();
       dialog.showMessageBox({
@@ -64,6 +64,12 @@ function main() {
         buttons: fixLocalizationButton("OK"),
         message: getDictionary("closeMessage"),
       });
+    }
+  });
+
+  mainWindow.webContents.on("before-input-event", (e, { key }) => {
+    if (key === "Tab" && isLockProcess) {
+      e.preventDefault();
     }
   });
 }
@@ -209,12 +215,16 @@ async function handleCreateMachine(_, machineName) {
 
 async function removeMachine(_, machineName) {
   const getDictionary = getTransition(dictionary);
+  const isExistMachineFolder = existsSync(
+    join(configuration.pathConfig, machineName)
+  );
+
   if (isLockProcess) {
     return new Error("0x000");
   }
 
   isLockProcess = true;
-  if (!existsSync(join(configuration.pathConfig, machineName))) {
+  if (!isExistMachineFolder) {
     new Notification({
       title: getDictionary("removeErrorNonExistMachineTitle", (result) =>
         result.replace("$machineName", machineName)
@@ -239,16 +249,12 @@ async function removeMachine(_, machineName) {
 
   const isExistFolder = await getExistFolder(_, configuration.pathConfig);
 
-  if (
-    !exitCode &&
-    !existsSync(join(configuration.pathConfig, machineName)) &&
-    !isExistFolder
-  ) {
+  if (!exitCode && !isExistMachineFolder && !isExistFolder) {
     isLockProcess = false;
     throw new Error("0x001");
   }
 
-  if (!exitCode && !existsSync(join(configuration.pathConfig, machineName))) {
+  if (!exitCode && !isExistMachineFolder) {
     new Notification({
       title: getDictionary("updateListAfterCloseDialogTitle"),
       body: getDictionary("updateListAfterCloseDialogMessage", (result) =>
@@ -273,7 +279,7 @@ async function removeMachine(_, machineName) {
   }
 
   try {
-    if (exitCode && !existsSync(join(configuration.pathConfig, machineName))) {
+    if (exitCode && !isExistMachineFolder) {
       throw new Error("0x001");
     }
     if (exitCode) {
@@ -312,11 +318,18 @@ async function renameMachine(
   newMachineName,
 ) {
   const getDictionary = getTransition(dictionary);
+  const isExistMachineFolder = existsSync(
+    join(configuration.pathConfig, machineName)
+  );
+  const isExistProcessMachineFolder = existsSync(
+    join(configuration.pathConfig, newMachineName)
+  );
+
   if (isLockProcess) {
     return new Error("0x000");
   }
 
-  if (!existsSync(join(configuration.pathConfig, machineName))) {
+  if (!isExistMachineFolder) {
     new Notification({
       title: getDictionary("changeErrorNonExistMachineTitle", (result) =>
         result.replace("$machineName", machineName)
@@ -344,17 +357,13 @@ async function renameMachine(
 
   const isExistFolder = await getExistFolder(_, configuration.pathConfig);
 
-  if (
-    !exitCode &&
-    !existsSync(join(configuration.pathConfig, machineName)) &&
-    !isExistFolder
-  ) {
+  if (!exitCode && !isExistMachineFolder && !isExistFolder) {
     isLockProcess = false;
     mainWindow.setIgnoreMouseEvents(false);
     throw new Error("0x001");
   }
 
-  if (!exitCode && !existsSync(join(configuration.pathConfig, machineName))) {
+  if (!exitCode && !isExistMachineFolder) {
     isLockProcess = false;
     mainWindow.setIgnoreMouseEvents(false);
     new Notification({
@@ -384,6 +393,22 @@ async function renameMachine(
     isLockProcess = false;
     mainWindow.setIgnoreMouseEvents(false);
     throw new Error("0x001");
+  }
+
+  const isExistProcessMachine = activeMachinesByFolder
+    .get(configuration.pathConfig)
+    .has(newMachineName);
+  
+  if (exitCode && !isExistProcessMachineFolder && isExistProcessMachine) {
+    new Notification({
+      title: getDictionary("renameErrorProcessMachineTitle"),
+      body: getDictionary("renameErrorProcessMachineMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
+    }).show();
+    isLockProcess = false;
+    mainWindow.setIgnoreMouseEvents(false);
+    throw new Error("0x004");
   }
 
   try {
@@ -544,6 +569,14 @@ function getTransition(dictionary = null) {
     [
       "updateMachinesAfterCloseProcessMessage",
       "Поскольку папка виртуальных машин $prevPathMachines была заменена на $currentPathMachines, список виртуальных машин был обновлен",
+    ],
+    [
+      "renameErrorProcessMachineTitle",
+      "Ошибка переименования виртуальной машины",
+    ],
+    [
+      "renameErrorProcessMachineMessage",
+      "Переименование виртуальной машины $machineName отменено, поскольку запущен процесс виртуальной машины",
     ],
   ]);
   return (dictionaryKey, renderDict = (result) => result) => {
