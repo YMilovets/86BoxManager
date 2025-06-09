@@ -2,6 +2,7 @@
   "errorElectronAPI": "Functional is not available because an app layout was launched without an executable file",
   "errorDestinationAppFolder": "Enter the command or path from the 86Box executable file",
   "errorConfigFolder": "Enter the location of virtual machines settings",
+  "errorMachineProcessExists": "It is not imposible to create the virtual machine because the machine process was started with the same name",
   "nameMachineField": "Enter a name of the virtual machine",
   "errorMachineExists": "Specified virtual machine already existed. Enter new name",
   "save": "Save",
@@ -66,6 +67,8 @@
   "changeErrorNonExistMachineMessage": "The virtual machine $machineName no longer exists. Renaming of machine was prevented, the machine list was updated",
   "removeErrorNonExistMachineTitle": "Failed to remove the virtual machine $machineName",
   "removeErrorNonExistMachineMessage": "The virtual machine $machineName no longer exists. Removing of machine was prevented, the machine list was updated",
+  "renameErrorProcessMachineTitle": "Error renaming the virtual machine",
+  "renameErrorProcessMachineMessage": "Error renaming the $machineName virtual machine because the machine process was started with the same name",
 
   "noExistFolder": "There is no specific directory. Change a preference of the location of virtual machines",
 

@@ -11,7 +11,7 @@ function PageAddMachine() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
   const { dictionary } = useContext(DictionaryContext);
-  const { getExistFolder, setIsEdit } = useContext(MachineContext);
+  const { listMachines, getExistFolder, setIsEdit } = useContext(MachineContext);
   const { electronAPI } = window;
 
   const getTransition = getDictionary(dictionary);
@@ -35,6 +35,19 @@ function PageAddMachine() {
     const isExistMachine = await getExistFolder();
     if (!isExistMachine) {
       handleCancel();
+      return;
+    }
+
+    const isExistMachineFolder = await electronAPI?.existFolder(
+      `${localStorage.getItem("rootDirMachines")}/${machineName}`
+    );
+
+    const isProcessMachine = !!listMachines.find(
+      ({ machineId }) => machineId === machineName
+    );
+
+    if (!isExistMachineFolder && isProcessMachine) {
+      setErrorMsg(getTransition("errorMachineProcessExists"));
       return;
     }
 
