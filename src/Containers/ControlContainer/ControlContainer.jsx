@@ -76,6 +76,17 @@ function ControlContainer() {
     } catch { /* empty */ }
   }
 
+  async function handleOpenFolder() {
+    const localStorage = getLocalStorage();
+    electronAPI?.getInit(localStorage);
+
+    const isExistMachine = await getExistFolder();
+    setIsEdit(isEdit && isExistMachine);
+
+    if (!isExistFolder) return;
+    electronAPI?.openSpecificFolder();
+  }
+
   return (
     <div className={styles.control}>
       <Button
@@ -105,6 +116,9 @@ function ControlContainer() {
         data-control
       >
         {getTransition("preference")}
+      </Button>
+      <Button disabled={!isExistFolder} onClick={handleOpenFolder} data-control>
+        {getTransition("open")}
       </Button>
       <Button onClick={() => electronAPI?.getVersion()} data-control>
         {getTransition("aboutBtn")}

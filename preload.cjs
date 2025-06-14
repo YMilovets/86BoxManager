@@ -35,4 +35,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getVersion: () => ipcRenderer.send("get-version"),
   openURL: (url) => ipcRenderer.send("open-url", url),
   getOSPlatform: () => ipcRenderer.invoke("get-platform"),
+  openSpecificFolder: () => ipcRenderer.send("open-specific-folder"),
 });
