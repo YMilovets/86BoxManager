@@ -81,6 +81,10 @@ function PageMain() {
     ? MachineItemContainer
     : MachineItemEditContainer;
 
+  function getPathConfig() {
+    return localStorage.getItem("rootDirMachines");
+  }
+
   return (
     <main className={styles.root}>
       <div className={styles.container}>
@@ -117,7 +121,7 @@ function PageMain() {
         <strong className={styles.legend}>
           {getTransition("selectedFolder")}
         </strong>
-        : {getLocalStorage().pathConfig}
+        : {getPathConfig()}
       </footer>
     </main>
   );
