@@ -6,6 +6,7 @@
   "nameMachineField": "Enter a name of the virtual machine",
   "errorMachineExists": "Specified virtual machine already existed. Enter new name",
   "save": "Save",
+  "open": "Open folder",
   "cancel": "Cancel",
   "remove": "Remove",
   "edit": "Edit",

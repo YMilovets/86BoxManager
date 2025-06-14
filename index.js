@@ -578,6 +578,7 @@ function getTransition(dictionary = null) {
       "renameErrorProcessMachineMessage",
       "Переименование виртуальной машины $machineName отменено, поскольку запущен процесс виртуальной машины",
     ],
+    ["open", "Открыть папку"],
   ]);
   return (dictionaryKey, renderDict = (result) => result) => {
     if (dictionary)
@@ -668,6 +669,10 @@ function getOSPlatform() {
   return platform();
 }
 
+function openSpecificFolder() {
+  shell.openPath(configuration.pathConfig);
+}
+
 ipcMain.on("get-init", getHandleInit);
 
 ipcMain.on("invoke-machine", handleInvokeMachine);
@@ -693,3 +698,5 @@ ipcMain.handle("exist-folder", getExistFolder);
 ipcMain.handle("open-file-dialog", openFileDialog);
 
 ipcMain.handle("get-platform", getOSPlatform);
+
+ipcMain.on('open-specific-folder', openSpecificFolder);
