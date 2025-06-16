@@ -1,6 +1,6 @@
 export const RELEASE_YEAR = 2025;
 export const TAB_KEY = "Tab";
-export const AUTHOR_NAME = "NEXU";
+export const AUTHOR_NAME = "YMilovets";
 export const DEFAULT_FOLDER = ".86Box";
 
 export const ErrorType = {
