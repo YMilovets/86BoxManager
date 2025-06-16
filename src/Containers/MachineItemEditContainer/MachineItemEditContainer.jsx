@@ -1,13 +1,14 @@
 import { useContext, useRef } from "react";
-import Button from "../../Components/Button";
-import { DictionaryContext, MachineContext } from "../../Components/App/context";
-
-import { Close } from "../../Components/Icon";
-import InputText from "../../Components/InputText";
-import getDictionary from "../../Shared/Utils/getTransition";
 import clsx from "clsx";
 
+import Button from "../../Components/Button";
+import { DictionaryContext, MachineContext } from "../../Components/App/context";
+import { Close } from "../../Components/Icon";
+import InputText from "../../Components/InputText";
+
+import getDictionary from "../../Shared/Utils/getTransition";
 import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
+import { ErrorType } from "../../../shared";
 
 import styles from "./MachineItemEditContainer.module.css";
 
@@ -46,7 +47,7 @@ function MachineItemEditContainer() {
         });
       }
 
-      throw new Error("0x003");
+      throw new Error(ErrorType.NoCompareConfiguration);
     }
   }
 
@@ -102,7 +103,7 @@ function MachineItemEditContainer() {
 
       try {
         if (machineId === formMachine || !isExistMachine) {
-          throw new Error("0x000");
+          throw new Error(ErrorType.NoExistSpecificFolder);
         }
 
         await changeMachinePathConfiguration({
