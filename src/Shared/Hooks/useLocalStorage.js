@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
+import { ErrorType } from "../../../shared";
+
 export default function useLocalStorage() {
   const navigate = useNavigate();
   const { electronAPI } = window;
@@ -14,7 +16,7 @@ export default function useLocalStorage() {
     ) {
       electronAPI?.getInit(localConfig);
       navigate("/settings");
-      throw new Error("0x001");
+      throw new Error(ErrorType.MissingConfiguration);
     }
     return localConfig;
   };
