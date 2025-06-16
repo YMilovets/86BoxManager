@@ -1,16 +1,20 @@
 {
   "name": "86boxmanager",
   "private": true,
-  "version": "1.5.1",
+  "version": "2.0.0",
   "description": "86BoxManager is an application to create and manage preferences of some 86Box virtual machines.",
   "type": "module",
+  "author": "YMilovets",
   "scripts": {
     "dev": "vite",
     "dev:electron": "vite build && electron .",
     "electron": "electron .",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "keywords": [
     "86Box",
@@ -18,14 +22,24 @@
     "virtual",
     "machines"
   ],
+  "main": "./index.js",
   "dependencies": {
     "clsx": "2.1.1",
+    "electron-squirrel-startup": "1.0.1",
     "prop-types": "15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.27.0"
   },
   "devDependencies": {
+    "@electron-forge/cli": "7.8.1",
+    "@electron-forge/maker-deb": "7.8.1",
+    "@electron-forge/maker-rpm": "7.8.1",
+    "@electron-forge/maker-squirrel": "7.8.1",
+    "@electron-forge/maker-zip": "7.8.1",
+    "@electron-forge/plugin-auto-unpack-natives": "7.8.1",
+    "@electron-forge/plugin-fuses": "7.8.1",
+    "@electron/fuses": "1.8.0",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
     "@vitejs/plugin-react": "4.0.3",
