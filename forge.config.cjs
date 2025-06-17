@@ -1,13 +1,25 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 const fs = require("fs");
+const { platform } = require('os');
 const path = require("path");
+
+const iconList = {
+  linux: "linux/256.png",
+  win32: "win/favicon.ico",
+};
+const typeOS = platform();
 
 module.exports = {
   packagerConfig: {
     asar: {
       unpack: "**/i18n/**",
     },
+    icon: path.join(
+      __dirname,
+      "assets/icon",
+      iconList[typeOS] ?? iconList.win32
+    ),
   },
   rebuildConfig: {},
   makers: [
