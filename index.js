@@ -12,6 +12,7 @@ import getNotification from "./models/getNotification.js";
 import getOSPlatform from "./models/getOSPlatform.js";
 import getTransition from "./models/getTransition.js";
 import getExistFolder from "./models/getExistFolder.js";
+import getIcon from "./models/getIcon.js";
 import handleCreateMachine from "./models/createMachine.js";
 import handleInvokeMachine from "./models/invokeMachine.js";
 import openFileDialog from "./models/openFileDialog.js";
@@ -42,6 +43,7 @@ function main() {
       enableRemoteModule: false,
       nodeIntegration: false,
     },
+    icon: join(App.getAppPath(), "assets/icon", getIcon()),
   });
   globalState.mainWindow.setMenu(null);
   // mainWindow.webContents.openDevTools();
