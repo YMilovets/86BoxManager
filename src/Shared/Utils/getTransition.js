@@ -75,6 +75,7 @@ const dictionary = new Map([
     "destinationLinuxMessage",
     "Ознакомьтесь с инструкцией по ссылке $instructionURL для установки в систему Debian программы виртуальных машин 86Box. Затем просто укажите команду 86Box в настройку расположения исполняемого файла программы 86Box.",
   ],
+  ["fieldIsChanged", "Поле изменено"],
 ]);
 
 let defaultDictionary;

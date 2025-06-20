@@ -54,3 +54,9 @@
 .input.input__disabled {
     color: var(--input-color__disabled);
 }
+
+.input.input__changed {
+    --root-border-color: var(--root-border-color__changed);
+    --root-border-color__hover: var(--root-border-color__changed_hover);
+    --root-border-color__focus: var(--root-border-color__changed_focus);
+}
