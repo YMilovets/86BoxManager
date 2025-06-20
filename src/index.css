@@ -4,41 +4,64 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --color-cornflower-100: #646cff;
+  --color-cornflower-15: rgba(100, 108, 255, 0.15);
+  --color-cornflower-30: rgba(100, 108, 255, 0.3);
+
+  --color-light: #f9f9f9;
+
+  --root-focus-outline-color: #535bf2;
+  --root-background: #ffffff;
+  --root-color: #213547;
+  --link-color: var(--color-cornflower-100);
+  --link-color__hover: #747bff;
+
+  --button-background-color: var(--color-light);
+  --button-background-color__primary: var(--color-cornflower-15);
+  --button-border-color: var(--color-cornflower-100);
+
+  --input-background-color: var(--color-light);
+  --input-color__disabled: rgba(16, 16, 16, 0.3);
+  --input-border-color__hover: var(--color-cornflower-100);
+  --input-border-color__focus: var(--color-cornflower-100);
+  --root-border-color__changed: var(--color-cornflower-30);
+  --root-border-color__changed_hover: var(--color-cornflower-100);
+  --root-border-color__changed_focus: var(--color-cornflower-100);
+
+  --icon-fill-color: var(--color-cornflower-100);
+  --icon-fill-color__disabled: rgba(16, 16, 16, 0.3);
+
+  --footer-background-color: var(--color-light);
+  --scrollbar-track-color: var(--color-cornflower-100);
+  --scrollbar-thumb-color: var(--color-cornflower-15);
+  --message-background-color: var(--color-cornflower-15);
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--link-color);
   text-decoration: inherit;
 }
-a:hover {
-  color: #535bf2;
-}
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a:hover {
+  color: var(--link-color__hover);
 }
 
 :focus-visible {
-  outline: #535bf2 auto 1px;
+  outline: var(--root-focus-outline-color) auto 1px;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
+    color: var(--root-color);
+    background-color: var(--root-background);
   }
 }
 

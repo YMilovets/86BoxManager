@@ -1,26 +1,29 @@
 .input {
     border-radius: 8px;
-    border: 1px solid transparent;
+    border: 1px solid var(--root-border-color);
     padding: 0.6em 1.2em;
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
     transition: border-color 0.25s;
+
+    --root-border-color: transparent;
+    --root-border-color__hover: var(--input-border-color__hover);
+    --root-border-color__focus: var(--input-border-color__focus);
 }
 
 .input:hover {
-    border-color: #646cff;
+    border-color: var(--root-border-color__hover);
 }
 
 .input:focus,
 .input:focus-visible {
     outline: none;
-    border-color: #646cff;
+    border-color: var(--root-border-color__focus);
 }
 
 @media (prefers-color-scheme: light) {
     .input {
-        background-color: #f9f9f9;
+        background-color: var(--input-background-color);
     }
 }
