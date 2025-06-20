@@ -30,6 +30,7 @@
   "version": "Version",
   "copyright": "All right reserved!",
   "selectedFolder": "Selected folder",
+  "fieldIsChanged": "The field is changed",
 
   "closeMessage": "Switch off running vitrual machines to close the application",
   "clearFormAfterUpdateTitle": "The edit form was cleared after updating the list",
