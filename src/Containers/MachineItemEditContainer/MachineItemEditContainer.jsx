@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import clsx from "clsx";
 
 import Button from "../../Components/Button";
@@ -149,6 +149,38 @@ function MachineItemEditContainer() {
     };
   }
 
+  function handleChange(machineId) {
+    return (e) => {
+      const currentTarget = e.currentTarget;
+
+      if (currentTarget.value !== machineId) {
+        currentTarget.classList.add(styles.input__changed);
+        currentTarget.title = getTransition("fieldIsChanged");
+      }
+      if (currentTarget.value === machineId) {
+        currentTarget.classList.remove(styles.input__changed);
+        currentTarget.removeAttribute("title");
+      }
+    };
+  }
+
+  function handleKeyDown(e) {
+    const currentTarget = e.currentTarget;
+    if (e.key === "Enter") {
+      currentTarget.blur();
+    }
+  }
+
+  useEffect(() => {
+    Array.from(formRef.current.elements).forEach((formItem) => {
+      const { name, value } = formItem;
+      if (value !== name) {
+        formItem.title = getTransition("fieldIsChanged");
+      }
+    });
+  }, [dictionary])
+  
+
   return (
     <form ref={formRef}>
       <ul className={styles.list}>
@@ -161,6 +193,9 @@ function MachineItemEditContainer() {
               defaultValue={machineId}
               onBlur={handleRenameMachine(machineId, isDisable)}
               disabled={isDisable}
+              onChange={handleChange(machineId)}
+              onKeyDown={handleKeyDown}
+              name={machineId}
             />
             <Button
               className={styles.remove_btn}
