@@ -5,21 +5,20 @@
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
     cursor: pointer;
     transition: border-color 0.25s;
 }
 
 .button:hover {
-    border-color: #646cff;
+    border-color: var(--button-border-color);
 }
 
 .button.button__primary {
-    background: rgba(100, 108, 255, 0.15);
+    background: var(--button-background-color__primary);
 }
 
 @media (prefers-color-scheme: light) {
     .button {
-        background-color: #f9f9f9;
+        background-color: var(--button-background-color);
     }
 }

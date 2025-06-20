@@ -19,7 +19,7 @@
 .scroll {
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: #646cff rgba(100, 108, 255, .15);
+    scrollbar-color: var(--scrollbar-track-color) var(--scrollbar-thumb-color);
 }
 
 .item, .button {
@@ -53,11 +53,11 @@
 }
 
 .remove_icon.remove_icon__disabled {
-    --root-fill-color: rgba(16, 16, 16, 0.3);
+    --root-fill-color: var(--icon-fill-color__disabled);
 }
 
 .remove_icon {
-    --root-fill-color: #646cff;
+    --root-fill-color: var(--icon-fill-color);
     width: 0.9em;
     height: 0.9em;
 }
@@ -68,7 +68,7 @@
 }
 
 .input.input__disabled {
-    color: rgba(16, 16, 16, 0.3);
+    color: var(--input-color__disabled);
 }
 
 .language {
@@ -100,7 +100,7 @@
     padding: .6em 1.2em;
     font-size: 14px;
     font-family: inherit;
-    background-color: #f9f9f9;
+    background-color: var(--footer-background-color);
     transition: border-color 0.25s;
     user-select: none;
     margin: 0 0.5em 0.5em;

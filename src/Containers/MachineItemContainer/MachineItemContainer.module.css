@@ -37,11 +37,11 @@
 }
 
 .remove_icon.remove_icon__disabled {
-    --root-fill-color: rgba(16, 16, 16, 0.3);
+    --root-fill-color: var(--icon-fill-color__disabled);
 }
 
 .remove_icon {
-    --root-fill-color: #646cff;
+    --root-fill-color: var(--icon-fill-color);
     width: 0.9em;
     height: 0.9em;
 }
@@ -52,5 +52,5 @@
 }
 
 .input.input__disabled {
-    color: rgba(16, 16, 16, 0.3);
+    color: var(--input-color__disabled);
 }
