@@ -22,7 +22,7 @@
 }
 
 .language_btn.language_btn__selected {
-    background: rgba(100, 108, 255, 0.15);
+    background: var(--button-background-color__primary);
 }
 
 .label, .alert {
