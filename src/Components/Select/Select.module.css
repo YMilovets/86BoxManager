@@ -76,7 +76,7 @@
     background-color: var(--button-background-color);
 }
 
-.option:first-of-type {
+.option:nth-of-type(2) {
     border-radius: 0.4375em 0.4375em 0 0;
 }
 
