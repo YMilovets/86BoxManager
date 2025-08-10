@@ -1,4 +1,5 @@
 {
+  "language": "English",
   "errorElectronAPI": "Functional is not available because an app layout was launched without an executable file",
   "errorDestinationAppFolder": "Enter the command or path from the 86Box executable file",
   "errorConfigFolder": "Enter the location of virtual machines settings",
@@ -67,6 +68,10 @@
   "changeErrorExistMachineMessage": "The virtual machine $machineName already existed. Enter new name",
   "changeErrorNonExistMachineTitle": "Failed to rename the virtual machine $machineName",
   "changeErrorNonExistMachineMessage": "The virtual machine $machineName no longer exists. Renaming of machine was prevented, the machine list was updated",
+  "changeLanguageErrorTitle": "Failed to change the selected language on this application",
+  "changeLanguageErrorMessage": "Last parameter was restored because the $language language no longer exists",
+  "changeLanguageCorruptFileTitle": "Failed to change the selected language on this application",
+  "changeLanguageCorruptFileMessage": "Last parameter was restored because the $language language JSON-file was corrupted",
   "removeErrorNonExistMachineTitle": "Failed to remove the virtual machine $machineName",
   "removeErrorNonExistMachineMessage": "The virtual machine $machineName no longer exists. Removing of machine was prevented, the machine list was updated",
   "renameErrorProcessMachineTitle": "Error renaming the virtual machine",

@@ -12,6 +12,7 @@ import getNotification from "./models/getNotification.js";
 import getOSPlatform from "./models/getOSPlatform.js";
 import getTransition from "./models/getTransition.js";
 import getExistFolder from "./models/getExistFolder.js";
+import getLanguageList from "./models/getLanguageList.js";
 import getIcon from "./models/getIcon.js";
 import handleCreateMachine from "./models/createMachine.js";
 import handleInvokeMachine from "./models/invokeMachine.js";
@@ -46,7 +47,7 @@ function main() {
     icon: join(App.getAppPath(), "assets/icon", getIcon()),
   });
   globalState.mainWindow.setMenu(null);
-  // mainWindow.webContents.openDevTools();
+  // globalState.mainWindow.webContents.openDevTools();
 
   globalState.mainWindow.on("close", (e) => {
     const getDictionary = getTransition(globalState.dictionary);
@@ -104,9 +105,20 @@ async function invokeMachineHandler(e, machineId) {
   });
 }
 
-async function getConfigLanguageHandler(_, lang) {
-  globalState.dictionary = await getConfigLanguage(lang);
+async function getConfigLanguageHandler(e, { language, isSelected = false }) {
+  globalState.dictionary = await getConfigLanguage(e, {
+    lang: language,
+    isSelected,
+  });
+
   return globalState.dictionary;
+}
+
+function setConfigLanguage(e) {
+  e.reply("set-config-language", {
+    language: globalState.language,
+    dictionary: globalState.dictionary,
+  });
 }
 
 async function renameMachineHandler(e, machineName, newMachineName) {  
@@ -188,6 +200,10 @@ ipcMain.handle("rename-machine", renameMachineHandler);
 
 ipcMain.handle("exist-folder", getExistFolder);
 
+ipcMain.handle("exist-app-path", (_, checkedFolder) =>
+  getExistFolder(_, join(App.getAppPath(), checkedFolder))
+);
+
 ipcMain.handle(
   "open-file-dialog",
   openFileDialog({ mainWindow: globalState.mainWindow })
@@ -196,3 +212,7 @@ ipcMain.handle(
 ipcMain.handle("get-platform", getOSPlatform);
 
 ipcMain.on('open-specific-folder', openSpecificFolder);
+
+ipcMain.handle("get-language-list", getLanguageList);
+
+ipcMain.on("set-config-language", setConfigLanguage);
