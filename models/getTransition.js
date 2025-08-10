@@ -85,8 +85,7 @@ export default function getTransition(dictionary = null) {
         "updateListAfterCloseDialogTitle",
         "Виртуальной машины больше не существует",
       ],
-      [    ["open", "Открыть папку"],
-
+      [
         "updateListAfterCloseDialogMessage",
         "Виртуальной машины $machineName больше не существует, список машин будет обновлен",
       ],
@@ -95,7 +94,10 @@ export default function getTransition(dictionary = null) {
         "removeErrorPathMachineMessage",
         "Не удалось удалить виртуальную машину $machineName, поскольку не существует директории виртуальных машин $pathMachines",
       ],
-      ["renameErrorPathMachineTitle", "Ошибка переименования виртуальной машины"],
+      [
+        "renameErrorPathMachineTitle",
+        "Ошибка переименования виртуальной машины",
+      ],
       [
         "renameErrorPathMachineMessage",
         "Не удалось переименовать виртуальную машину $machineName, поскольку не существует директории виртуальных машин $pathMachines",
@@ -117,6 +119,22 @@ export default function getTransition(dictionary = null) {
         "Переименование виртуальной машины $machineName отменено, поскольку запущен процесс виртуальной машины",
       ],
       ["open", "Открыть папку"],
+      [
+        "changeLanguageErrorTitle",
+        "Не удалось изменить выбранные настройки языка приложения",
+      ],
+      [
+        "changeLanguageErrorMessage",
+        "Поскольку больше не существует настройки языка $language, был восстановлен предыдущий параметр",
+      ],
+      [
+        "changeLanguageCorruptFileTitle",
+        "Не удалось изменить выбранные настройки языка приложения",
+      ],
+      [
+        "changeLanguageCorruptFileMessage",
+        "Поскольку файл настройки языка $language был поврежден, был восстановлен предыдущий параметр",
+      ],
     ]);
     return (dictionaryKey, renderDict = (result) => result) => {
       if (dictionary)

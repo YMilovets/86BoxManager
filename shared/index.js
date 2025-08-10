@@ -11,4 +11,5 @@ export const ErrorType = {
   NoExistSpecificFolder: "0x004",
   NoCompareConfiguration: "0x005",
   IsBlockProcess: "0x006",
+  IncorrectDictionary: "0x007",
 };

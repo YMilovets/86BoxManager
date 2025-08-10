@@ -1,4 +1,5 @@
 {
+  "language": "Русский",
   "errorElectronAPI": "Функции недоступны, поскольку запущен макет приложения, а не исполняемый файл",
   "errorDestinationAppFolder": "Введите команду или путь до исполняемого файла 86Box",
   "errorConfigFolder": "Введите местоположение настроек виртуальных машин",
@@ -67,6 +68,10 @@
   "changeErrorExistMachineMessage": "Виртуальная машина $machineName уже существует. Придумайте новое название",
   "changeErrorNonExistMachineTitle": "Не удалось переименовать виртуальную машину $machineName",
   "changeErrorNonExistMachineMessage": "Виртуальной машины $machineName больше не существует. Переименование машины было прервано, список машин будет обновлен",
+  "changeLanguageErrorTitle": "Не удалось изменить выбранные настройки языка приложения",
+  "changeLanguageErrorMessage": "Поскольку больше не существует настройки языка $language, был восстановлен предыдущий параметр",
+  "changeLanguageCorruptFileTitle": "Не удалось изменить выбранные настройки языка приложения",
+  "changeLanguageCorruptFileMessage": "Поскольку файл настройки языка $language был поврежден, был восстановлен предыдущий параметр",
   "removeErrorNonExistMachineTitle": "Не удалось удалить виртуальную машину $machineName",
   "removeErrorNonExistMachineMessage": "Виртуальной машины $machineName больше не существует. Удаление машины было прервано, список машин будет обновлен",
   "renameErrorProcessMachineTitle": "Ошибка переименования виртуальной машины",
