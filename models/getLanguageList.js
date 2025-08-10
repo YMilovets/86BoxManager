@@ -4,6 +4,7 @@ import { join } from "path";
 
 import { LanguageList } from "../src/Shared/Constants/index.js";
 import { globalState } from "../shared/state.js";
+import { redirectAsarUnpackedFiles } from "../shared/utils.js";
 
 const defaultLanguageNameList = {
   [LanguageList.RU]: "Русский",
@@ -14,9 +15,11 @@ export async function getLanguageFiles(dictionaryList = []) {
   const languageList = [{ language: "", languageId: "" }];
 
   for (const file of dictionaryList) {
-    const dictionary = await promises.readFile(
+    const filepath = redirectAsarUnpackedFiles(
       join(App.getAppPath(), "i18n", file)
     );
+
+    const dictionary = await promises.readFile(filepath);
     const languageId = file.replace(".json", "");
     let language = languageId;
 
@@ -38,7 +41,9 @@ export async function getLanguageFiles(dictionaryList = []) {
 }
 
 export default async function getLanguageList() {
-  const dictionaryList = await promises.readdir(join(App.getAppPath(), "i18n"));
+  const directoryPath = redirectAsarUnpackedFiles(join(App.getAppPath(), "i18n"));
+
+  const dictionaryList = await promises.readdir(directoryPath);
 
   const languageList = await getLanguageFiles(dictionaryList);
   

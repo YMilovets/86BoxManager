@@ -4,14 +4,16 @@ import { join } from "path";
 
 import { ErrorType } from "../shared/index.js";
 import { globalState } from "../shared/state.js";
+import { redirectAsarUnpackedFiles } from "../shared/utils.js";
 import getTransition from "./getTransition.js";
 import getExistFolder from "./getExistFolder.js";
 
 export default async function getConfigLanguage(e, { lang, isSelected }) {
-  const isExistLanguage = await getExistFolder(
-    e,
-    `${App.getAppPath()}/i18n/${lang}.json`
+  const languagePath = redirectAsarUnpackedFiles(
+    join(App.getAppPath(), "i18n", `${lang}.json`)
   );
+
+  const isExistLanguage = await getExistFolder(e, languagePath);
 
   if (!isExistLanguage && lang && lang !== globalState.language) {
     const getDictionary = getTransition(globalState.dictionary);
@@ -29,7 +31,7 @@ export default async function getConfigLanguage(e, { lang, isSelected }) {
   }
 
   const localDictionary = await promises.readFile(
-    join(App.getAppPath(), `i18n/${lang}.json`),
+    join(languagePath),
     "utf-8"
   );
 
