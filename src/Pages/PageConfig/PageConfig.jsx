@@ -1,9 +1,8 @@
-import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState, useCallback } from "react";
 
 import getDictionary from "../../Shared/Utils/getTransition";
-import { LanguageList } from "../../Shared/Constants";
+import LanguageContainer from "../../Containers/LanguageContainer";
 import MessageContainer from "../../Containers/MessageContainer";
 import { DictionaryContext, MachineContext } from "../../Components/App/context";
 
@@ -16,7 +15,8 @@ import styles from "./PageConfig.module.css";
 function PageConfig() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
-  const { dictionary, changeLanguage, language } =
+
+  const { dictionary, language } =
     useContext(DictionaryContext);
   const { setIsEdit } = useContext(MachineContext);
   const { electronAPI } = window;
@@ -62,13 +62,6 @@ function PageConfig() {
       setErrorMsg(message);
     }
   };
-  const handleChangeLanguage = useCallback(
-    (lang) => () => {
-      handleChangeMachineName();
-      changeLanguage(lang);
-    },
-    []
-  );
 
   const handleOpenFileDialog = useCallback(
     ({ dialogId, dialogType }) =>
@@ -144,30 +137,9 @@ function PageConfig() {
           </p>
         )}
       </form>
-      <div>
+      <div className={styles.language}>
         <p className={styles.label}>{getTransition("changeLanguage")}</p>
-        <div className={styles.language}>
-          <Button
-            className={clsx(styles.language_btn, {
-              [styles.language_btn__selected]: language === LanguageList.RU,
-            })}
-            onClick={handleChangeLanguage(LanguageList.RU)}
-            disabled={!electronAPI}
-            type="button"
-          >
-            Русский
-          </Button>
-          <Button
-            className={clsx(styles.language_btn, {
-              [styles.language_btn__selected]: language === LanguageList.EN,
-            })}
-            onClick={handleChangeLanguage(LanguageList.EN)}
-            disabled={!electronAPI}
-            type="button"
-          >
-            English
-          </Button>
-        </div>
+        <LanguageContainer className={styles.language_select} />
       </div>
     </div>
   );

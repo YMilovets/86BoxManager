@@ -27,8 +27,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
   invokeMachine: (machineId) => ipcRenderer.send("invoke-machine", machineId),
   createMachine: (machineName) =>
     ipcRenderer.invoke("create-machine", machineName),
-  changeLanguage: (language) =>
-    ipcRenderer.invoke("get-config-language", { language }),
+  changeLanguage: ({ language, isSelected }) =>
+    ipcRenderer.invoke("get-config-language", { language, isSelected }),
   existFolder: (checkedFolder) =>
     ipcRenderer.invoke("exist-folder", checkedFolder),
   existAppPath: (currentPath) =>
