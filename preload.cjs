@@ -22,12 +22,17 @@ contextBridge.exposeInMainWorld("electronAPI", {
     );
     return handleUnlockedMachine;
   },
+  onSetLanguage: (callback) =>
+    ipcRenderer.on("set-config-language", (_, args) => callback(args)),
   invokeMachine: (machineId) => ipcRenderer.send("invoke-machine", machineId),
   createMachine: (machineName) =>
     ipcRenderer.invoke("create-machine", machineName),
-  changeLanguage: (lang) => ipcRenderer.invoke("get-config-language", lang),
+  changeLanguage: (language) =>
+    ipcRenderer.invoke("get-config-language", { language }),
   existFolder: (checkedFolder) =>
     ipcRenderer.invoke("exist-folder", checkedFolder),
+  existAppPath: (currentPath) =>
+    ipcRenderer.invoke("exist-app-path", currentPath),
   openFileDialog: (dialogType) =>
     ipcRenderer.invoke("open-file-dialog", dialogType),
   compareSavedConfiguration: (preferences) =>
@@ -36,4 +41,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   openURL: (url) => ipcRenderer.send("open-url", url),
   getOSPlatform: () => ipcRenderer.invoke("get-platform"),
   openSpecificFolder: () => ipcRenderer.send("open-specific-folder"),
+  getLanguageList: () => ipcRenderer.invoke("get-language-list"),
+  setConfigLanguage: () => ipcRenderer.send("set-config-language"),
 });
