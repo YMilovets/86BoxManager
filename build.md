@@ -12,7 +12,7 @@ libxkbcommon-x11-dev libslirp-dev
 
 ## Клонирование репозитория
 
-`git clone <https://github.com/86Box/86Box.git>`
+`git clone https://github.com/86Box/86Box.git`
 
 ## Сборка проекта
 

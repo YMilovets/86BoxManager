@@ -1,0 +1,89 @@
+.select {
+    border-radius: 0.5em;
+    border: 1px solid transparent;
+    padding: .6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color .25s;
+    background-color: var(--button-background-color);
+    appearance: base-select;
+    display: flex;
+    align-items: center;
+
+    --options-max-width: auto;
+}
+
+::picker(select) {
+    appearance: base-select;
+    border: 1px solid var(--root-border-color__changed);
+    margin: 0.5em 0;
+    border-radius: 0.5em;
+}
+
+.select:hover, .select:open {
+    border-color: var(--button-border-color);
+}
+
+.select selectedcontent {
+    flex: 1;
+    line-height: 1.125em;
+    text-align: center;
+    color: #000;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.select::picker-icon {
+    display: none;
+}
+
+.select:open .select_chevron {
+    rotate: 180deg;
+}
+
+.select_chevron {
+    --root-fill-color: var(--root-border-color__changed);
+    transition: 0.5s rotate;
+    width: 16px;
+    height: 16px;
+}
+
+.select .option {
+    padding: .4125em 1.2em;
+    border: 1px solid transparent;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.option::checkmark {
+    display: none;
+}
+
+.option:is(:checked) {
+    background: var(--button-background-color__primary);
+}
+
+.option:focus-visible {
+    border: 1px solid var(--root-focus-outline-color);
+    outline: none;
+}
+
+.option:hover:not(:checked) {
+    background-color: var(--button-background-color);
+}
+
+.option:first-of-type {
+    border-radius: 0.4375em 0.4375em 0 0;
+}
+
+.option:last-of-type {
+    border-radius: 0 0 0.4375em 0.4375em;
+}
+
+.select_options {
+    max-width: var(--options-max-width);
+}
