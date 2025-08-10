@@ -4,7 +4,6 @@ import { LanguageList } from "../../Shared/Constants";
 export const DictionaryContext = createContext({
   dictionary: null,
   language: LanguageList.RU,
-  changeLanguage: () => {},
 });
 
 export const MachineContext = createContext({
