@@ -26,7 +26,7 @@ function Select(
         <selectedcontent />
         <Chevron className={styles.select_chevron} />
       </Button>
-      <div className={styles.select_options}>
+      <optgroup className={styles.select_options}>
         {list.map(
           ({
             value,
@@ -50,7 +50,7 @@ function Select(
             </option>
           )
         )}
-      </div>
+      </optgroup>
     </select>
   );
 }
