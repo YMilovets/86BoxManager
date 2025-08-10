@@ -1,0 +1,11 @@
+.select {
+    flex: 1;
+}
+
+.language {
+    display: flex;
+}
+
+.option:first-of-type {
+    display: none;
+}
