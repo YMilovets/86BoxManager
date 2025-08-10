@@ -13,3 +13,19 @@
 .language_btn {
     flex: 1;
 }
+
+
+.select {
+    flex: 1;
+}
+
+.control_btn {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+select.language_select {
+    --options-max-width: 10.125em;
+    max-width: 10.125em;
+}

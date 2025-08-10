@@ -1,14 +1,18 @@
 import { useEffect, useReducer, useState } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
+
 import PageMain from "../../Pages/PageMain";
 import PageConfig from "../../Pages/PageConfig";
 import PageAddMachine from "../../Pages/PageAddMachine";
+
 import { DictionaryContext, MachineContext } from "./context";
 import { reducerListMachines } from "./reducers";
 import { LanguageList } from "../../Shared/Constants";
+
 import styles from "./App.module.css";
 
 function App() {
+  const [lang, setLang] = useState();
   const [configLang, setConfigLang] = useState();
   const [isExistFolder, setIsExistFolder] = useState(false);
   
@@ -26,20 +30,32 @@ function App() {
     isStartedMachines: false,
   });
 
-  const [lang, setLang] = useState(
-    localStorage.getItem("language") ?? LanguageList.RU
-  );
-
   const { electronAPI } = window;
 
-  useEffect(() => {
-    electronAPI?.changeLanguage(lang ?? LanguageList.RU).then((langConfig) => {
-      localStorage.setItem("language", lang);
-      setConfigLang(langConfig);
-    });
-  }, [lang]);
+  async function initLanguage() {
+    const localLanguage = localStorage.getItem("language");
+
+    try {
+      await electronAPI?.changeLanguage({
+        language: localLanguage,
+        isSelected: true,
+      });
+    } catch {
+      localStorage.setItem("language", LanguageList.RU);
+    }
+    await electronAPI?.setConfigLanguage();
+  }
 
   useEffect(() => {
+    initLanguage();
+
+    electronAPI?.onSetLanguage(({ language, dictionary }) => {
+      setLang('');
+      setTimeout(() => setLang(language), 0);
+      setConfigLang(dictionary);
+      localStorage.setItem("language", language);
+    });
+
     electronAPI?.onConfigMachines(
       ({ resultList, activeMachines = new Map() }) => {
         const rootDirMachines = localStorage.getItem("rootDirMachines");
@@ -54,6 +70,7 @@ function App() {
       }
     );
   }, []);
+
 
   async function getExistFolder() {
     const isExistPath = await electronAPI?.existFolder(
@@ -103,7 +120,6 @@ function App() {
       <DictionaryContext.Provider
         value={{
           dictionary: configLang,
-          changeLanguage: setLang,
           language: lang,
         }}
       >

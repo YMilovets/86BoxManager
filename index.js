@@ -45,6 +45,8 @@ function main() {
       nodeIntegration: false,
     },
     icon: join(App.getAppPath(), "assets/icon", getIcon()),
+    width: 550,
+    height: 550,
   });
   globalState.mainWindow.setMenu(null);
   // globalState.mainWindow.webContents.openDevTools();
