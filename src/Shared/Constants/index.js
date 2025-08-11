@@ -10,3 +10,5 @@ export const PlatformList = {
   Windows: "win32",
   Linux: "linux",
 };
+
+export const BASE_SELECT_AVAILABLE_CHROME_VERSION = 135;
