@@ -8,7 +8,17 @@ import { Chevron } from "../Icon";
 import styles from "./Select.module.css";
 
 function Select(
-  { className, list, selectedId, onChange, onClick, onBlur, onKeyDown, ...props },
+  {
+    className,
+    list,
+    selectedId,
+    onChange,
+    onClick,
+    onBlur,
+    onKeyDown,
+    optLabel,
+    ...props
+  },
   ref
 ) {
   return (
@@ -26,7 +36,7 @@ function Select(
         <selectedcontent />
         <Chevron className={styles.select_chevron} />
       </Button>
-      <optgroup className={styles.select_options}>
+      <optgroup label={optLabel} className={styles.select_options}>
         {list.map(
           ({
             value,
@@ -72,16 +82,18 @@ Select.propTypes = {
   onClick: PropTypes.func,
   onBlur: PropTypes.func,
   onKeyDown: PropTypes.func,
+  optLabel: PropTypes.string,
 };
 
 Select.defaultProps = {
   list: [],
-  className: PropTypes.string,
+  className: undefined,
   selectedId: undefined,
   onChange: () => {},
   onClick: () => {},
   onBlur: () => {},
   onKeyDown: () => {},
+  optLabel: undefined,
 };
 
 const SelectContainer = forwardRef(Select);
