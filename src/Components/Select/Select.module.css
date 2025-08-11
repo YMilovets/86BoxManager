@@ -65,6 +65,7 @@
 
 .option:is(:checked) {
     background: var(--button-background-color__primary);
+    font-weight: 500;
 }
 
 .option:focus-visible {
@@ -74,10 +75,6 @@
 
 .option:hover:not(:checked) {
     background-color: var(--button-background-color);
-}
-
-.option:nth-of-type(2) {
-    border-radius: 0.4375em 0.4375em 0 0;
 }
 
 .option:last-of-type {

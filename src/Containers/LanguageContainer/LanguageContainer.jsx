@@ -6,17 +6,22 @@ import { DictionaryContext } from "../../Components/App/context";
 import Select from "../../Components/Select";
 
 import { ErrorType } from "../../../shared";
+import { BASE_SELECT_AVAILABLE_CHROME_VERSION } from "../../Shared/Constants";
+import getChromeVersion from "../../Shared/Utils/getChromeVersion";
+import getDictionary from "../../Shared/Utils/getTransition";
 
 import styles from "./LanguageContainer.module.css";
 
 function LanguageContainer({ className }, ref) {
-  const { language } = useContext(DictionaryContext);
+  const { language, dictionary } = useContext(DictionaryContext);
   const [languageList, setLanguageList] = useState([]);
   const isActiveRef = useRef(false);
 
+  const getTransition = getDictionary(dictionary);
+
   const { electronAPI } = window;
 
-  async function handleSelectClick(languageId, isSetList = true) {
+  async function handleSelectClick(languageId, isSetList = true) {    
     const languageAPIList = await electronAPI.getLanguageList();
 
     if (isSetList) {
@@ -72,7 +77,9 @@ function LanguageContainer({ className }, ref) {
 
       if (e.target.dataset.action !== "select") return;
 
-      isActiveRef.current = !isActiveRef.current;
+      if (getChromeVersion() < BASE_SELECT_AVAILABLE_CHROME_VERSION) return;
+
+      isActiveRef.current = !isActiveRef.current;      
 
       try {
         await handleSelectChange(e);
@@ -82,6 +89,12 @@ function LanguageContainer({ className }, ref) {
         await handleSelectClick(language);
       }
     };
+  }
+
+  function handleChange(e) {
+    if (getChromeVersion() >= BASE_SELECT_AVAILABLE_CHROME_VERSION) return;
+
+    handleSelectLanguage(true)(e);
   }
 
   useEffect(() => {
@@ -108,6 +121,7 @@ function LanguageContainer({ className }, ref) {
         ref={ref}
         data-action="select"
         onClick={handleClick()}
+        onChange={handleChange}
         onKeyDown={() => handleSelectClick(language)}
         selectedId={language}
         list={languageList.map(({ language, languageId }) => ({
@@ -116,6 +130,7 @@ function LanguageContainer({ className }, ref) {
           onMouseDown: handleSelectLanguage(true),
           className: styles.option,
         }))}
+        optLabel={getTransition("chooseLanguage")}
       />
     </div>
   );

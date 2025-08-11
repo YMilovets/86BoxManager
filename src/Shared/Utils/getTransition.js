@@ -26,6 +26,7 @@ const dictionary = new Map([
   ["configFolder", "Местоположение каталога настроек виртуальных машин"],
   ["aboutBtn", "О приложении"],
   ["selectedFolder", "Выбранная папка"],
+  ["chooseLanguage", "Выберите язык"],
   [
     "errorDestinationAppFolder",
     "Введите команду или путь до исполняемого файла 86Box",

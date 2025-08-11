@@ -32,6 +32,7 @@
   "copyright": "All right reserved!",
   "selectedFolder": "Selected folder",
   "fieldIsChanged": "The field is changed",
+  "chooseLanguage": "Choose language",
 
   "closeMessage": "Switch off running vitrual machines to close the application",
   "clearFormAfterUpdateTitle": "The edit form was cleared after updating the list",
