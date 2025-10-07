@@ -1,14 +1,14 @@
+import { useCallback, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState, useCallback } from "react";
 
-import getDictionary from "../../Shared/Utils/getTransition";
+import { DictionaryContext, MachineContext } from "../../Components/App/context";
+import Button from "../../Components/Button";
+import InputBrowserFolder from "../../Components/InputBrowserFolder";
 import LanguageContainer from "../../Containers/LanguageContainer";
 import MessageContainer from "../../Containers/MessageContainer";
-import { DictionaryContext, MachineContext } from "../../Components/App/context";
+import getDictionary from "../../Shared/Utils/getTransition";
 
 import { getDefaultListFormInput } from "./utils";
-import InputBrowserFolder from "../../Components/InputBrowserFolder";
-import Button from "../../Components/Button";
 
 import styles from "./PageConfig.module.css";
 

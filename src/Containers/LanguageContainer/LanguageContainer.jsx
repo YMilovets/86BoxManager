@@ -1,11 +1,10 @@
+import { forwardRef, useContext, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import { forwardRef, useContext, useEffect, useRef, useState } from "react";
-
-import { DictionaryContext } from "../../Components/App/context";
-import Select from "../../Components/Select";
 
 import { ErrorType } from "../../../shared";
+import { DictionaryContext } from "../../Components/App/context";
+import Select from "../../Components/Select";
 import { BASE_SELECT_AVAILABLE_CHROME_VERSION } from "../../Shared/Constants";
 import getChromeVersion from "../../Shared/Utils/getChromeVersion";
 import getDictionary from "../../Shared/Utils/getTransition";

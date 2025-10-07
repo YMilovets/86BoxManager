@@ -1,14 +1,13 @@
 import { useContext, useEffect, useRef } from "react";
 import clsx from "clsx";
 
-import Button from "../../Components/Button";
+import { ErrorType } from "../../../shared";
 import { DictionaryContext, MachineContext } from "../../Components/App/context";
+import Button from "../../Components/Button";
 import { Close } from "../../Components/Icon";
 import InputText from "../../Components/InputText";
-
-import getDictionary from "../../Shared/Utils/getTransition";
 import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
-import { ErrorType } from "../../../shared";
+import getDictionary from "../../Shared/Utils/getTransition";
 
 import styles from "./MachineItemEditContainer.module.css";
 
