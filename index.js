@@ -1,30 +1,28 @@
-import { ipcMain, app as App, dialog } from "electron";
+import { app as App, dialog,ipcMain } from "electron";
 import { join } from "path";
 import { format } from "url";
 
 import { Window } from "./lib/Window.js";
-
 import compareSavedConfiguration from "./models/compareSavedConfiguration.js";
+import handleCreateMachine from "./models/createMachine.js";
 import getAppVersion from "./models/getAppVersion.js";
 import getConfigLanguage from "./models/getConfigLanguage.js";
+import getExistFolder from "./models/getExistFolder.js";
+import getIcon from "./models/getIcon.js";
 import getHandleInit from "./models/getInit.js";
+import getLanguageList from "./models/getLanguageList.js";
 import getNotification from "./models/getNotification.js";
 import getOSPlatform from "./models/getOSPlatform.js";
 import getTransition from "./models/getTransition.js";
-import getExistFolder from "./models/getExistFolder.js";
-import getLanguageList from "./models/getLanguageList.js";
-import getIcon from "./models/getIcon.js";
-import handleCreateMachine from "./models/createMachine.js";
 import handleInvokeMachine from "./models/invokeMachine.js";
 import openFileDialog from "./models/openFileDialog.js";
 import openSpecificFolder from "./models/openSpecificFolder.js";
 import openURL from "./models/openURL.js";
-import renameMachine from "./models/renameMachine.js";
 import removeMachine from "./models/removeMachine.js";
-
-import { fixLocalizationButton } from "./shared/utils.js";
+import renameMachine from "./models/renameMachine.js";
 import { ErrorType, TAB_KEY } from "./shared/index.js";
 import { globalState } from "./shared/state.js";
+import { fixLocalizationButton } from "./shared/utils.js";
 
 const lockInstance = App.requestSingleInstanceLock();
 if (!lockInstance) {

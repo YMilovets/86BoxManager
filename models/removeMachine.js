@@ -2,10 +2,11 @@ import { dialog, Notification } from "electron";
 import { existsSync, rmSync } from "fs";
 import { join } from "path";
 
-import { fixLocalizationButton } from "../shared/utils.js";
-import getTransition from "./getTransition.js";
-import getExistFolder from "./getExistFolder.js";
 import { ErrorType } from "../shared/index.js";
+import { fixLocalizationButton } from "../shared/utils.js";
+
+import getExistFolder from "./getExistFolder.js";
+import getTransition from "./getTransition.js";
 
 export default async function removeMachine(
   e,

@@ -5,8 +5,9 @@ import { join } from "path";
 import { ErrorType } from "../shared/index.js";
 import { globalState } from "../shared/state.js";
 import { redirectAsarUnpackedFiles } from "../shared/utils.js";
-import getTransition from "./getTransition.js";
+
 import getExistFolder from "./getExistFolder.js";
+import getTransition from "./getTransition.js";
 
 export default async function getConfigLanguage(e, { lang, isSelected }) {
   const languagePath = redirectAsarUnpackedFiles(

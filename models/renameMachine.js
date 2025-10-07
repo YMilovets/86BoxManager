@@ -2,12 +2,12 @@ import { dialog, Notification } from "electron";
 import { existsSync, renameSync } from "fs";
 import { join } from "path";
 
-import getExistFolder from "./getExistFolder.js";
-import getTransition from "./getTransition.js";
-
+import { ErrorType } from "../shared/index.js";
 import { globalState } from "../shared/state.js";
 import { fixLocalizationButton } from "../shared/utils.js";
-import { ErrorType } from "../shared/index.js";
+
+import getExistFolder from "./getExistFolder.js";
+import getTransition from "./getTransition.js";
 
 export default async function renameMachine(
   e,

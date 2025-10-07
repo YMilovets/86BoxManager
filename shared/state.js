@@ -1,8 +1,9 @@
 import { app as App } from "electron";
 import { join } from "path";
 
-import { DEFAULT_FOLDER } from "./index.js";
 import { LanguageList } from "../src/Shared/Constants/index.js";
+
+import { DEFAULT_FOLDER } from "./index.js";
 
 export const globalState = {
   activeMachinesByFolder: new Map(),

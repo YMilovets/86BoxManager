@@ -2,8 +2,9 @@ import { Notification } from "electron";
 import { existsSync, mkdir } from "fs";
 import { join } from "path";
 
-import getTransition from "./getTransition.js";
 import { ErrorType } from "../shared/index.js";
+
+import getTransition from "./getTransition.js";
 
 export default async function handleCreateMachine({
   configuration,
