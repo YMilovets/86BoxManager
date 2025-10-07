@@ -1,9 +1,10 @@
 import { app as App, dialog } from "electron";
 import { release, type } from "os";
 
-import getTransition from "./getTransition.js";
 import { AUTHOR_NAME, RELEASE_YEAR } from "../shared/index.js";
 import { fixLocalizationButton } from "../shared/utils.js";
+
+import getTransition from "./getTransition.js";
 
 export default function getAppVersion({ dictionary, mainWindow }) {
   const getDictionary = getTransition(dictionary);

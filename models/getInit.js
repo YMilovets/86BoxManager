@@ -1,9 +1,10 @@
 import { Notification } from "electron";
 import { readdirSync } from "fs";
 
-import getTransition from "./getTransition.js";
-import { globalState } from "../shared/state.js";
 import { ErrorType } from "../shared/index.js";
+import { globalState } from "../shared/state.js";
+
+import getTransition from "./getTransition.js";
 
 function updateConfiguration(preferences) {
   if (Object.values(preferences).some((valueConfig) => !valueConfig)) {
