@@ -1,10 +1,10 @@
-import { Notification } from "electron";
-import { readdirSync } from "fs";
+const { Notification } = require("electron");
+const { readdirSync } = require("fs");
 
-import { ErrorType } from "../shared/index.js";
-import { globalState } from "../shared/state.js";
+const { ErrorType } = require("../shared/index.js");
+const globalState = require("../shared/state.js");
 
-import getTransition from "./getTransition.js";
+const getTransition = require("./getTransition.js");
 
 function updateConfiguration(preferences) {
   if (Object.values(preferences).some((valueConfig) => !valueConfig)) {
@@ -13,7 +13,7 @@ function updateConfiguration(preferences) {
   globalState.configuration = preferences;
 }
 
-export default function getHandleInit(
+function getHandleInit(
   e,
   {
     preferences,
@@ -56,3 +56,5 @@ export default function getHandleInit(
 
   return globalState.configuration;
 }
+
+module.exports = getHandleInit;

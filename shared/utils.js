@@ -1,13 +1,18 @@
-import { app as App } from "electron";
+const { app: App } = require("electron");
 
-export function fixLocalizationButton(...labelParams) {
+function fixLocalizationButton(...labelParams) {
   return labelParams?.map((label) => [label, " "].join("")) ?? [];
 }
 
-export function redirectAsarUnpackedFiles(path) {
+function redirectAsarUnpackedFiles(path) {
   if (App.isPackaged) {
     return path.replace("app.asar", "app.asar.unpacked");
   }
 
   return path;
 }
+
+module.exports = {
+  fixLocalizationButton,
+  redirectAsarUnpackedFiles,
+};

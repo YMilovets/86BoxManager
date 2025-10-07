@@ -1,14 +1,14 @@
-import { dialog, Notification } from "electron";
-import { existsSync, rmSync } from "fs";
-import { join } from "path";
+const { dialog, Notification } = require("electron");
+const { existsSync, rmSync } = require("fs");
+const { join } = require("path");
 
-import { ErrorType } from "../shared/index.js";
-import { fixLocalizationButton } from "../shared/utils.js";
+const { ErrorType } = require("../shared/index.js");
+const { fixLocalizationButton } = require("../shared/utils.js");
 
-import getExistFolder from "./getExistFolder.js";
-import getTransition from "./getTransition.js";
+const getExistFolder = require("./getExistFolder.js");
+const getTransition = require("./getTransition.js");
 
-export default async function removeMachine(
+async function removeMachine(
   e,
   { machineName, dictionary, configuration, mainWindow }
 ) {
@@ -98,3 +98,5 @@ export default async function removeMachine(
     throw error;
   }
 }
+
+module.exports = removeMachine;

@@ -1,8 +1,10 @@
-import { Notification } from "electron";
+const { Notification } = require("electron");
 
-export default function getNotification(_, { title, text }) {
+function getNotification(_, { title, text }) {
   new Notification({
     title,
     body: text,
   }).show();
 }
+
+module.exports = getNotification;

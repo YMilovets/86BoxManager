@@ -1,28 +1,29 @@
-import { app as App, dialog,ipcMain } from "electron";
-import { join } from "path";
-import { format } from "url";
+const { ipcMain, app: App, dialog } = require("electron");
+const { join } = require("path");
+const { format } = require("url");
 
-import { Window } from "./lib/Window.js";
-import compareSavedConfiguration from "./models/compareSavedConfiguration.js";
-import handleCreateMachine from "./models/createMachine.js";
-import getAppVersion from "./models/getAppVersion.js";
-import getConfigLanguage from "./models/getConfigLanguage.js";
-import getExistFolder from "./models/getExistFolder.js";
-import getIcon from "./models/getIcon.js";
-import getHandleInit from "./models/getInit.js";
-import getLanguageList from "./models/getLanguageList.js";
-import getNotification from "./models/getNotification.js";
-import getOSPlatform from "./models/getOSPlatform.js";
-import getTransition from "./models/getTransition.js";
-import handleInvokeMachine from "./models/invokeMachine.js";
-import openFileDialog from "./models/openFileDialog.js";
-import openSpecificFolder from "./models/openSpecificFolder.js";
-import openURL from "./models/openURL.js";
-import removeMachine from "./models/removeMachine.js";
-import renameMachine from "./models/renameMachine.js";
-import { ErrorType, TAB_KEY } from "./shared/index.js";
-import { globalState } from "./shared/state.js";
-import { fixLocalizationButton } from "./shared/utils.js";
+const Window = require("./lib/Window.js");
+
+const compareSavedConfiguration = require("./models/compareSavedConfiguration.js");
+const handleCreateMachine = require("./models/createMachine.js");
+const getAppVersion = require("./models/getAppVersion.js");
+const getConfigLanguage = require("./models/getConfigLanguage.js");
+const getExistFolder = require("./models/getExistFolder.js");
+const getIcon = require("./models/getIcon.js");
+const getHandleInit = require("./models/getInit.js");
+const getLanguageList = require("./models/getLanguageList.js");
+const getNotification = require("./models/getNotification.js");
+const getOSPlatform = require("./models/getOSPlatform.js");
+const getTransition = require("./models/getTransition.js");
+const handleInvokeMachine = require("./models/invokeMachine.js");
+const openFileDialog = require("./models/openFileDialog.js");
+const openSpecificFolder = require("./models/openSpecificFolder.js");
+const openURL = require("./models/openURL.js");
+const removeMachine = require("./models/removeMachine.js");
+const renameMachine = require("./models/renameMachine.js");
+const { ErrorType, TAB_KEY } = require("./shared/index.js");
+const globalState = require("./shared/state.js");
+const { fixLocalizationButton } = require("./shared/utils.js");
 
 const lockInstance = App.requestSingleInstanceLock();
 if (!lockInstance) {
@@ -114,14 +115,14 @@ async function getConfigLanguageHandler(e, { language, isSelected = false }) {
   return globalState.dictionary;
 }
 
-function setConfigLanguage(e) {
+function setConfigLanguage(e) {  
   e.reply("set-config-language", {
     language: globalState.language,
     dictionary: globalState.dictionary,
   });
 }
 
-async function renameMachineHandler(e, machineName, newMachineName) {  
+async function renameMachineHandler(e, machineName, newMachineName) {
   if (globalState.isLockProcess){
     return new Error(ErrorType.IsBlockProcess);
   }

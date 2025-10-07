@@ -1,6 +1,6 @@
-import { ErrorType } from "../shared/index.js";
+const { ErrorType } = require("../shared/index.js");
 
-export default function compareSavedConfiguration({
+function compareSavedConfiguration({
   localConfiguration,
   configuration,
 }) {
@@ -10,3 +10,5 @@ export default function compareSavedConfiguration({
     throw new Error(ErrorType.NoCompareConfiguration);
   }
 }
+
+module.exports = compareSavedConfiguration;

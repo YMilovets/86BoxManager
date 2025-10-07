@@ -1,17 +1,21 @@
-import { app as App } from "electron";
-import { promises } from "fs";
-import { join } from "path";
+const { app: App } = require("electron");
+const { promises } = require("fs");
+const { join } = require("path");
 
-import { globalState } from "../shared/state.js";
-import { redirectAsarUnpackedFiles } from "../shared/utils.js";
-import { LanguageList } from "../src/Shared/Constants/index.js";
+const globalState = require("../shared/state.js");
+const { redirectAsarUnpackedFiles } = require("../shared/utils.js");
+
+const LanguageList = {
+  RU: "ru",
+  EN: "en",
+};
 
 const defaultLanguageNameList = {
   [LanguageList.RU]: "Русский",
   [LanguageList.EN]: "English",
 };
 
-export async function getLanguageFiles(dictionaryList = []) {
+async function getLanguageFiles(dictionaryList = []) {
   const languageList = [{ language: "", languageId: "" }];
 
   for (const file of dictionaryList) {
@@ -40,7 +44,7 @@ export async function getLanguageFiles(dictionaryList = []) {
   return languageList;
 }
 
-export default async function getLanguageList() {
+async function getLanguageList() {
   const directoryPath = redirectAsarUnpackedFiles(join(App.getAppPath(), "i18n"));
 
   const dictionaryList = await promises.readdir(directoryPath);
@@ -82,3 +86,5 @@ export default async function getLanguageList() {
     }
   );
 }
+
+module.exports = getLanguageList;

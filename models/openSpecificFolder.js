@@ -1,7 +1,9 @@
-import { shell } from "electron";
+const { shell } = require("electron");
 
-import { globalState } from "../shared/state.js";
+const globalState = require("../shared/state.js");
 
-export default function openSpecificFolder() {
+function openSpecificFolder() {
   shell.openPath(globalState.configuration.pathConfig);
 }
+
+module.exports = openSpecificFolder;

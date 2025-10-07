@@ -1,17 +1,17 @@
-import { exec } from "child_process";
-import { dialog } from "electron";
-import { promisify } from "util";
+const { exec } = require("child_process");
+const { dialog } = require("electron");
+const { promisify } = require("util");
 
-import { globalState } from "../shared/state.js";
-import { fixLocalizationButton } from "../shared/utils.js";
+const globalState = require("../shared/state.js");
+const { fixLocalizationButton } = require("../shared/utils.js");
 
-import getExistFolder from "./getExistFolder.js";
-import getHandleInit from "./getInit.js";
-import getTransition from "./getTransition.js";
+const getExistFolder = require("./getExistFolder.js");
+const getHandleInit = require("./getInit.js");
+const getTransition = require("./getTransition.js");
 
 const execAsync = promisify(exec);
 
-export default async function handleInvokeMachine(
+async function handleInvokeMachine(
   e,
   { dictionary, machineId, configuration, mainWindow }
 ) {
@@ -92,3 +92,5 @@ export default async function handleInvokeMachine(
     mainWindow?.show();
   }
 }
+
+module.exports = handleInvokeMachine;
