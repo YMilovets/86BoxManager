@@ -2,9 +2,9 @@ import { app as App } from "electron";
 import { promises } from "fs";
 import { join } from "path";
 
-import { LanguageList } from "../src/Shared/Constants/index.js";
 import { globalState } from "../shared/state.js";
 import { redirectAsarUnpackedFiles } from "../shared/utils.js";
+import { LanguageList } from "../src/Shared/Constants/index.js";
 
 const defaultLanguageNameList = {
   [LanguageList.RU]: "Русский",

@@ -1,13 +1,13 @@
-import { dialog } from "electron";
 import { exec } from "child_process";
+import { dialog } from "electron";
 import { promisify } from "util";
 
-import getTransition from "./getTransition.js";
+import { globalState } from "../shared/state.js";
+import { fixLocalizationButton } from "../shared/utils.js";
+
 import getExistFolder from "./getExistFolder.js";
 import getHandleInit from "./getInit.js";
-
-import { fixLocalizationButton } from "../shared/utils.js";
-import { globalState } from "../shared/state.js";
+import getTransition from "./getTransition.js";
 
 const execAsync = promisify(exec);
 
