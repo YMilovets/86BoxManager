@@ -1,15 +1,13 @@
 import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Button from "../../Components/Button";
 import {
   DictionaryContext,
   MachineContext,
 } from "../../Components/App/context";
-
-import getDictionary from "../../Shared/Utils/getTransition";
+import Button from "../../Components/Button";
 import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
-
+import getDictionary from "../../Shared/Utils/getTransition";
 import LanguageContainer from "../LanguageContainer";
 
 import styles from "./ControlContainer.module.css";

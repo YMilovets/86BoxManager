@@ -1,13 +1,14 @@
 import { useContext, useEffect } from "react";
-import getDictionary from "../../Shared/Utils/getTransition";
-import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
+
 import {
   DictionaryContext,
   MachineContext,
 } from "../../Components/App/context";
+import ControlContainer from "../../Containers/ControlContainer";
 import MachineItemContainer from "../../Containers/MachineItemContainer";
 import MachineItemEditContainer from "../../Containers/MachineItemEditContainer";
-import ControlContainer from "../../Containers/ControlContainer";
+import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
+import getDictionary from "../../Shared/Utils/getTransition";
 
 import styles from "./PageMain.module.css";
 

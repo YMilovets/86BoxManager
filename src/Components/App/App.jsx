@@ -1,13 +1,13 @@
 import { useEffect, useReducer, useState } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 
-import PageMain from "../../Pages/PageMain";
-import PageConfig from "../../Pages/PageConfig";
 import PageAddMachine from "../../Pages/PageAddMachine";
+import PageConfig from "../../Pages/PageConfig";
+import PageMain from "../../Pages/PageMain";
+import { LanguageList } from "../../Shared/Constants";
 
 import { DictionaryContext, MachineContext } from "./context";
 import { reducerListMachines } from "./reducers";
-import { LanguageList } from "../../Shared/Constants";
 
 import styles from "./App.module.css";
 

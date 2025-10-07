@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
-import styles from "./InputText.module.css";
 import clsx from "clsx";
+import PropTypes from "prop-types";
+
+import styles from "./InputText.module.css";
 
 function InputText({ name, id, onChange, className, type = "text", ...props }) {
   return (

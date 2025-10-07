@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
+
 import styles from "./Icon.module.css";
 
 function Close({ className }) {
