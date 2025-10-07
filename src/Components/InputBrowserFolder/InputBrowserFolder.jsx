@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import InputText from "../InputText";
+
 import Button from "../Button";
+import InputText from "../InputText";
 
 import styles from "./InputBrowserFolder.module.css";
 

@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import Button from "../../Components/Button";
 import { useContext, useState } from "react";
-import InputText from "../../Components/InputText";
+import { useNavigate } from "react-router-dom";
 
-import getDictionary from "../../Shared/Utils/getTransition";
 import { DictionaryContext, MachineContext } from "../../Components/App/context";
+import Button from "../../Components/Button";
+import InputText from "../../Components/InputText";
+import getDictionary from "../../Shared/Utils/getTransition";
+
 import styles from "./PageAddMachine.module.css";
 
 function PageAddMachine() {

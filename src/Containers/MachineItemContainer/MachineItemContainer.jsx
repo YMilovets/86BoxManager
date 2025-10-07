@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import Button from "../../Components/Button";
+
 import { DictionaryContext, MachineContext } from "../../Components/App/context";
+import Button from "../../Components/Button";
 import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
 import getDictionary from "../../Shared/Utils/getTransition";
 

@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
-import styles from "./Button.module.css";
 import clsx from "clsx";
+import PropTypes from "prop-types";
+
+import styles from "./Button.module.css";
 
 function Button({ children, onClick, className, isPrimary, ...props }) {
   return (
