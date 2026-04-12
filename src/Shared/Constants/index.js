@@ -12,3 +12,9 @@ export const PlatformList = {
 };
 
 export const BASE_SELECT_AVAILABLE_CHROME_VERSION = 135;
+
+export const WINDOWS_ERROR_CODE_NOT_FOUND = 1;
+export const WINDOWS_ERROR_CODE_SEGMENTATION = 0xC0000005;
+
+export const LINUX_ERROR_CODE_NOT_FOUND = 127;
+export const LINUX_ERROR_CODE_SEGMENTATION = 139;
