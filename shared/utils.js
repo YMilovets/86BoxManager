@@ -11,3 +11,7 @@ export function redirectAsarUnpackedFiles(path) {
 
   return path;
 }
+
+export function formatHexNumber(number) {
+  return `0x${number.toString(16).toUpperCase()}`;
+}
