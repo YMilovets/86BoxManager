@@ -81,7 +81,9 @@
   "noExistFolder": "There is no specific directory. Change a preference of the location of virtual machines",
 
   "firstLaunchMessage": "The first start was completed by the 86BoxManager application or settings were reset. Please configure your an location directory of the virtual machine and 86Box executable file",
-  "failLaunchApp": "The specified path from 86Box application does not exist. Change settings application",
+  "failLaunchApp": "The specified path from 86Box application does not exist. Change settings application\nError code: $errorCode",
+  "failSegmentation": "The 86Box process tried to access a protected location memory and was immediately terminated\nError code: $errorCode",
+
   "destinationWindowsMessage": "You need to download an archive with the 86Box virtual machine program on the link $downloadURL, unzip it to any directory and select 86Box executable file in the Windows system to configurate the location of 86Box executable file.",
   "destinationLinuxMessage": "Read the instruction on the link $instructionURL to install the 86Box application on Debian. Then just enter 86Box command to the location of the 86Box executable file."
 }

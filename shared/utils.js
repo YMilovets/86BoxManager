@@ -12,7 +12,12 @@ function redirectAsarUnpackedFiles(path) {
   return path;
 }
 
+function formatHexNumber(number) {
+  return `0x${number.toString(16).toUpperCase()}`;
+}
+
 module.exports = {
   fixLocalizationButton,
+  formatHexNumber,
   redirectAsarUnpackedFiles,
 };
