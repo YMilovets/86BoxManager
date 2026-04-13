@@ -3,13 +3,64 @@ const { dialog } = require("electron");
 const { promisify } = require("util");
 
 const globalState = require("../shared/state.js");
-const { fixLocalizationButton } = require("../shared/utils.js");
+const {
+  fixLocalizationButton,
+  formatHexNumber,
+} = require("../shared/utils.js");
 
 const getExistFolder = require("./getExistFolder.js");
 const getHandleInit = require("./getInit.js");
 const getTransition = require("./getTransition.js");
+const getOSPlatform = require("./getOSPlatform.js");
+
+const {
+  PlatformList,
+  LINUX_ERROR_CODE_NOT_FOUND,
+  LINUX_ERROR_CODE_SEGMENTATION,
+  WINDOWS_ERROR_CODE_NOT_FOUND,
+  WINDOWS_ERROR_CODE_SEGMENTATION,
+} = require("../shared/index.js");
 
 const execAsync = promisify(exec);
+
+function verifyErrorInvokeMachine(code, dictionary = {}) {
+  const getDictionary = getTransition(dictionary);
+
+  const isOSWindows = getOSPlatform() === PlatformList.Windows;
+  const isOSLinux = getOSPlatform() === PlatformList.Linux;
+
+  if (isOSWindows && code === WINDOWS_ERROR_CODE_NOT_FOUND) {
+    throw new Error(
+      getDictionary("failLaunchApp", (result) =>
+        result.replace("$errorCode", code)
+      )
+    );
+  }
+
+  if (isOSWindows && code === WINDOWS_ERROR_CODE_SEGMENTATION) {
+    throw new Error(
+      getDictionary("failSegmentation", (result) =>
+        result.replace("$errorCode", formatHexNumber(code))
+      )
+    );
+  }
+
+  if (isOSLinux && code === LINUX_ERROR_CODE_NOT_FOUND) {
+    throw new Error(
+      getDictionary("failLaunchApp", (result) =>
+        result.replace("$errorCode", code)
+      )
+    );
+  }
+
+  if (isOSLinux && code === LINUX_ERROR_CODE_SEGMENTATION) {
+    throw new Error(
+      getDictionary("failSegmentation", (result) =>
+        result.replace("$errorCode", code)
+      )
+    );
+  }
+}
 
 async function handleInvokeMachine(
   e,
@@ -53,8 +104,8 @@ async function handleInvokeMachine(
       await execAsync(
         `${globalState.configuration.pathApp} -P "${globalState.configuration.pathConfig}/${machineId}"`
       );
-    } catch {
-      throw new Error(getDictionary("failLaunchApp"));
+    } catch (e) {
+      verifyErrorInvokeMachine(e.code, dictionary);
     }
   } catch ({ message }) {
     dialog.showMessageBox(mainWindow, {
