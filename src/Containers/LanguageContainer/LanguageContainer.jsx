@@ -5,9 +5,11 @@ import PropTypes from "prop-types";
 import { ErrorType } from "../../../shared";
 import { DictionaryContext } from "../../Components/App/context";
 import Select from "../../Components/Select";
-import { BASE_SELECT_AVAILABLE_CHROME_VERSION } from "../../Shared/Constants";
-import getChromeVersion from "../../Shared/Utils/getChromeVersion";
-import getDictionary from "../../Shared/Utils/getTransition";
+import {
+  BASE_SELECT_AVAILABLE_CHROME_VERSION,
+  getChromeVersion,
+  getDictionary,
+} from "../../Shared";
 
 import styles from "./LanguageContainer.module.css";
 
@@ -20,7 +22,7 @@ function LanguageContainer({ className }, ref) {
 
   const { electronAPI } = window;
 
-  async function handleSelectClick(languageId, isSetList = true) {    
+  async function handleSelectClick(languageId, isSetList = true) {
     const languageAPIList = await electronAPI.getLanguageList();
 
     if (isSetList) {
@@ -36,8 +38,8 @@ function LanguageContainer({ className }, ref) {
     if (ref && ref.current && currentLanguage) {
       // Добавлена задержка отображения выбранного языка
       setTimeout(() => {
-          ref.current.querySelector("selectedcontent").textContent =
-            currentLanguage;
+        ref.current.querySelector("selectedcontent").textContent =
+          currentLanguage;
       }, 100);
     }
 
@@ -78,7 +80,7 @@ function LanguageContainer({ className }, ref) {
 
       if (getChromeVersion() < BASE_SELECT_AVAILABLE_CHROME_VERSION) return;
 
-      isActiveRef.current = !isActiveRef.current;      
+      isActiveRef.current = !isActiveRef.current;
 
       try {
         await handleSelectChange(e);
@@ -105,13 +107,13 @@ function LanguageContainer({ className }, ref) {
       isActiveRef.current = false;
       handleSelectClick(language, false);
     };
-    
-    document.addEventListener('click', handleInnerClick);
+
+    document.addEventListener("click", handleInnerClick);
 
     return () => {
-      document.removeEventListener('click', handleInnerClick);
-    }
-  }, [language])
+      document.removeEventListener("click", handleInnerClick);
+    };
+  }, [language]);
 
   return (
     <div className={styles.language}>

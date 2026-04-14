@@ -1,9 +1,11 @@
 import { useContext } from "react";
 
-import { DictionaryContext, MachineContext } from "../../Components/App/context";
+import {
+  DictionaryContext,
+  MachineContext,
+} from "../../Components/App/context";
 import Button from "../../Components/Button";
-import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
-import getDictionary from "../../Shared/Utils/getTransition";
+import { getDictionary, useLocalStorage } from "../../Shared";
 
 import styles from "./MachineItemContainer.module.css";
 

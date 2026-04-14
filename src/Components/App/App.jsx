@@ -4,7 +4,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import PageAddMachine from "../../Pages/PageAddMachine";
 import PageConfig from "../../Pages/PageConfig";
 import PageMain from "../../Pages/PageMain";
-import { LanguageList } from "../../Shared/Constants";
+import { LanguageList } from "../../Shared";
 
 import { DictionaryContext, MachineContext } from "./context";
 import { reducerListMachines } from "./reducers";

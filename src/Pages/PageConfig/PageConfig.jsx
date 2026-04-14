@@ -1,12 +1,15 @@
 import { useCallback, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { DictionaryContext, MachineContext } from "../../Components/App/context";
+import {
+  DictionaryContext,
+  MachineContext,
+} from "../../Components/App/context";
 import Button from "../../Components/Button";
 import InputBrowserFolder from "../../Components/InputBrowserFolder";
 import LanguageContainer from "../../Containers/LanguageContainer";
 import MessageContainer from "../../Containers/MessageContainer";
-import getDictionary from "../../Shared/Utils/getTransition";
+import { getDictionary } from "../../Shared";
 
 import { getDefaultListFormInput } from "./utils";
 
@@ -16,8 +19,7 @@ function PageConfig() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
 
-  const { dictionary, language } =
-    useContext(DictionaryContext);
+  const { dictionary, language } = useContext(DictionaryContext);
   const { setIsEdit } = useContext(MachineContext);
   const { electronAPI } = window;
 

@@ -1,10 +1,13 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { DictionaryContext, MachineContext } from "../../Components/App/context";
+import {
+  DictionaryContext,
+  MachineContext,
+} from "../../Components/App/context";
 import Button from "../../Components/Button";
 import InputText from "../../Components/InputText";
-import getDictionary from "../../Shared/Utils/getTransition";
+import { getDictionary } from "../../Shared";
 
 import styles from "./PageAddMachine.module.css";
 
@@ -12,7 +15,8 @@ function PageAddMachine() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
   const { dictionary } = useContext(DictionaryContext);
-  const { listMachines, getExistFolder, setIsEdit } = useContext(MachineContext);
+  const { listMachines, getExistFolder, setIsEdit } =
+    useContext(MachineContext);
   const { electronAPI } = window;
 
   const getTransition = getDictionary(dictionary);

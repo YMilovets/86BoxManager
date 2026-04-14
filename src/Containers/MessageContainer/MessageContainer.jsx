@@ -2,8 +2,12 @@ import { useContext, useEffect, useState } from "react";
 
 import { DictionaryContext } from "../../Components/App/context";
 import Message from "../../Components/Message";
-import { DOWNLOAD_URL, INSTRUCTION_URL, PlatformList } from "../../Shared/Constants";
-import getDictionary from "../../Shared/Utils/getTransition";
+import {
+  DOWNLOAD_URL,
+  getDictionary,
+  INSTRUCTION_URL,
+  PlatformList,
+} from "../../Shared";
 
 function MessageContainer() {
   const { dictionary } = useContext(DictionaryContext);

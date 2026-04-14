@@ -7,8 +7,7 @@ import {
 import ControlContainer from "../../Containers/ControlContainer";
 import MachineItemContainer from "../../Containers/MachineItemContainer";
 import MachineItemEditContainer from "../../Containers/MachineItemEditContainer";
-import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
-import getDictionary from "../../Shared/Utils/getTransition";
+import { getDictionary, useLocalStorage } from "../../Shared";
 
 import styles from "./PageMain.module.css";
 
