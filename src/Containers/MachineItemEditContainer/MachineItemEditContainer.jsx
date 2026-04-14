@@ -2,12 +2,14 @@ import { useContext, useEffect, useRef } from "react";
 import clsx from "clsx";
 
 import { ErrorType } from "../../../shared";
-import { DictionaryContext, MachineContext } from "../../Components/App/context";
+import {
+  DictionaryContext,
+  MachineContext,
+} from "../../Components/App/context";
 import Button from "../../Components/Button";
 import { Close } from "../../Components/Icon";
 import InputText from "../../Components/InputText";
-import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
-import getDictionary from "../../Shared/Utils/getTransition";
+import { getDictionary, useLocalStorage } from "../../Shared";
 
 import styles from "./MachineItemEditContainer.module.css";
 
@@ -68,7 +70,7 @@ function MachineItemEditContainer() {
           localStorage,
           prevPathMachines,
         });
-      } catch {        
+      } catch {
         electronAPI.getInit(localStorage);
         return;
       }
@@ -86,7 +88,7 @@ function MachineItemEditContainer() {
           return;
         }
         electronAPI.getInit(localStorage);
-      } 
+      }
     };
   }
 
@@ -177,8 +179,7 @@ function MachineItemEditContainer() {
         formItem.title = getTransition("fieldIsChanged");
       }
     });
-  }, [dictionary])
-  
+  }, [dictionary]);
 
   return (
     <form ref={formRef}>

@@ -6,8 +6,7 @@ import {
   MachineContext,
 } from "../../Components/App/context";
 import Button from "../../Components/Button";
-import useLocalStorage from "../../Shared/Hooks/useLocalStorage";
-import getDictionary from "../../Shared/Utils/getTransition";
+import { getDictionary, useLocalStorage } from "../../Shared";
 import LanguageContainer from "../LanguageContainer";
 
 import styles from "./ControlContainer.module.css";
