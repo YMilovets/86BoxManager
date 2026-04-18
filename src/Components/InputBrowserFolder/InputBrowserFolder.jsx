@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import PropTypes from "prop-types";
 
 import Button from "../Button";
@@ -18,19 +18,12 @@ function InputBrowserFolder({
 }) {
   const { label: btnLabel } = btnGroup;
 
-  const [inputValue, setInputValue] = useState(value);
-
   const handleChange = useCallback(
     (e) => {
-      setInputValue(e.currentTarget.value);
       onChange(e);
     },
     [onChange]
   );
-
-  useEffect(() => {
-    setInputValue(value);
-  }, [value]);
 
   return (
     <div className={styles.unit}>
@@ -41,7 +34,7 @@ function InputBrowserFolder({
           name={id}
           id={id}
           onChange={handleChange}
-          value={inputValue}
+          value={value}
           onClick={onInputClick}
           className={styles.input}
         />

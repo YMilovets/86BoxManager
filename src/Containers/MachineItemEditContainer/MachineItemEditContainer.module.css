@@ -32,20 +32,6 @@
     font-weight: 375;
 }
 
-.remove_btn {
-    padding: .6em;
-}
-
-.remove_icon.remove_icon__disabled {
-    --root-fill-color: var(--icon-fill-color__disabled);
-}
-
-.remove_icon {
-    --root-fill-color: var(--icon-fill-color);
-    width: 0.9em;
-    height: 0.9em;
-}
-
 .input {
     min-width: 3.85em;
     flex: 1;
