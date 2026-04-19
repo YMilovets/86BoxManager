@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
-import { DictionaryContext } from "../../Components/App/context";
 import Message from "../../Components/Message";
+import { DictionaryContext } from "../../Providers/LanguageProvider";
 import {
   DOWNLOAD_URL,
   getDictionary,

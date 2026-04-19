@@ -2,12 +2,10 @@ import { useContext } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
-import {
-  DictionaryContext,
-  MachineContext,
-} from "../../Components/App/context";
 import Button from "../../Components/Button";
 import { Close } from "../../Components/Icon";
+import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { MachineContext } from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
 import styles from "./RemoveBtnContainer.module.css";
