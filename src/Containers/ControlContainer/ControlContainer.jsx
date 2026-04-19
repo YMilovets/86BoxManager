@@ -1,11 +1,9 @@
 import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-  DictionaryContext,
-  MachineContext,
-} from "../../Components/App/context";
 import Button from "../../Components/Button";
+import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { MachineContext } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 import CreateBtnContainer from "../CreateBtnContainer";
 import EditBtnContainer from "../EditBtnContainer";

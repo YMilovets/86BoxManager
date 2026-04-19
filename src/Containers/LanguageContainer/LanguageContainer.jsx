@@ -3,8 +3,8 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 
 import { ErrorType } from "../../../shared";
-import { DictionaryContext } from "../../Components/App/context";
 import Select from "../../Components/Select";
+import { DictionaryContext } from "../../Providers/LanguageProvider";
 import {
   BASE_SELECT_AVAILABLE_CHROME_VERSION,
   getChromeVersion,
@@ -35,11 +35,13 @@ function LanguageContainer({ className }, ref) {
       ),
     };
 
-    if (ref && ref.current && currentLanguage) {
+    if (ref && currentLanguage) {
       // Добавлена задержка отображения выбранного языка
       setTimeout(() => {
-        ref.current.querySelector("selectedcontent").textContent =
-          currentLanguage;
+        if (ref.current) {
+          ref.current.querySelector("selectedcontent").textContent =
+            currentLanguage;
+        }
       }, 100);
     }
 

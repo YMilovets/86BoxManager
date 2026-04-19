@@ -1,11 +1,9 @@
 import { useContext, useEffect } from "react";
 import clsx from "clsx";
 
-import {
-  DictionaryContext,
-  MachineContext,
-} from "../../Components/App/context";
 import InputText from "../../Components/InputText";
+import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { MachineContext } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 import RemoveBtnContainer from "../RemoveBtnContainer";
 

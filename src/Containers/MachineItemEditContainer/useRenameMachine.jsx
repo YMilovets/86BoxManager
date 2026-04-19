@@ -1,10 +1,8 @@
 import { useContext, useRef } from "react";
 
 import { ErrorType } from "../../../shared";
-import {
-  DictionaryContext,
-  MachineContext,
-} from "../../Components/App/context";
+import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { MachineContext } from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
 export default function useRenameMachine() {
