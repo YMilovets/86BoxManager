@@ -1,13 +1,11 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
-import {
-  DictionaryContext,
-  MachineContext,
-} from "../../Components/App/context";
 import ControlContainer from "../../Containers/ControlContainer";
-import MachineItemContainer from "../../Containers/MachineItemContainer";
-import MachineItemEditContainer from "../../Containers/MachineItemEditContainer";
-import { getDictionary, useLocalStorage } from "../../Shared";
+import ControlMachineContainer from "../../Containers/ControlMachineContainer";
+import MainContainer from "../../Containers/MainContainer";
+import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { MachineContext } from "../../Providers/MachineProvider";
+import { getDictionary } from "../../Shared";
 
 import styles from "./PageMain.module.css";
 
@@ -15,78 +13,16 @@ function PageMain() {
   const { dictionary } = useContext(DictionaryContext);
   const getTransition = getDictionary(dictionary);
 
-  const {
-    isEdit,
-    isExistFolder,
-    listMachines,
-    unlockMachine,
-    getExistFolder,
-    setIsEdit,
-  } = useContext(MachineContext);
+  const { isEdit } = useContext(MachineContext);
 
   const { electronAPI } = window;
-
-  const getLocalStorage = useLocalStorage();
-
-  useEffect(() => {
-    try {
-      const localConfig = getLocalStorage();
-      electronAPI?.getInit(localConfig);
-      getExistFolder();
-
-      electronAPI?.onUnlockedConfiguration(
-        async ({
-          machineId: closedMachine,
-          isExistFolder,
-          activeMachines,
-          processPathConfiguration,
-          prevPathConfiguration,
-          message: { text, title },
-        }) => {
-          const localConfig = getLocalStorage();
-
-          const isCurrentExistFolder = await getExistFolder();
-
-          if (!isCurrentExistFolder) setIsEdit(isCurrentExistFolder);
-
-          const isChangedPrevPathConfig =
-            prevPathConfiguration !== localConfig.pathConfig;
-
-          if (isCurrentExistFolder && isChangedPrevPathConfig) {
-            electronAPI?.getNotification({
-              title,
-              text: text
-                .replace("$prevPathMachines", prevPathConfiguration)
-                .replace("$currentPathMachines", localConfig.pathConfig),
-            });
-          }
-
-          if (isChangedPrevPathConfig) {
-            electronAPI?.getInit(localConfig);
-            return;
-          }
-
-          unlockMachine({
-            isExistFolder,
-            closedMachine,
-            activeMachines,
-            processPathConfiguration,
-          });
-        }
-      );
-    } catch { /* empty */ }
-  }, []);
-
-  const MainMachineItemContainer = !isEdit
-    ? MachineItemContainer
-    : MachineItemEditContainer;
 
   function getPathConfig() {
     return localStorage.getItem("rootDirMachines");
   }
 
   return (
-    <main className={styles.root}>
+    <MainContainer className={styles.root}>
       <div className={styles.container}>
         <header className={styles.header}>
           <h3 className={styles.label}>
@@ -95,19 +31,7 @@ function PageMain() {
         </header>
 
         <div className={styles.scroll}>
-          {electronAPI && listMachines.length === 0 && isExistFolder && (
-            <p role="alert" className={styles.alert}>
-              {getTransition("emptyList")}
-            </p>
-          )}
-          {electronAPI && !isExistFolder && (
-            <p role="alert" className={styles.alert}>
-              {getTransition("noExistFolder")}
-            </p>
-          )}
-          {electronAPI && listMachines.length > 0 && isExistFolder && (
-            <MainMachineItemContainer />
-          )}
+          <ControlMachineContainer />
           {!electronAPI && (
             <p className={styles.alert} role="alert">
               {getTransition("errorElectronAPI")}
@@ -123,7 +47,7 @@ function PageMain() {
         </strong>
         : {getPathConfig()}
       </footer>
-    </main>
+    </MainContainer>
   );
 }
 
