@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 import InputText from "../../Components/InputText";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { MachineContext } from "../../Providers/MachineProvider";
+import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 import RemoveBtnContainer from "../RemoveBtnContainer";
 
@@ -12,7 +12,7 @@ import useRenameMachine from "./useRenameMachine";
 import styles from "./MachineItemEditContainer.module.css";
 
 function MachineItemEditContainer() {
-  const { listMachines } = useContext(MachineContext);
+  const { listMachines } = useMachines();
   const { dictionary } = useContext(DictionaryContext);
   const { handleConfigurationChange, handleRenameMachine, formRef } =
     useRenameMachine();

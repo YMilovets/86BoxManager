@@ -2,14 +2,14 @@ import { useContext } from "react";
 
 import Button from "../../Components/Button";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { MachineContext } from "../../Providers/MachineProvider";
+import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
 import styles from "./MachineItemContainer.module.css";
 
 function MachineItemContainer() {
   const { listMachines, prevPathMachines, setStartMachine, getExistFolder } =
-    useContext(MachineContext);
+    useMachines();
   const { dictionary } = useContext(DictionaryContext);
 
   const getLocalStorage = useLocalStorage();

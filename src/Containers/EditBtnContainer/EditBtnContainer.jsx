@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 
 import Button from "../../Components/Button";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { MachineContext } from "../../Providers/MachineProvider";
+import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
 function EditBtnContainer({ className }) {
   const { dictionary } = useContext(DictionaryContext);
   const { isEdit, isExistFolder, listMachines, getExistFolder, setIsEdit } =
-    useContext(MachineContext);
+    useMachines();
 
   const getTransition = getDictionary(dictionary);
 

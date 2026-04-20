@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import Button from "../../Components/Button";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { MachineContext } from "../../Providers/MachineProvider";
+import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 
 function CancelContainer() {
   const navigate = useNavigate();
-  const { setIsEdit } = useContext(MachineContext);
+  const { setIsEdit } = useMachines();
   const { dictionary } = useContext(DictionaryContext);
 
   const getTransition = getDictionary(dictionary);

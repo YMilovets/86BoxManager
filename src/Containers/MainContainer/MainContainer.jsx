@@ -1,12 +1,12 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { MachineContext } from "../../Providers/MachineProvider";
+import { useMachines } from "../../Providers/MachineProvider";
 import { useLocalStorage } from "../../Shared";
 
 function MainContainer({ children, className }) {
   const { unlockMachine, getExistFolder, setIsEdit } =
-    useContext(MachineContext);
+    useMachines();
 
   const { electronAPI } = window;
 

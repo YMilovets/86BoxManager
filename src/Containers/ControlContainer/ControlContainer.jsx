@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Button from "../../Components/Button";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { MachineContext } from "../../Providers/MachineProvider";
+import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 import CreateBtnContainer from "../CreateBtnContainer";
 import EditBtnContainer from "../EditBtnContainer";
@@ -16,7 +16,7 @@ import styles from "./ControlContainer.module.css";
 function ControlContainer() {
   const { dictionary } = useContext(DictionaryContext);
   const { isExistFolder, listMachines, isStartedMachines } =
-    useContext(MachineContext);
+    useMachines();
 
   const getTransition = getDictionary(dictionary);
 
