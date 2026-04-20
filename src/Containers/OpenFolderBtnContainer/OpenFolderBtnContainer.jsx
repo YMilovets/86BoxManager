@@ -3,15 +3,18 @@ import PropTypes from "prop-types";
 
 import Button from "../../Components/Button";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { useMachines } from "../../Providers/MachineProvider";
+import {
+  useMachineActions,
+  useMachines,
+} from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
 function OpenFolderBtnContainer({ className }) {
   const { dictionary } = useContext(DictionaryContext);
 
   const getLocalStorage = useLocalStorage();
-  const { isExistFolder, getExistFolder, isEdit, setIsEdit } =
-    useMachines();
+  const { isExistFolder, isEdit } = useMachines();
+  const { getExistFolder, setIsEdit } = useMachineActions();
 
   const getTransition = getDictionary(dictionary);
 

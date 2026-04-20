@@ -4,7 +4,10 @@ import PropTypes from "prop-types";
 
 import Button from "../../Components/Button";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { useMachines } from "../../Providers/MachineProvider";
+import {
+  useMachineActions,
+  useMachines,
+} from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
 function CreateBtnContainer({ className }) {
@@ -16,8 +19,8 @@ function CreateBtnContainer({ className }) {
 
   const navigate = useNavigate();
 
-  const { isExistFolder, setIsEdit, getExistFolder } =
-    useMachines();
+  const { isExistFolder } = useMachines();
+  const { setIsEdit, getExistFolder } = useMachineActions();
 
   const getLocalStorage = useLocalStorage();
 

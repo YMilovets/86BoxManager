@@ -1,12 +1,11 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { useMachines } from "../../Providers/MachineProvider";
+import { useMachineActions } from "../../Providers/MachineProvider";
 import { useLocalStorage } from "../../Shared";
 
 function MainContainer({ children, className }) {
-  const { unlockMachine, getExistFolder, setIsEdit } =
-    useMachines();
+  const { unlockMachine, getExistFolder, setIsEdit } = useMachineActions();
 
   const { electronAPI } = window;
 
@@ -76,4 +75,6 @@ MainContainer.defaultProps = {
   className: undefined,
 };
 
-export default MainContainer;
+const MainContainerMemo = memo(MainContainer);
+
+export default MainContainerMemo;

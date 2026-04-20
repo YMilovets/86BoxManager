@@ -1,18 +1,17 @@
-import { useContext } from "react";
+import { memo, useContext } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
 import Button from "../../Components/Button";
 import { Close } from "../../Components/Icon";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { useMachines } from "../../Providers/MachineProvider";
+import { useMachineActions } from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
 import styles from "./RemoveBtnContainer.module.css";
 
 function RemoveBtnContainer({ machineId, isDisable, onChange }) {
-  const { removeMachine, getExistFolder, setIsEdit } =
-    useMachines();
+  const { removeMachine, getExistFolder, setIsEdit } = useMachineActions();
   const { dictionary } = useContext(DictionaryContext);
   const getLocalStorage = useLocalStorage();
 
@@ -82,4 +81,6 @@ RemoveBtnContainer.defaultProps = {
   onChange: () => {},
 };
 
-export default RemoveBtnContainer;
+const RemoveBtnContainerMemo = memo(RemoveBtnContainer);
+
+export default RemoveBtnContainerMemo;

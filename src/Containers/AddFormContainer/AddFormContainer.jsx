@@ -3,15 +3,18 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { useMachines } from "../../Providers/MachineProvider";
+import {
+  useMachineActions,
+  useMachines,
+} from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 
 function AddFormContainer({ className, children }) {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
   const { dictionary } = useContext(DictionaryContext);
-  const { listMachines, getExistFolder, setIsEdit } =
-    useMachines();
+  const { listMachines } = useMachines();
+  const { getExistFolder, setIsEdit } = useMachineActions();
   const { electronAPI } = window;
 
   const getTransition = getDictionary(dictionary);
@@ -19,7 +22,7 @@ function AddFormContainer({ className, children }) {
   const handleChangeMachineName = () => {
     setErrorMsg("");
   };
-  
+
   const handleCancel = () => {
     setIsEdit(false);
     navigate("/");
