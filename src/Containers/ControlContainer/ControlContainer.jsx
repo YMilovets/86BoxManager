@@ -1,10 +1,9 @@
 import { useContext, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 
 import Button from "../../Components/Button";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
+import ConfigBtnContainer from "../ConfigBtnContainer";
 import CreateBtnContainer from "../CreateBtnContainer";
 import EditBtnContainer from "../EditBtnContainer";
 import LanguageContainer from "../LanguageContainer";
@@ -15,14 +14,11 @@ import styles from "./ControlContainer.module.css";
 
 function ControlContainer() {
   const { dictionary } = useContext(DictionaryContext);
-  const { isExistFolder, listMachines, isStartedMachines } =
-    useMachines();
 
   const getTransition = getDictionary(dictionary);
 
   const { electronAPI } = window;
 
-  const navigate = useNavigate();
   const selectRef = useRef(null);
 
   return (
@@ -33,19 +29,7 @@ function ControlContainer() {
         selectRef={selectRef}
       />
       <EditBtnContainer className={styles.control_btn} />
-      <Button
-        onClick={() => {
-          navigate("/settings");
-        }}
-        disabled={
-          isStartedMachines && isExistFolder && listMachines.length !== 0
-        }
-        data-control
-        className={styles.control_btn}
-        title={getTransition("preference")}
-      >
-        {getTransition("preference")}
-      </Button>
+      <ConfigBtnContainer className={styles.control_btn} />
       <OpenFolderBtnContainer className={styles.control_btn} />
       <Button
         onClick={() => electronAPI?.getVersion()}
