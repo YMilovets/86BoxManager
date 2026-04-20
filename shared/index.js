@@ -12,4 +12,5 @@ export const ErrorType = {
   NoCompareConfiguration: "0x005",
   IsBlockProcess: "0x006",
   IncorrectDictionary: "0x007",
+  ContextIsOutOfProvider: "0x008",
 };

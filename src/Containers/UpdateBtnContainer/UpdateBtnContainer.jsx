@@ -3,14 +3,17 @@ import PropTypes from "prop-types";
 
 import Button from "../../Components/Button";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { useMachines } from "../../Providers/MachineProvider";
+import {
+  useMachineActions,
+  useMachines,
+} from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 import LanguageContainer from "../LanguageContainer";
 
 function UpdateBtnContainer({ className, selectRef }) {
   const getLocalStorage = useLocalStorage();
-  const { prevPathMachines, getExistFolder, isEdit, setIsEdit } =
-    useMachines();
+  const { prevPathMachines, isEdit } = useMachines();
+  const { getExistFolder, setIsEdit } = useMachineActions();
   const { language, dictionary } = useContext(DictionaryContext);
   const getTransition = getDictionary(dictionary);
 

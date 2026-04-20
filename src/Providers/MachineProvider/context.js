@@ -6,6 +6,9 @@ export const MachineContext = createContext({
   listMachines: null,
   isStartedMachines: false,
   prevPathMachines: undefined,
+});
+
+export const MachineActionsContext = createContext({
   setListMachines: () => {},
   setStartMachine: () => {},
   removeMachine: () => {},

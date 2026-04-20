@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
+import { memo, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { useMachines } from "../../Providers/MachineProvider";
+import { useMachineActions } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 import ConfigFormStructContainer from "../ConfigFormStructContainer";
 
@@ -13,7 +13,7 @@ function ConfigFormContainer({ className, children }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   const { dictionary, language } = useContext(DictionaryContext);
-  const { setIsEdit } = useMachines();
+  const { setIsEdit } = useMachineActions();
 
   const navigate = useNavigate();
   const getTransition = getDictionary(dictionary);
@@ -85,4 +85,6 @@ ConfigFormContainer.defaultProps = {
   children: null,
 };
 
-export default ConfigFormContainer;
+const ConfigFormContainerMemo = memo(ConfigFormContainer);
+
+export default ConfigFormContainerMemo;

@@ -2,12 +2,15 @@ import { useContext, useRef } from "react";
 
 import { ErrorType } from "../../../shared";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { useMachines } from "../../Providers/MachineProvider";
+import {
+  useMachineActions,
+  useMachines,
+} from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
 export default function useRenameMachine() {
-  const { prevPathMachines, getExistFolder, setNewMachineName, setIsEdit } =
-    useMachines();
+  const { prevPathMachines } = useMachines();
+  const { getExistFolder, setNewMachineName, setIsEdit } = useMachineActions();
   const { dictionary } = useContext(DictionaryContext);
   const getLocalStorage = useLocalStorage();
 

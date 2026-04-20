@@ -1,7 +1,21 @@
 import { useContext } from "react";
 
-import { MachineContext } from "./context";
+import { ErrorType } from "../../../shared";
+
+import { MachineActionsContext, MachineContext } from "./context";
 
 export function useMachines() {
-  return useContext(MachineContext);
+  const machineContext = useContext(MachineContext);
+
+  if (!machineContext) throw new Error(ErrorType.ContextIsOutOfProvider);
+
+  return machineContext;
+}
+
+export function useMachineActions() {
+  const machineActions = useContext(MachineActionsContext);
+
+  if (!machineActions) throw new Error(ErrorType.ContextIsOutOfProvider);
+
+  return machineActions;
 }

@@ -1,14 +1,14 @@
-import { useContext } from "react";
+import { memo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../../Components/Button";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { useMachines } from "../../Providers/MachineProvider";
+import { useMachineActions } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 
 function CancelContainer() {
   const navigate = useNavigate();
-  const { setIsEdit } = useMachines();
+  const { setIsEdit } = useMachineActions();
   const { dictionary } = useContext(DictionaryContext);
 
   const getTransition = getDictionary(dictionary);
@@ -25,4 +25,6 @@ function CancelContainer() {
   );
 }
 
-export default CancelContainer;
+const CancelContainerMemo = memo(CancelContainer);
+
+export default CancelContainerMemo;
