@@ -1,10 +1,10 @@
 import { HashRouter, Outlet, Route, Routes } from "react-router-dom";
 
-import PageAddMachine from "../../Pages/PageAddMachine";
-import PageConfig from "../../Pages/PageConfig";
-import PageMain from "../../Pages/PageMain";
-import { LanguageProvider } from "../../Providers/LanguageProvider";
-import { MachineProvider } from "../../Providers/MachineProvider";
+import PageAddMachine from "../Pages/PageAddMachine";
+import PageConfig from "../Pages/PageConfig";
+import PageMain from "../Pages/PageMain";
+import { LanguageProvider } from "../Providers/LanguageProvider";
+import { MachineProvider } from "../Providers/MachineProvider";
 
 import styles from "./App.module.css";
 
