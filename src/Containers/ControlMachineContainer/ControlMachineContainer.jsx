@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { MachineContext } from "../../Providers/MachineProvider";
+import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 import MachineItemContainer from "../MachineItemContainer";
 import MachineItemEditContainer from "../MachineItemEditContainer";
@@ -9,7 +9,7 @@ import MachineItemEditContainer from "../MachineItemEditContainer";
 import styles from "./ControlMachineContainer.module.css";
 
 function ControlMachineContainer() {
-  const { isEdit, isExistFolder, listMachines } = useContext(MachineContext);
+  const { isEdit, isExistFolder, listMachines } = useMachines();
   const { dictionary } = useContext(DictionaryContext);
 
   const getTransition = getDictionary(dictionary);

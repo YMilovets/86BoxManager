@@ -5,14 +5,14 @@ import PropTypes from "prop-types";
 import Button from "../../Components/Button";
 import { Close } from "../../Components/Icon";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { MachineContext } from "../../Providers/MachineProvider";
+import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
 import styles from "./RemoveBtnContainer.module.css";
 
 function RemoveBtnContainer({ machineId, isDisable, onChange }) {
   const { removeMachine, getExistFolder, setIsEdit } =
-    useContext(MachineContext);
+    useMachines();
   const { dictionary } = useContext(DictionaryContext);
   const getLocalStorage = useLocalStorage();
 

@@ -4,7 +4,7 @@ import ControlContainer from "../../Containers/ControlContainer";
 import ControlMachineContainer from "../../Containers/ControlMachineContainer";
 import MainContainer from "../../Containers/MainContainer";
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { MachineContext } from "../../Providers/MachineProvider";
+import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 
 import styles from "./PageMain.module.css";
@@ -13,7 +13,7 @@ function PageMain() {
   const { dictionary } = useContext(DictionaryContext);
   const getTransition = getDictionary(dictionary);
 
-  const { isEdit } = useContext(MachineContext);
+  const { isEdit } = useMachines();
 
   const { electronAPI } = window;
 

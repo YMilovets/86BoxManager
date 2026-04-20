@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { DictionaryContext } from "../../Providers/LanguageProvider";
-import { MachineContext } from "../../Providers/MachineProvider";
+import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 import ConfigFormStructContainer from "../ConfigFormStructContainer";
 
@@ -13,7 +13,7 @@ function ConfigFormContainer({ className, children }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   const { dictionary, language } = useContext(DictionaryContext);
-  const { setIsEdit } = useContext(MachineContext);
+  const { setIsEdit } = useMachines();
 
   const navigate = useNavigate();
   const getTransition = getDictionary(dictionary);
