@@ -1,10 +1,10 @@
-import { forwardRef, useContext, useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
 import { ErrorType } from "../../../shared";
 import Select from "../../Components/Select";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import {
   BASE_SELECT_AVAILABLE_CHROME_VERSION,
   getChromeVersion,
@@ -14,7 +14,7 @@ import {
 import styles from "./LanguageContainer.module.css";
 
 function LanguageContainer({ className }, ref) {
-  const { language, dictionary } = useContext(DictionaryContext);
+  const { language, dictionary } = useDictionary();
   const [languageList, setLanguageList] = useState([]);
   const isActiveRef = useRef(false);
 

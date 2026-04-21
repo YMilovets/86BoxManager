@@ -1,6 +1,4 @@
-import { useContext } from "react";
-
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 import MachineItemContainer from "../MachineItemContainer";
@@ -10,7 +8,7 @@ import styles from "./ControlMachineContainer.module.css";
 
 function ControlMachineContainer() {
   const { isEdit, isExistFolder, listMachines } = useMachines();
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
 
   const getTransition = getDictionary(dictionary);
 

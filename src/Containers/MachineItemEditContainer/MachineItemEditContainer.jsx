@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import clsx from "clsx";
 
 import InputText from "../../Components/InputText";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 import RemoveBtnContainer from "../RemoveBtnContainer";
@@ -13,7 +13,7 @@ import styles from "./MachineItemEditContainer.module.css";
 
 function MachineItemEditContainer() {
   const { listMachines } = useMachines();
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
   const { handleConfigurationChange, handleRenameMachine, formRef } =
     useRenameMachine();
 

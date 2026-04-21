@@ -1,9 +1,8 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Button from "../../Components/Button";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import {
   useMachineActions,
   useMachines,
@@ -13,7 +12,7 @@ import { getDictionary, useLocalStorage } from "../../Shared";
 function CreateBtnContainer({ className }) {
   const { electronAPI } = window;
 
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
 
   const getTransition = getDictionary(dictionary);
 
