@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Message from "../../Components/Message";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import {
   DOWNLOAD_URL,
   getDictionary,
@@ -10,7 +10,7 @@ import {
 } from "../../Shared";
 
 function MessageContainer() {
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
   const [platform, setPlatform] = useState(PlatformList.Windows);
   const { electronAPI } = window;
 

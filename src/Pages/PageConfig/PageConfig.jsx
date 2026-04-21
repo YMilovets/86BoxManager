@@ -1,17 +1,15 @@
-import { useContext } from "react";
-
 import Button from "../../Components/Button";
 import CancelContainer from "../../Containers/CancelContainer";
 import ConfigFormContainer from "../../Containers/ConfigFormContainer";
 import LanguageContainer from "../../Containers/LanguageContainer";
 import MessageContainer from "../../Containers/MessageContainer";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import { getDictionary } from "../../Shared";
 
 import styles from "./PageConfig.module.css";
 
 function PageConfig() {
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
   const { electronAPI } = window;
 
   const getTransition = getDictionary(dictionary);

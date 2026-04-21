@@ -1,8 +1,7 @@
-import { useContext } from "react";
 import PropTypes from "prop-types";
 
 import Button from "../../Components/Button";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import {
   useMachineActions,
   useMachines,
@@ -14,7 +13,7 @@ function UpdateBtnContainer({ className, selectRef }) {
   const getLocalStorage = useLocalStorage();
   const { prevPathMachines, isEdit } = useMachines();
   const { getExistFolder, setIsEdit } = useMachineActions();
-  const { language, dictionary } = useContext(DictionaryContext);
+  const { language, dictionary } = useDictionary();
   const getTransition = getDictionary(dictionary);
 
   const { electronAPI } = window;

@@ -1,16 +1,14 @@
-import { useContext } from "react";
-
 import Button from "../../Components/Button";
 import InputText from "../../Components/InputText";
 import AddFormContainer from "../../Containers/AddFormContainer";
 import CancelContainer from "../../Containers/CancelContainer";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import { getDictionary } from "../../Shared";
 
 import styles from "./PageAddMachine.module.css";
 
 function PageAddMachine() {
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
 
   const getTransition = getDictionary(dictionary);
   return (

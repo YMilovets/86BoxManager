@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 
 import { LanguageList } from "../../Shared";
@@ -36,13 +36,18 @@ function LanguageProvider({ children }) {
     });
   }, []);
 
-  return (
-    <DictionaryContext.Provider
-      value={{
+  const value = useMemo(
+    () => (
+      {
         dictionary: configLang,
         language: lang,
-      }}
-    >
+      }
+    ),
+    [configLang, lang]
+  );
+
+  return (
+    <DictionaryContext.Provider value={value}>
       {children}
     </DictionaryContext.Provider>
   );

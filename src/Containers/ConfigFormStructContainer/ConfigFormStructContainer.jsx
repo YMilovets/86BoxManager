@@ -1,13 +1,13 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import InputBrowserFolder from "../../Components/InputBrowserFolder";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import { getDictionary } from "../../Shared";
 
 import { getDefaultListFormInput } from "./utils";
 
 function ConfigFormStructContainer({ onChangeMachineName }) {
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
 
   const handleOpenFileDialog =
     ({ dialogId, dialogType }) =>

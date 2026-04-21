@@ -1,7 +1,7 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 
 import { ErrorType } from "../../../shared";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import {
   useMachineActions,
   useMachines,
@@ -11,7 +11,7 @@ import { getDictionary, useLocalStorage } from "../../Shared";
 export default function useRenameMachine() {
   const { prevPathMachines } = useMachines();
   const { getExistFolder, setNewMachineName, setIsEdit } = useMachineActions();
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
   const getLocalStorage = useLocalStorage();
 
   const { electronAPI } = window;

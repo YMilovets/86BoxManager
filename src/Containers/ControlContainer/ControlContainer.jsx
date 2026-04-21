@@ -1,7 +1,7 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 
 import Button from "../../Components/Button";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import { getDictionary } from "../../Shared";
 import ConfigBtnContainer from "../ConfigBtnContainer";
 import CreateBtnContainer from "../CreateBtnContainer";
@@ -13,7 +13,7 @@ import UpdateBtnContainer from "../UpdateBtnContainer";
 import styles from "./ControlContainer.module.css";
 
 function ControlContainer() {
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
 
   const getTransition = getDictionary(dictionary);
 

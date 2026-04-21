@@ -1,13 +1,13 @@
-import { memo, useContext } from "react";
+import { memo } from "react";
 
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 
 import styles from "./HeaderContainer.module.css";
 
 function HeaderContainer() {
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
   const getTransition = getDictionary(dictionary);
   const { isEdit } = useMachines();
 

@@ -1,14 +1,13 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Button from "../../Components/Button";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import { useMachines } from "../../Providers/MachineProvider";
 import { getDictionary } from "../../Shared";
 
 function ConfigBtnContainer({ className }) {
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
   const { isExistFolder, listMachines, isStartedMachines } = useMachines();
 
   const getTransition = getDictionary(dictionary);

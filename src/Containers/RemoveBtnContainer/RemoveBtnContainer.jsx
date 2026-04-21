@@ -1,10 +1,10 @@
-import { memo, useContext } from "react";
+import { memo } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
 import Button from "../../Components/Button";
 import { Close } from "../../Components/Icon";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import { useMachineActions } from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
@@ -12,7 +12,7 @@ import styles from "./RemoveBtnContainer.module.css";
 
 function RemoveBtnContainer({ machineId, isDisable, onChange }) {
   const { removeMachine, getExistFolder, setIsEdit } = useMachineActions();
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
   const getLocalStorage = useLocalStorage();
 
   const getTransition = getDictionary(dictionary);

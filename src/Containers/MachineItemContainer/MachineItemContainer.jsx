@@ -1,7 +1,5 @@
-import { useContext } from "react";
-
 import Button from "../../Components/Button";
-import { DictionaryContext } from "../../Providers/LanguageProvider";
+import { useDictionary } from "../../Providers/LanguageProvider";
 import {
   useMachineActions,
   useMachines,
@@ -13,7 +11,7 @@ import styles from "./MachineItemContainer.module.css";
 function MachineItemContainer() {
   const { listMachines, prevPathMachines } = useMachines();
   const { setStartMachine, getExistFolder } = useMachineActions();
-  const { dictionary } = useContext(DictionaryContext);
+  const { dictionary } = useDictionary();
 
   const getLocalStorage = useLocalStorage();
   const getTransition = getDictionary(dictionary);
