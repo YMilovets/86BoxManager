@@ -13,6 +13,8 @@ import {
 
 import styles from "./LanguageContainer.module.css";
 
+const SELECT_ACTION = "select";
+
 function LanguageContainer({ className }, ref) {
   const { language, dictionary } = useDictionary();
   const [languageList, setLanguageList] = useState([]);
@@ -78,7 +80,7 @@ function LanguageContainer({ className }, ref) {
     return async (e) => {
       e.stopPropagation();
 
-      if (e.target.dataset.action !== "select") return;
+      if (e.target.dataset.action !== SELECT_ACTION) return;
 
       if (getChromeVersion() < BASE_SELECT_AVAILABLE_CHROME_VERSION) return;
 
