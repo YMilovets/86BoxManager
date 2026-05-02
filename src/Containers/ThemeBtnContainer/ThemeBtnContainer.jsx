@@ -1,6 +1,7 @@
 import Button from "../../Components/Button";
 import { DarkLight, Moon, Sun } from "../../Components/Icon";
 import { useDictionary } from "../../Providers/LanguageProvider";
+import { useTheme, useThemeActions } from "../../Providers/ThemeProvider";
 import { getDictionary } from "../../Shared";
 import { Themes } from "../../Shared/Constants";
 
@@ -10,8 +11,8 @@ function ThemeBtnContainer() {
   const { dictionary } = useDictionary();
   const getTransition = getDictionary(dictionary);
 
-  const theme = Themes.Default;
-  const handleClick = () => {};
+  const theme = useTheme();
+  const handleClick = useThemeActions();
 
   const ThemeTranslation = {
     [Themes.Default]: {

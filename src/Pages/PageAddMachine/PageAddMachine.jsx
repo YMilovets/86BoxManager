@@ -25,7 +25,7 @@ function PageAddMachine() {
             />
           </div>
           <div className={styles.control}>
-            <Button disabled={!window.electronAPI} type="submit">
+            <Button isPrimary disabled={!window.electronAPI} type="submit">
               {getTransition("save")}
             </Button>
             <CancelContainer />
