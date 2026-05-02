@@ -1,0 +1,23 @@
+.icon {
+    --root-fill-color: var(--icon-fill-color);
+    width: 16px;
+    height: 16px;
+}
+
+.icon path {
+    width: 16px;
+    height: 16px;
+}
+
+.root {
+    display: inline-flex;
+    gap: 0.25em;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.label {
+    display: flex;
+    justify-content: space-around;
+    flex: 1;
+}

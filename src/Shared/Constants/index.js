@@ -18,3 +18,9 @@ export const WINDOWS_ERROR_CODE_SEGMENTATION = 0xC0000005;
 
 export const LINUX_ERROR_CODE_NOT_FOUND = 127;
 export const LINUX_ERROR_CODE_SEGMENTATION = 139;
+
+export const Themes = {
+  Dark: "dark",
+  Light: "light",
+  Default: "default",
+};
