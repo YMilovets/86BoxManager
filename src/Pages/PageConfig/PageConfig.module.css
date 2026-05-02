@@ -38,3 +38,8 @@ select.language_select {
     --options-max-width: 11.3125em;
     max-width: 11.3125em;
 }
+
+.control {
+    display: flex;
+    gap: 1.5em;
+}

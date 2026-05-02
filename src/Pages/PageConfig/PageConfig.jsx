@@ -3,6 +3,7 @@ import CancelContainer from "../../Containers/CancelContainer";
 import ConfigFormContainer from "../../Containers/ConfigFormContainer";
 import LanguageContainer from "../../Containers/LanguageContainer";
 import MessageContainer from "../../Containers/MessageContainer";
+import ThemeBtnContainer from "../../Containers/ThemeBtnContainer";
 import { useDictionary } from "../../Providers/LanguageProvider";
 import { getDictionary } from "../../Shared";
 
@@ -30,9 +31,15 @@ function PageConfig() {
           <CancelContainer />
         </div>
       </ConfigFormContainer>
-      <div className={styles.language}>
-        <p className={styles.label}>{getTransition("changeLanguage")}</p>
-        <LanguageContainer className={styles.language_select} />
+      <div className={styles.control}>
+        <div className={styles.language}>
+          <p className={styles.label}>{getTransition("changeLanguage")}</p>
+          <LanguageContainer className={styles.language_select} />
+        </div>
+        <div className={styles.language}>
+          <p className={styles.label}>{getTransition("changeTheme")}</p>
+          <ThemeBtnContainer />
+        </div>
       </div>
     </div>
   );
