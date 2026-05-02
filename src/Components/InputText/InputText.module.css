@@ -6,6 +6,7 @@
     font-weight: 500;
     font-family: inherit;
     transition: border-color 0.25s;
+    color: var(--root-color);
 
     --root-border-color: transparent;
     --root-border-color__hover: var(--input-border-color__hover);

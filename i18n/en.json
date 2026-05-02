@@ -24,6 +24,7 @@
   "destinationAppFolder": "The location of 86Box executable file",
   "configFolder": "The location of virtual machines folder",
   "changeLanguage": "Change language",
+  "changeTheme": "Change theme",
   "firstLaunch": "Application settings error",
   "about": "About 86BoxManager application",
   "aboutBtn": "About",
@@ -85,5 +86,9 @@
   "failSegmentation": "The 86Box process tried to access a protected location memory and was immediately terminated\nError code: $errorCode",
 
   "destinationWindowsMessage": "You need to download an archive with the 86Box virtual machine program on the link $downloadURL, unzip it to any directory and select 86Box executable file in the Windows system to configurate the location of 86Box executable file.",
-  "destinationLinuxMessage": "Read the instruction on the link $instructionURL to install the 86Box application on Debian. Then just enter 86Box command to the location of the 86Box executable file."
+  "destinationLinuxMessage": "Read the instruction on the link $instructionURL to install the 86Box application on Debian. Then just enter 86Box command to the location of the 86Box executable file.",
+
+  "dark": "Dark mode",
+  "light": "Light mode",
+  "default": "Default"
 }

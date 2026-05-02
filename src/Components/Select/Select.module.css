@@ -30,7 +30,7 @@
     flex: 1;
     line-height: 1.125em;
     text-align: center;
-    color: #000;
+    color: var(--root-color);
 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -46,7 +46,7 @@
 }
 
 .select_chevron {
-    --root-fill-color: var(--root-border-color__changed);
+    --root-fill-color: var(--icon-fill-color);
     transition: 0.5s rotate;
     width: 16px;
     height: 16px;
@@ -57,6 +57,7 @@
     border: 1px solid transparent;
     white-space: normal;
     word-break: break-word;
+    color: var(--root-color);
 }
 
 .option::checkmark {
@@ -83,4 +84,6 @@
 
 .select_options {
     max-width: var(--options-max-width);
+    background-color: var(--button-background-color);
+    color: var(--root-color);
 }

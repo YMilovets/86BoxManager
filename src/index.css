@@ -5,6 +5,9 @@
 
   color-scheme: light dark;
 
+  color: var(--root-color);
+  background-color: var(--root-background);
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -26,6 +29,7 @@
   --button-background-color: var(--color-light);
   --button-background-color__primary: var(--color-cornflower-15);
   --button-border-color: var(--color-cornflower-100);
+  --button-color__disabled: #b3b6c5;
 
   --input-background-color: var(--color-light);
   --input-color__disabled: rgba(16, 16, 16, 0.3);
@@ -58,11 +62,22 @@ a:hover {
   outline: var(--root-focus-outline-color) auto 1px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: var(--root-color);
-    background-color: var(--root-background);
-  }
+:root.dark, :root.default.default_dark {
+  --color-cornflower-100: #747bff; 
+  --color-cornflower-15: rgba(116, 123, 255, 0.15);
+  --color-cornflower-30: rgba(116, 123, 255, 0.3);
+
+  --color-light: #2a2a2a; 
+
+  --root-focus-outline-color: #646cff;
+  --root-background: #121212;
+  --root-color: rgba(255, 255, 255, 0.87);
+
+  --icon-fill-color: var(--color-cornflower-100);
+  --link-color__hover: #535bf2;
+  --input-color__disabled: rgba(255, 255, 255, 0.15);
+  --button-color__disabled: #4a4d5e;
+  --icon-fill-color__disabled: rgba(255, 255, 255, 0.15);
 }
 
 body {
