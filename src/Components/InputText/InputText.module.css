@@ -7,6 +7,7 @@
     font-family: inherit;
     transition: border-color 0.25s;
     color: var(--root-color);
+    background-color: var(--input-background-color);
 
     --root-border-color: transparent;
     --root-border-color__hover: var(--input-border-color__hover);
@@ -21,10 +22,4 @@
 .input:focus-visible {
     outline: none;
     border-color: var(--root-border-color__focus);
-}
-
-@media (prefers-color-scheme: light) {
-    .input {
-        background-color: var(--input-background-color);
-    }
 }
