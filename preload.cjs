@@ -18,9 +18,12 @@ contextBridge.exposeInMainWorld("electronAPI", {
     }
     handleUnlockedMachine = ipcRenderer.on(
       "unlocked-machine",
-      (_, configurationId) => callback(configurationId)
+      (_, configurationId) => callback(configurationId),
     );
     return handleUnlockedMachine;
+  },
+  onChangeTheme: (callback) => {
+    ipcRenderer.on("watch-theme", (_, args) => callback(args));
   },
   onSetLanguage: (callback) =>
     ipcRenderer.on("set-config-language", (_, args) => callback(args)),
@@ -43,4 +46,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   openSpecificFolder: () => ipcRenderer.send("open-specific-folder"),
   getLanguageList: () => ipcRenderer.invoke("get-language-list"),
   setConfigLanguage: () => ipcRenderer.send("set-config-language"),
+  getSystemDarkStatus: (status) =>
+    ipcRenderer.invoke("should-dark-system-theme", status),
 });

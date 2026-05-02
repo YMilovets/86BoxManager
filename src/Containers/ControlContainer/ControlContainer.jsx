@@ -6,6 +6,7 @@ import CreateBtnContainer from "../CreateBtnContainer";
 import EditBtnContainer from "../EditBtnContainer";
 import LanguageContainer from "../LanguageContainer";
 import OpenFolderBtnContainer from "../OpenFolderBtnContainer";
+import ThemeBtnContainer from "../ThemeBtnContainer";
 import UpdateBtnContainer from "../UpdateBtnContainer";
 
 import styles from "./ControlContainer.module.css";
@@ -24,6 +25,7 @@ function ControlContainer() {
       <ConfigBtnContainer className={styles.control_btn} />
       <OpenFolderBtnContainer className={styles.control_btn} />
       <AboutBtnContainer className={styles.control_btn} />
+      <ThemeBtnContainer />
       <LanguageContainer className={styles.language_select} ref={selectRef} />
     </div>
   );

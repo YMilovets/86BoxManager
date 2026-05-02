@@ -1,4 +1,4 @@
-import { app as App, dialog,ipcMain } from "electron";
+import { app as App, dialog, ipcMain, nativeTheme } from "electron";
 import { join } from "path";
 import { format } from "url";
 
@@ -20,6 +20,7 @@ import openSpecificFolder from "./models/openSpecificFolder.js";
 import openURL from "./models/openURL.js";
 import removeMachine from "./models/removeMachine.js";
 import renameMachine from "./models/renameMachine.js";
+import updateTheme from "./models/updateTheme.js";
 import { ErrorType, TAB_KEY } from "./shared/index.js";
 import { globalState } from "./shared/state.js";
 import { fixLocalizationButton } from "./shared/utils.js";
@@ -72,6 +73,8 @@ function main() {
     }
   });
 }
+
+nativeTheme.addListener("updated", updateTheme);
 
 App.on("ready", main);
 
@@ -216,3 +219,7 @@ ipcMain.on('open-specific-folder', openSpecificFolder);
 ipcMain.handle("get-language-list", getLanguageList);
 
 ipcMain.on("set-config-language", setConfigLanguage);
+
+ipcMain.handle("should-dark-system-theme", async () => {
+  return nativeTheme.shouldUseDarkColors;
+})
