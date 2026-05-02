@@ -7,6 +7,12 @@
     font-family: inherit;
     cursor: pointer;
     transition: border-color 0.25s;
+    background-color: var(--button-background-color);
+    color: var(--root-color);
+}
+
+.button:disabled {
+    color: var(--button-color__disabled);
 }
 
 .button:hover {
@@ -15,10 +21,4 @@
 
 .button.button__primary {
     background: var(--button-background-color__primary);
-}
-
-@media (prefers-color-scheme: light) {
-    .button {
-        background-color: var(--button-background-color);
-    }
 }
