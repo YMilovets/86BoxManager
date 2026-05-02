@@ -5,6 +5,7 @@ import PageConfig from "../Pages/PageConfig";
 import PageMain from "../Pages/PageMain";
 import { LanguageProvider } from "../Providers/LanguageProvider";
 import { MachineProvider } from "../Providers/MachineProvider";
+import { ThemeProvider } from "../Providers/ThemeProvider";
 
 import styles from "./App.module.css";
 
@@ -12,17 +13,19 @@ function App() {
   return (
     <MachineProvider>
       <LanguageProvider>
-        <section className={styles.page}>
-          <HashRouter>
-            <Routes>
-              <Route path="/" element={<Outlet />}>
-                <Route path="" element={<PageMain />} />
-                <Route path="add-machine" element={<PageAddMachine />} />
-                <Route path="settings" element={<PageConfig />} />
-              </Route>
-            </Routes>
-          </HashRouter>
-        </section>
+        <ThemeProvider>
+          <section className={styles.page}>
+            <HashRouter>
+              <Routes>
+                <Route path="/" element={<Outlet />}>
+                  <Route path="" element={<PageMain />} />
+                  <Route path="add-machine" element={<PageAddMachine />} />
+                  <Route path="settings" element={<PageConfig />} />
+                </Route>
+              </Routes>
+            </HashRouter>
+          </section>
+        </ThemeProvider>
       </LanguageProvider>
     </MachineProvider>
   );
