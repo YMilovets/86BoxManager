@@ -1,4 +1,5 @@
 import { app as App, dialog, ipcMain, nativeTheme } from "electron";
+import log from "electron-log/main.js";
 import { join } from "path";
 import { format } from "url";
 
@@ -29,6 +30,9 @@ const lockInstance = App.requestSingleInstanceLock();
 if (!lockInstance) {
   App.quit();
 }
+
+log.initialize();
+log.transports.file.fileName = "application.log";
 
 function main() {
   globalState.mainWindow = new Window({

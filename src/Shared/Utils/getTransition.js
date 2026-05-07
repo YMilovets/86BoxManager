@@ -16,8 +16,25 @@ const dictionary = new Map([
   ["create", "Создать"],
   ["update", "Обновить"],
   ["preference", "Настройки"],
+  ["startApplication", "Приложение 86BoxManager было запущено"],
   ["changeLanguage", "Изменение языка"],
   ["changeTheme", "Изменение темы"],
+  [
+    "changeSuccessTheme",
+    "На данный момент выбрана $currentTheme тема, $prevTheme тема была успешно заменена",
+  ],
+  [
+    "changeSuccessLanguage",
+    "$language язык был успешно изменен на $newLanguage",
+  ],
+  [
+    "changeDestinationAppFolder",
+    "Был изменен путь исполняемого файла программы 86Box с $prevDestinationAppFolder на $destinationAppFolder",
+  ],
+  [
+    "changeConfigAppFolder",
+    "Было изменено местоположение каталога настроек виртуальных машин с $prevConfigFolder на $configFolder",
+  ],
   ["choose", "Выбрать"],
   ["list", "Список виртуальных машин 86Box"],
   ["createForm", "Укажите имя виртуальной машины:"],

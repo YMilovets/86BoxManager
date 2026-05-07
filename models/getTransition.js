@@ -64,6 +64,15 @@ export default function getTransition(dictionary = null) {
         "changeErrorNonExistMachineMessage",
         "Виртуальной машины $machineName больше не существует. Переименование машины было прервано, список машин будет обновлен",
       ],
+      [
+        "startVirtualMachine",
+        "Был запущен процесс виртуальной машины $machineName",
+      ],
+      [
+        "finishVirtualMachine",
+        "Был завершен процесс виртуальной машины $machineName",
+      ],
+      ["closeApplication", "Приложение 86BoxManager было закрыто"],
       ["firstLaunch", "Ошибка параметров приложения"],
       [
         "firstLaunchMessage",

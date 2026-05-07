@@ -70,6 +70,10 @@
   "changeErrorExistMachineMessage": "The virtual machine $machineName already existed. Enter new name",
   "changeErrorNonExistMachineTitle": "Failed to rename the virtual machine $machineName",
   "changeErrorNonExistMachineMessage": "The virtual machine $machineName no longer exists. Renaming of machine was prevented, the machine list was updated",
+  "changeSuccessLanguage": "$language language has been successfully changed on $newLanguage",
+  "changeSuccessTheme": "$prevTheme theme has been successfully changed on $currentTheme",
+  "changeDestinationAppFolder": "The location of 86Box executable file has been changed from $prevDestinationAppFolder to $destinationAppFolder",
+  "changeConfigAppFolder": "The location of virtual machines folder has been changed from $prevConfigFolder to $configFolder",
   "changeLanguageErrorTitle": "Failed to change the selected language on this application",
   "changeLanguageErrorMessage": "Last parameter was restored because the $language language no longer exists",
   "changeLanguageCorruptFileTitle": "Failed to change the selected language on this application",
@@ -81,6 +85,10 @@
 
   "noExistFolder": "There is no specific directory. Change a preference of the location of virtual machines",
 
+  "startApplication": "The 86BoxManager application has been started",
+  "startVirtualMachine": "The process of the $machineName Virtual Machine has been started",
+  "closeApplication": "The 86BoxManager application has been closed",
+  "finishVirtualMachine": "The process of the $machineName Virtual Machine has been finished",
   "firstLaunchMessage": "The first start was completed by the 86BoxManager application or settings were reset. Please configure your an location directory of the virtual machine and 86Box executable file",
   "failLaunchApp": "The specified path from 86Box application does not exist. Change settings application\nError code: $errorCode",
   "failSegmentation": "The 86Box process tried to access a protected location memory and was immediately terminated\nError code: $errorCode",

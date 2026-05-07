@@ -70,6 +70,10 @@
   "changeErrorExistMachineMessage": "Виртуальная машина $machineName уже существует. Придумайте новое название",
   "changeErrorNonExistMachineTitle": "Не удалось переименовать виртуальную машину $machineName",
   "changeErrorNonExistMachineMessage": "Виртуальной машины $machineName больше не существует. Переименование машины было прервано, список машин будет обновлен",
+  "changeSuccessLanguage": "$language язык был успешно изменен на $newLanguage",
+  "changeSuccessTheme": "На данный момент выбрана $currentTheme тема, $prevTheme тема была успешно заменена",
+  "changeDestinationAppFolder": "Был изменен путь исполняемого файла программы 86Box с $prevDestinationAppFolder на $destinationAppFolder",
+  "changeConfigAppFolder": "Было изменено местоположение каталога настроек виртуальных машин с $prevConfigFolder на $configFolder",
   "changeLanguageErrorTitle": "Не удалось изменить выбранные настройки языка приложения",
   "changeLanguageErrorMessage": "Поскольку больше не существует настройки языка $language, был восстановлен предыдущий параметр",
   "changeLanguageCorruptFileTitle": "Не удалось изменить выбранные настройки языка приложения",
@@ -81,6 +85,10 @@
 
   "noExistFolder": "Указанная в настройках директория не существует. Измените настройку каталога местоположения виртуальных машин",
 
+  "startApplication": "Приложение 86BoxManager было запущено",
+  "startVirtualMachine": "Был запущен процесс виртуальной машины $machineName",
+  "closeApplication": "Приложение 86BoxManager было закрыто",
+  "finishVirtualMachine": "Был завершен процесс виртуальной машины $machineName",
   "firstLaunchMessage": "Произведен первый запуск программы 86BoxManager, или настройки были сброшены. Пожалуйста, настройте каталог размещения виртуальных машин и расположение программы 86Box",
   "failLaunchApp": "Указанный в настройках путь к приложению 86Box не существует. Измените настройки приложения\nКод ошибки: $errorCode",
   "failSegmentation": "Процесс виртуальной машины 86Box пытался обратиться к защищенной области памяти и был немедленно завершен\nКод ошибки: $errorCode",
