@@ -48,4 +48,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   setConfigLanguage: () => ipcRenderer.send("set-config-language"),
   getSystemDarkStatus: (status) =>
     ipcRenderer.invoke("should-dark-system-theme", status),
+  setRecordLog: ({ message, status }) =>
+    ipcRenderer.invoke("set-record-log", { message, status }),
 });

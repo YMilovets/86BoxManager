@@ -1,4 +1,5 @@
 import { Notification } from "electron";
+import log from "electron-log/main.js";
 import { readdirSync } from "fs";
 
 import { ErrorType } from "../shared/index.js";
@@ -31,6 +32,7 @@ export default function getHandleInit(
       title: getDictionary("firstLaunch"),
       body: getDictionary("firstLaunchMessage"),
     }).show();
+    log.warn(getDictionary("firstLaunchMessage"));
   }
 
   try {

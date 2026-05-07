@@ -1,4 +1,5 @@
 import { dialog, Notification } from "electron";
+import log from "electron-log/main.js";
 import { existsSync, renameSync } from "fs";
 import { join } from "path";
 
@@ -32,6 +33,11 @@ export default async function renameMachine(
         result.replace("$machineName", machineName)
       ),
     }).show();
+    log.error(
+      getDictionary("changeErrorNonExistMachineMessage", (result) =>
+        result.replace("$machineName", machineName),
+      ),
+    );
     throw new Error(ErrorType.NoExistMachineFolder);
   }
 
@@ -63,6 +69,11 @@ export default async function renameMachine(
         result.replace("$machineName", machineName)
       ),
     }).show();
+    log.info(
+      getDictionary("updateListAfterCloseDialogMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
+    )
     throw new Error(ErrorType.NoExistMachineFolder);
   }
 
@@ -80,6 +91,13 @@ export default async function renameMachine(
           .replace("$pathMachines", configuration.pathConfig)
       ),
     }).show();
+    log.error(
+      getDictionary("renameErrorPathMachineMessage", (result) =>
+        result
+          .replace("$machineName", machineName)
+          .replace("$pathMachines", configuration.pathConfig),
+      ),
+    );
     mainWindow.setIgnoreMouseEvents(false);
     throw new Error(ErrorType.NoExistSpecificFolder);
   }
@@ -95,6 +113,11 @@ export default async function renameMachine(
         result.replace("$machineName", machineName)
       ),
     }).show();
+    log.error(
+      getDictionary("renameErrorProcessMachineMessage", (result) =>
+        result.replace("$machineName", machineName)
+      ),
+    );
     mainWindow.setIgnoreMouseEvents(false);
 
     return new Promise((resolve) =>
@@ -110,6 +133,11 @@ export default async function renameMachine(
           result.replace("$machineName", newMachineName)
         ),
       }).show();
+      log.error(
+        getDictionary("changeErrorExistMachineMessage", (result) =>
+          result.replace("$machineName", newMachineName),
+        ),
+      );
 
       mainWindow.setIgnoreMouseEvents(false);
       return new Promise((resolve) =>
@@ -128,6 +156,13 @@ export default async function renameMachine(
           .replace("$newMachineName", newMachineName)
       ),
     }).show();
+    log.info(
+      getDictionary("changeSuccessMachineMessage", (result) =>
+        result
+          .replace("$machineName", machineName)
+          .replace("$newMachineName", newMachineName)
+      ),
+    );
 
     mainWindow.setIgnoreMouseEvents(false);
     return new Promise((resolve) => resolve({ machineName, newMachineName }));
@@ -138,6 +173,11 @@ export default async function renameMachine(
         result.replace("$machineName", machineName)
       ),
     }).show();
+    log.error(
+      getDictionary("changeErrorMachineMessage", (result) =>
+        result.replace("$machineName", machineName),
+      ),
+    );
 
     mainWindow.setIgnoreMouseEvents(false);
 

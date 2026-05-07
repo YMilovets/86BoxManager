@@ -1,4 +1,5 @@
 import { dialog, Notification } from "electron";
+import log from "electron-log/main.js";
 import { existsSync, rmSync } from "fs";
 import { join } from "path";
 
@@ -27,6 +28,11 @@ export default async function removeMachine(
         result.replace("$machineName", machineName)
       ),
     }).show();
+    log.error(
+      getDictionary("removeErrorNonExistMachineMessage", (result) =>
+        result.replace("$machineName", machineName),
+      ),
+    );
     throw new Error(ErrorType.NoExistMachineFolder);
   }
 
@@ -53,6 +59,11 @@ export default async function removeMachine(
         result.replace("$machineName", machineName)
       ),
     }).show();
+    log.warn(
+      getDictionary("updateListAfterCloseDialogMessage", (result) =>
+        result.replace("$machineName", machineName),
+      ),
+    );
     throw new Error(ErrorType.NoExistMachineFolder);
   }
 
@@ -65,6 +76,13 @@ export default async function removeMachine(
           .replace("$pathMachines", configuration.pathConfig)
       ),
     }).show();
+    log.error(
+      getDictionary("removeErrorPathMachineMessage", (result) =>
+        result
+          .replace("$machineName", machineName)
+          .replace("$pathMachines", configuration.pathConfig),
+      ),
+    );
     throw new Error(ErrorType.NoExistSpecificFolder);
   }
 
@@ -83,6 +101,11 @@ export default async function removeMachine(
           result.replace("$machineName", machineName)
         ),
       }).show();
+      log.info(
+        getDictionary("removeSuccessMachineMessage", (result) =>
+          result.replace("$machineName", machineName),
+        ),
+      );
       return new Promise((resolve) => resolve({ machineName }));
     }
 
@@ -94,6 +117,11 @@ export default async function removeMachine(
         result.replace("$machineName", machineName)
       ),
     }).show();
+    log.error(
+      getDictionary("removeErrorMachineMessage", (result) =>
+        result.replace("$machineName", machineName),
+      ),
+    );
 
     throw error;
   }

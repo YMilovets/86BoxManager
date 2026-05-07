@@ -1,4 +1,5 @@
 import { app as App, Notification } from "electron";
+import log from "electron-log/main.js";
 import { promises } from "fs";
 import { join } from "path";
 
@@ -24,6 +25,11 @@ export default async function getConfigLanguage(e, { lang, isSelected }) {
         result.replace("$language", lang)
       ),
     }).show();
+    log.warn(
+      getDictionary("changeLanguageErrorMessage", (result) =>
+        result.replace("$language", lang),
+      ),
+    );
     throw new Error(ErrorType.IncorrectDictionary);
   }
 
@@ -48,6 +54,11 @@ export default async function getConfigLanguage(e, { lang, isSelected }) {
           result.replace("$language", lang)
         ),
       }).show();
+      log.warn(
+        getDictionary("changeLanguageCorruptFileMessage", (result) =>
+          result.replace("$language", lang),
+        ),
+      );
     }
     throw new Error(ErrorType.IncorrectDictionary);
   }

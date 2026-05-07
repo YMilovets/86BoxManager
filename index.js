@@ -21,6 +21,7 @@ import openSpecificFolder from "./models/openSpecificFolder.js";
 import openURL from "./models/openURL.js";
 import removeMachine from "./models/removeMachine.js";
 import renameMachine from "./models/renameMachine.js";
+import setRecordLog from "./models/setRecordLog.js";
 import updateTheme from "./models/updateTheme.js";
 import { ErrorType, TAB_KEY } from "./shared/index.js";
 import { globalState } from "./shared/state.js";
@@ -48,8 +49,8 @@ function main() {
       nodeIntegration: false,
     },
     icon: join(App.getAppPath(), "assets/icon", getIcon()),
-    width: 550,
-    height: 550,
+    width: 575,
+    height: 575,
   });
   globalState.mainWindow.setMenu(null);
   // globalState.mainWindow.webContents.openDevTools();
@@ -68,7 +69,10 @@ function main() {
         buttons: fixLocalizationButton("OK"),
         message: getDictionary("closeMessage"),
       });
+      return;
     }
+
+    log.info(getDictionary("closeApplication"))
   });
 
   globalState.mainWindow.webContents.on("before-input-event", (e, { key }) => {
@@ -227,3 +231,5 @@ ipcMain.on("set-config-language", setConfigLanguage);
 ipcMain.handle("should-dark-system-theme", async () => {
   return nativeTheme.shouldUseDarkColors;
 })
+
+ipcMain.handle("set-record-log", setRecordLog);

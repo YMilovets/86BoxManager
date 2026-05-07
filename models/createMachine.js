@@ -1,4 +1,5 @@
 import { Notification } from "electron";
+import log from "electron-log/main.js";
 import { existsSync, mkdir } from "fs";
 import { join } from "path";
 
@@ -19,6 +20,11 @@ export default async function handleCreateMachine({
   }
 
   return mkdir(newPathMachine, () => {
+    log.info(
+      getDictionary("addSuccessMachineMessage", (result) =>
+        result.replace("$machineName", machineName),
+      ),
+    );
     new Notification({
       title: getDictionary("addSuccessMachineTitle"),
       body: getDictionary("addSuccessMachineMessage", (result) =>

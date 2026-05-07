@@ -1,5 +1,6 @@
 import { exec } from "child_process";
 import { dialog } from "electron";
+import log from "electron-log/main.js";
 import { promisify } from "util";
 
 import { globalState } from "../shared/state.js";
@@ -97,6 +98,11 @@ export default async function handleInvokeMachine(
     }
 
     try {
+      log.info(
+        getDictionary("startVirtualMachine", (result) =>
+          result.replace("$machineName", machineId),
+        ),
+      );
       await execAsync(
         `${globalState.configuration.pathApp} -P "${globalState.configuration.pathConfig}/${machineId}"`
       );
@@ -104,6 +110,7 @@ export default async function handleInvokeMachine(
       verifyErrorInvokeMachine(e.code, dictionary);
     }
   } catch ({ message }) {
+    log.error(message);
     dialog.showMessageBox(mainWindow, {
       type: "error",
       buttons: fixLocalizationButton("OK"),
@@ -136,6 +143,11 @@ export default async function handleInvokeMachine(
         text: getDictionary("updateMachinesAfterCloseProcessMessage"),
       },
     });
+    log.info(
+      getDictionary("finishVirtualMachine", (result) =>
+        result.replace("$machineName", machineId),
+      ),
+    );
     mainWindow?.show();
   }
 }
