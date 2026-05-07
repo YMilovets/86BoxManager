@@ -34,6 +34,12 @@ function UpdateBtnContainer({ className, selectRef }) {
       } catch {
         const isExistMachine = await getExistFolder();
         if (isEdit && isExistMachine && prevPathMachines) {
+          electronAPI?.setRecordLog({
+            message: getTransition("clearFormAfterUpdateMessage")
+              .replace("$prevPathMachines", prevPathMachines)
+              .replace("$currentPathMachines", localStorage.pathConfig),
+            status: "warn",
+          });
           electronAPI?.getNotification({
             title: getTransition("clearFormAfterUpdateTitle"),
             text: getTransition("clearFormAfterUpdateMessage")

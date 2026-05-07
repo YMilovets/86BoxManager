@@ -49,6 +49,7 @@ export default function useRenameMachine() {
           title,
           text,
         });
+        electronAPI?.setRecordLog({ message: text, status: "warn" });
       }
 
       throw new Error(ErrorType.NoCompareConfiguration);

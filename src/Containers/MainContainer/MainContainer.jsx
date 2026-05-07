@@ -42,6 +42,12 @@ function MainContainer({ children, className }) {
                 .replace("$prevPathMachines", prevPathConfiguration)
                 .replace("$currentPathMachines", localConfig.pathConfig),
             });
+            electronAPI?.setRecordLog({
+              message: text
+                .replace("$prevPathMachines", prevPathConfiguration)
+                .replace("$currentPathMachines", localConfig.pathConfig),
+              status: "warn",
+            });
           }
 
           if (isChangedPrevPathConfig) {

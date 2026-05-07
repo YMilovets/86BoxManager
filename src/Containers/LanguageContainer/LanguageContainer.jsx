@@ -37,6 +37,20 @@ function LanguageContainer({ className }, ref) {
       ),
     };
 
+    const { language: languageState } = {
+      ...languageAPIList.find(
+        ({ languageId: currentId }) => currentId === language
+      ),
+    };
+
+    if (ref && currentLanguage && languageState !== currentLanguage) {
+      electronAPI?.setRecordLog({
+        message: getTransition("changeSuccessLanguage")
+          .replace("$language", languageState)
+          .replace("$newLanguage", currentLanguage),
+      });
+    }
+
     if (ref && currentLanguage) {
       // Добавлена задержка отображения выбранного языка
       setTimeout(() => {

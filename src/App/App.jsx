@@ -1,5 +1,6 @@
-import { HashRouter, Outlet, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 
+import LayoutContainer from "../Containers/LayoutContainer";
 import PageAddMachine from "../Pages/PageAddMachine";
 import PageConfig from "../Pages/PageConfig";
 import PageMain from "../Pages/PageMain";
@@ -17,7 +18,7 @@ function App() {
           <section className={styles.page}>
             <HashRouter>
               <Routes>
-                <Route path="/" element={<Outlet />}>
+                <Route path="/" element={<LayoutContainer />}>
                   <Route path="" element={<PageMain />} />
                   <Route path="add-machine" element={<PageAddMachine />} />
                   <Route path="settings" element={<PageConfig />} />

@@ -38,6 +38,12 @@ function MachineItemContainer() {
             .replace("$prevPathMachines", prevPathMachines)
             .replace("$currentPathMachines", localStorage.pathConfig),
         });
+        electronAPI?.setRecordLog({
+          message: getTransition("preventLaunchMachineMessage")
+            .replace("$prevPathMachines", prevPathMachines)
+            .replace("$currentPathMachines", localStorage.pathConfig),
+          status: "warn",
+        });
 
         return;
       }
