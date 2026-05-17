@@ -72,6 +72,7 @@ function main() {
       return;
     }
 
+    nativeTheme.removeListener("updated", updateTheme);
     log.info(getDictionary("closeApplication"))
   });
 
