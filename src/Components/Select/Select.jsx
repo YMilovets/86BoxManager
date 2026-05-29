@@ -45,6 +45,7 @@ function Select(
             onBlur: onBlurItem = () => {},
             onMouseDown: onMouseDown = () => {},
             className,
+            optionProps,
           }) => (
             <option
               selected={id === selectedId}
@@ -55,10 +56,11 @@ function Select(
               onClick={onClickItem}
               onBlur={onBlurItem}
               onMouseDown={onMouseDown}
+              {...optionProps}
             >
               {value}
             </option>
-          )
+          ),
         )}
       </optgroup>
     </select>
@@ -74,7 +76,8 @@ Select.propTypes = {
       onBlur: PropTypes.func,
       onMouseDown: PropTypes.func,
       className: PropTypes.string,
-    })
+      optionProps: PropTypes.object,
+    }),
   ),
   className: PropTypes.string,
   selectedId: PropTypes.string,

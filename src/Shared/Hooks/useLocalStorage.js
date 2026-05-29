@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ErrorType } from "../../../shared";
 
-export default function useLocalStorage() {
+export default function useLocalStorage(isNotValidate = false) {
   const navigate = useNavigate();
   const { electronAPI } = window;
   return () => {
@@ -12,6 +12,7 @@ export default function useLocalStorage() {
     };
     if (
       electronAPI &&
+      !isNotValidate &&
       Object.values(localConfig).some((valueConfig) => !valueConfig)
     ) {
       electronAPI?.getInit(localConfig);

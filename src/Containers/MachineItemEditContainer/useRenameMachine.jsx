@@ -8,6 +8,8 @@ import {
 } from "../../Providers/MachineProvider";
 import { getDictionary, useLocalStorage } from "../../Shared";
 
+import styles from "./MachineItemEditContainer.module.css";
+
 export default function useRenameMachine() {
   const { prevPathMachines } = useMachines();
   const { getExistFolder, setNewMachineName, setIsEdit } = useMachineActions();
@@ -83,7 +85,7 @@ export default function useRenameMachine() {
         try {
           const result = await electronAPI?.renameMachine(
             machineId,
-            formMachine
+            formMachine,
           );
 
           const isExistRenameMachine = await getExistFolder();
@@ -93,6 +95,10 @@ export default function useRenameMachine() {
 
           const { machineName, newMachineName } = result;
 
+          if (machineName === newMachineName) {
+            e.target.classList.remove(styles.input__changed);
+            e.target.title = "";
+          }
           if (machineName) {
             setNewMachineName(machineName, newMachineName);
             e.target.value = newMachineName;

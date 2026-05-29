@@ -18,6 +18,7 @@ const SELECT_ACTION = "select";
 function LanguageContainer({ className }, ref) {
   const { language, dictionary } = useDictionary();
   const [languageList, setLanguageList] = useState([]);
+  const [selectLanguage, setSelectLanguage] = useState(null);
   const isActiveRef = useRef(false);
 
   const getTransition = getDictionary(dictionary);
@@ -33,13 +34,13 @@ function LanguageContainer({ className }, ref) {
 
     const { language: currentLanguage } = {
       ...languageAPIList.find(
-        ({ languageId: currentId }) => currentId === languageId
+        ({ languageId: currentId }) => currentId === languageId,
       ),
     };
 
-    const { language: languageState } = {
+    const { language: languageState = selectLanguage } = {
       ...languageAPIList.find(
-        ({ languageId: currentId }) => currentId === language
+        ({ languageId: currentId }) => currentId === language,
       ),
     };
 
@@ -93,6 +94,12 @@ function LanguageContainer({ className }, ref) {
   function handleClick() {
     return async (e) => {
       e.stopPropagation();
+
+      if (ref && ref.current) {
+        setSelectLanguage(
+          ref.current.querySelector("selectedcontent").textContent,
+        );
+      }
 
       if (e.target.dataset.action !== SELECT_ACTION) return;
 
@@ -148,8 +155,12 @@ function LanguageContainer({ className }, ref) {
           value: language,
           onMouseDown: handleSelectLanguage(true),
           className: styles.option,
+          optionProps: {
+            "data-control": true,
+          },
         }))}
         optLabel={getTransition("chooseLanguage")}
+        data-control
       />
     </div>
   );

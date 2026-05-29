@@ -14,7 +14,7 @@ function ConfigFormContainer({ className, children }) {
 
   const { dictionary, language } = useDictionary();
   const { setIsEdit } = useMachineActions();
-  const getLocalStorage = useLocalStorage();
+  const getLocalStorage = useLocalStorage(true);
 
   const navigate = useNavigate();
   const getTransition = getDictionary(dictionary);
