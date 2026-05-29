@@ -11,6 +11,7 @@
     appearance: base-select;
     display: flex;
     align-items: center;
+    color: var(--root-color);
 
     --options-max-width: auto;
 }
