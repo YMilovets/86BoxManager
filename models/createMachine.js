@@ -1,13 +1,14 @@
-import { Notification } from "electron";
-import log from "electron-log/main.js";
-import { existsSync, mkdir } from "fs";
-import { join } from "path";
+const { Notification } = require("electron");
+const log = require("electron-log/main.js");
 
-import { ErrorType } from "../shared/index.js";
+const { existsSync, mkdir } = require("fs");
+const { join } = require("path");
 
-import getTransition from "./getTransition.js";
+const { ErrorType } = require("../shared/index.js");
 
-export default async function handleCreateMachine({
+const getTransition = require("./getTransition.js");
+
+async function handleCreateMachine({
   configuration,
   machineName,
   dictionary,
@@ -33,3 +34,5 @@ export default async function handleCreateMachine({
     }).show();
   });
 }
+
+module.exports = handleCreateMachine;

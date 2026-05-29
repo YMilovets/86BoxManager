@@ -1,9 +1,9 @@
-export const RELEASE_YEAR = 2025;
-export const TAB_KEY = "Tab";
-export const AUTHOR_NAME = "YMilovets";
-export const DEFAULT_FOLDER = ".86Box";
+const RELEASE_YEAR = 2025;
+const TAB_KEY = "Tab";
+const AUTHOR_NAME = "YMilovets";
+const DEFAULT_FOLDER = ".86Box";
 
-export const ErrorType = {
+const ErrorType = {
   IsExistMachine: "0x000",
   MissingConfiguration: "0x001",
   NoExistMachineFolder: "0x002",
@@ -14,4 +14,12 @@ export const ErrorType = {
   IncorrectDictionary: "0x007",
   ContextIsOutOfProvider: "0x008",
   NoExistFunction: "0x009",
+};
+
+module.exports = {
+  RELEASE_YEAR,
+  TAB_KEY,
+  AUTHOR_NAME,
+  DEFAULT_FOLDER,
+  ErrorType,
 };

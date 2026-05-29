@@ -1,12 +1,12 @@
-import { app as App, dialog } from "electron";
-import { release, type } from "os";
+const { app: App, dialog } = require("electron");
+const { release, type } = require("os");
 
-import { AUTHOR_NAME, RELEASE_YEAR } from "../shared/index.js";
-import { fixLocalizationButton } from "../shared/utils.js";
+const { AUTHOR_NAME, RELEASE_YEAR } = require("../shared/index.js");
+const { fixLocalizationButton } = require("../shared/utils.js");
 
-import getTransition from "./getTransition.js";
+const getTransition = require("./getTransition.js");
 
-export default function getAppVersion({ dictionary, mainWindow }) {
+function getAppVersion({ dictionary, mainWindow }) {
   const getDictionary = getTransition(dictionary);
 
   const versionList = {
@@ -42,3 +42,5 @@ export default function getAppVersion({ dictionary, mainWindow }) {
     type: "info",
   });
 }
+
+module.exports = getAppVersion;

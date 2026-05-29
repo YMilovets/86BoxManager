@@ -1,24 +1,31 @@
-import { exec } from "child_process";
-import { dialog } from "electron";
-import log from "electron-log/main.js";
-import { promisify } from "util";
+const { exec } = require("child_process");
+const log = require("electron-log/main.js");
+const { dialog } = require("electron");
+const { promisify } = require("util");
 
-import { globalState } from "../shared/state.js";
-import { fixLocalizationButton, formatHexNumber } from "../shared/utils.js";
-import {
-  LINUX_ERROR_CODE_NOT_FOUND,
-  LINUX_ERROR_CODE_SEGMENTATION,
-  PlatformList,
-  WINDOWS_ERROR_CODE_NOT_FOUND,
-  WINDOWS_ERROR_CODE_SEGMENTATION,
-} from "../src/Shared/Constants/index.js";
+const globalState = require("../shared/state.js");
+const {
+  fixLocalizationButton,
+  formatHexNumber,
+} = require("../shared/utils.js");
 
-import getExistFolder from "./getExistFolder.js";
-import getHandleInit from "./getInit.js";
-import getOSPlatform from "./getOSPlatform.js";
-import getTransition from "./getTransition.js";
+const getExistFolder = require("./getExistFolder.js");
+const getHandleInit = require("./getInit.js");
+const getTransition = require("./getTransition.js");
+const getOSPlatform = require("./getOSPlatform.js");
 
 const execAsync = promisify(exec);
+
+const WINDOWS_ERROR_CODE_NOT_FOUND = 1;
+const WINDOWS_ERROR_CODE_SEGMENTATION = 0xc0000005;
+
+const LINUX_ERROR_CODE_NOT_FOUND = 127;
+const LINUX_ERROR_CODE_SEGMENTATION = 139;
+
+const PlatformList = {
+  Windows: "win32",
+  Linux: "linux",
+};
 
 function verifyErrorInvokeMachine(code, dictionary = {}) {
   const getDictionary = getTransition(dictionary);
@@ -29,39 +36,39 @@ function verifyErrorInvokeMachine(code, dictionary = {}) {
   if (isOSWindows && code === WINDOWS_ERROR_CODE_NOT_FOUND) {
     throw new Error(
       getDictionary("failLaunchApp", (result) =>
-        result.replace("$errorCode", code)
-      )
+        result.replace("$errorCode", code),
+      ),
     );
   }
 
   if (isOSWindows && code === WINDOWS_ERROR_CODE_SEGMENTATION) {
     throw new Error(
       getDictionary("failSegmentation", (result) =>
-        result.replace("$errorCode", formatHexNumber(code))
-      )
+        result.replace("$errorCode", formatHexNumber(code)),
+      ),
     );
   }
 
   if (isOSLinux && code === LINUX_ERROR_CODE_NOT_FOUND) {
     throw new Error(
       getDictionary("failLaunchApp", (result) =>
-        result.replace("$errorCode", code)
-      )
+        result.replace("$errorCode", code),
+      ),
     );
   }
 
   if (isOSLinux && code === LINUX_ERROR_CODE_SEGMENTATION) {
     throw new Error(
       getDictionary("failSegmentation", (result) =>
-        result.replace("$errorCode", code)
-      )
+        result.replace("$errorCode", code),
+      ),
     );
   }
 }
 
-export default async function handleInvokeMachine(
+async function handleInvokeMachine(
   e,
-  { dictionary, machineId, configuration, mainWindow }
+  { dictionary, machineId, configuration, mainWindow },
 ) {
   globalState.configuration = configuration;
   const processPathConfiguration = globalState.configuration.pathConfig;
@@ -69,10 +76,10 @@ export default async function handleInvokeMachine(
     processPathConfiguration,
     new Set([
       ...Array.from(
-        globalState.activeMachinesByFolder.get(processPathConfiguration) ?? []
+        globalState.activeMachinesByFolder.get(processPathConfiguration) ?? [],
       ),
       machineId,
-    ])
+    ]),
   );
   mainWindow.minimize();
 
@@ -87,13 +94,13 @@ export default async function handleInvokeMachine(
   try {
     const isExistFolder = await getExistFolder(
       e,
-      `${globalState.configuration.pathConfig}/${machineId}`
+      `${globalState.configuration.pathConfig}/${machineId}`,
     );
     if (!isExistFolder) {
       throw new Error(
         getDictionary("noExistsMachineMessage", (result) =>
-          result.replace("$machineName", machineId)
-        )
+          result.replace("$machineName", machineId),
+        ),
       );
     }
 
@@ -104,7 +111,7 @@ export default async function handleInvokeMachine(
         ),
       );
       await execAsync(
-        `${globalState.configuration.pathApp} -P "${globalState.configuration.pathConfig}/${machineId}"`
+        `${globalState.configuration.pathApp} -P "${globalState.configuration.pathConfig}/${machineId}"`,
       );
     } catch (e) {
       verifyErrorInvokeMachine(e.code, dictionary);
@@ -124,12 +131,12 @@ export default async function handleInvokeMachine(
 
     globalState.activeMachinesByFolder.set(
       processPathConfiguration,
-      new Set(changedActiveMachines)
+      new Set(changedActiveMachines),
     );
 
     const isExistFolder = await getExistFolder(
       e,
-      `${globalState.configuration.pathConfig}/${machineId}`
+      `${globalState.configuration.pathConfig}/${machineId}`,
     );
 
     e.reply("unlocked-machine", {
@@ -151,3 +158,5 @@ export default async function handleInvokeMachine(
     mainWindow?.show();
   }
 }
+
+module.exports = handleInvokeMachine;

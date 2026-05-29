@@ -1,16 +1,17 @@
-import { app as App, Notification } from "electron";
-import log from "electron-log/main.js";
-import { promises } from "fs";
-import { join } from "path";
+const { app: App, Notification } = require("electron");
+const log = require("electron-log/main.js");
 
-import { ErrorType } from "../shared/index.js";
-import { globalState } from "../shared/state.js";
-import { redirectAsarUnpackedFiles } from "../shared/utils.js";
+const { promises } = require("fs");
+const { join } = require("path");
 
-import getExistFolder from "./getExistFolder.js";
-import getTransition from "./getTransition.js";
+const { ErrorType } = require("../shared/index.js");
+const globalState = require("../shared/state.js");
+const { redirectAsarUnpackedFiles } = require("../shared/utils.js");
 
-export default async function getConfigLanguage(e, { lang, isSelected }) {
+const getExistFolder = require("./getExistFolder.js");
+const getTransition = require("./getTransition.js");
+
+async function getConfigLanguage(e, { lang, isSelected }) {
   const languagePath = redirectAsarUnpackedFiles(
     join(App.getAppPath(), "i18n", `${lang}.json`)
   );
@@ -67,3 +68,5 @@ export default async function getConfigLanguage(e, { lang, isSelected }) {
 
   return localDictionary;
 }
+
+module.exports = getConfigLanguage;

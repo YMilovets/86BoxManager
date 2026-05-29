@@ -1,10 +1,12 @@
-import log from "electron-log/main.js";
+const log = require("electron-log/main.js");
 
-import { ErrorType } from "../shared/index.js";
+const { ErrorType } = require("../shared/index.js");
 
-export default function setRecordLog(_, { message, status = "info" }) {
+function setRecordLog(_, { message, status = "info" }) {
   if (!log["functions"][status]) {
     throw ErrorType.NoExistFunction;
   }
   log[status](message);
 }
+
+module.exports = setRecordLog;

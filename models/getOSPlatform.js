@@ -1,5 +1,7 @@
-import { platform } from "os";
+const { platform } = require("os");
 
-export default function getOSPlatform() {
+function getOSPlatform() {
   return platform();
 }
+
+module.exports = getOSPlatform;

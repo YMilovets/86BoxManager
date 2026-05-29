@@ -1,12 +1,16 @@
-import { nativeTheme } from "electron";
+const { nativeTheme } = require("electron");
 
-import { globalState } from "../shared/state.js";
-import { PlatformList } from "../src/Shared/Constants/index.js";
+const globalState = require("../shared/state.js");
 
-import getOSPlatform from "./getOSPlatform.js";
+const getOSPlatform = require("./getOSPlatform.js");
+
+const PlatformList = {
+  Windows: "win32",
+  Linux: "linux",
+};
 
 let themeUpdateCount = 0;
-export default function updateTheme() {
+function updateTheme() {
   const isOSLinux = getOSPlatform() === PlatformList.Linux;
 
   themeUpdateCount += 1;
@@ -25,3 +29,6 @@ export default function updateTheme() {
     );
   }
 }
+
+module.exports = updateTheme;
+

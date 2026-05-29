@@ -1,11 +1,14 @@
-import { app as App } from "electron";
-import { join } from "path";
+const { app: App } = require("electron");
+const { join } = require("path");
 
-import { LanguageList } from "../src/Shared/Constants/index.js";
+const { DEFAULT_FOLDER } = require("./index.js");
 
-import { DEFAULT_FOLDER } from "./index.js";
+const LanguageList = {
+  RU: "ru",
+  EN: "en",
+};
 
-export const globalState = {
+const globalState = {
   activeMachinesByFolder: new Map(),
   mainWindow: null,
   dictionary: null,
@@ -18,3 +21,5 @@ export const globalState = {
   language: LanguageList.RU,
   isStartedApplication: false,
 };
+
+module.exports = globalState;

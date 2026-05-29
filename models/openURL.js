@@ -1,5 +1,7 @@
-import { shell } from "electron";
+const { shell } = require("electron");
 
-export default function openURL(_, url) {
+function openURL(_, url) {
   shell.openExternal(url);
 }
+
+module.exports = openURL;

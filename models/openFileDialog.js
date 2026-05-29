@@ -1,8 +1,7 @@
-import { dialog } from "electron";
+const { dialog } = require("electron");
+const { Info } = require("../lib/Info.js");
 
-import { Info } from "../lib/Info.js";
-
-export default function openFileDialog({ mainWindow }) {
+function openFileDialog({ mainWindow }) {
   return async (_, dialogType) => {
     const dialogProps = {
       file: "openFile",
@@ -19,3 +18,5 @@ export default function openFileDialog({ mainWindow }) {
     return path;
   };
 }
+
+module.exports = openFileDialog;
