@@ -148,6 +148,7 @@ export default function getTransition(dictionary = null) {
         "changeLanguageCorruptFileMessage",
         "Поскольку файл настройки языка $language был поврежден, был восстановлен предыдущий параметр",
       ],
+      ["startApplication", "Приложение 86BoxManager было запущено",]
     ]);
     return (dictionaryKey, renderDict = (result) => result) => {
       if (dictionary)

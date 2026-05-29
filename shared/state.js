@@ -16,4 +16,5 @@ export const globalState = {
   },
   languageName: null,
   language: LanguageList.RU,
+  isStartedApplication: false,
 };

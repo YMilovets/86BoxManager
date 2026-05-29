@@ -131,6 +131,12 @@ function setConfigLanguage(e) {
     language: globalState.language,
     dictionary: globalState.dictionary,
   });
+
+  if (!globalState.isStartedApplication) {
+    const getDictionary = getTransition(globalState.dictionary);
+    log.info(getDictionary("startApplication"));
+    globalState.isStartedApplication = true;
+  }
 }
 
 async function renameMachineHandler(e, machineName, newMachineName) {  

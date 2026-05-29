@@ -16,7 +16,6 @@ const dictionary = new Map([
   ["create", "Создать"],
   ["update", "Обновить"],
   ["preference", "Настройки"],
-  ["startApplication", "Приложение 86BoxManager было запущено"],
   ["changeLanguage", "Изменение языка"],
   ["changeTheme", "Изменение темы"],
   [
